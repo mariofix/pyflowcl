@@ -2,7 +2,7 @@
 name = "pyflow"
 version = "0.1.0"
 description = "Cliente para comunicacion con API de flow.cl"
-authors = ["Mario Hernandez <mariofix@pm.me>"]
+authors = ["Mario Hernandez <yo@mariofix.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
