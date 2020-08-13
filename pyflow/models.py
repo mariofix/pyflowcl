@@ -288,26 +288,30 @@ class PaymentResponse:
 
     url: Optional[str] = None
     token: Optional[str] = None
-    flow_order: Optional[float] = None
+    flowOrder: Optional[float] = None
 
     def to_dict(self) -> Dict[str, Any]:
         url = self.url
         token = self.token
-        flow_order = self.flow_order
+        flowOrder = self.flowOrder
 
         return {
             "url": url,
             "token": token,
-            "flowOrder": flow_order,
+            "flowOrder": flowOrder,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> PaymentResponse:
         url = d.get("url")
         token = d.get("token")
-        flow_order = d.get("flowOrder")
+        flowOrder = d.get("flowOrder")
 
-        return PaymentResponse(url=url, token=token, flow_order=flow_order,)
+        return PaymentResponse(
+            url=url,
+            token=token,
+            flowOrder=flowOrder,
+        )
 
 
 @dataclass
@@ -315,12 +319,12 @@ class PaymentList:
     """ Lista de pagos """
 
     total: Optional[float] = None
-    has_more: Optional[bool] = None
+    hasMore: Optional[bool] = None
     data: Optional[List[Dict[Any, Any]]] = None
 
     def to_dict(self) -> Dict[str, Any]:
         total = self.total
-        has_more = self.has_more
+        hasMore = self.hasMore
         if self.data is None:
             data = None
         else:
@@ -328,14 +332,14 @@ class PaymentList:
 
         return {
             "total": total,
-            "hasMore": has_more,
+            "hasMore": hasMore,
             "data": data,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> PaymentList:
         total = d.get("total")
-        has_more = d.get("hasMore")
+        hasMore = d.get("hasMore")
         data = d.get("data")
 
-        return List(total=total, has_more=has_more, data=data,)
+        return PaymentList(total=total, hasMore=hasMore, data=data,)
