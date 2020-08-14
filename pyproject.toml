@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pyflow"
+name = "pyflowcl"
 version = "0.1.0"
 description = "Cliente para comunicacion con API de flow.cl"
 authors = ["Mario Hernandez <yo@mariofix.com>"]
@@ -11,6 +11,7 @@ requests = "^2.24.0"
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 pytest-pep8 = "^1.0.6"
+black = "^19.10b0"
 
 [build-system]
 requires = ["poetry>=0.12"]
