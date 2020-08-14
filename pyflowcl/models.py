@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
+
 @dataclass
 class Error:
     """ Objeto para definir un error """
@@ -103,6 +104,7 @@ class PaymentStatus:
             merchant_id=merchant_id,
         )
 
+
 @dataclass
 class PaymentRequest:
     """ Objeto para generar una URL de pago """
@@ -120,7 +122,7 @@ class PaymentRequest:
     timeout: Optional[int] = None
     merchantId: Optional[str] = None
     payment_currency: Optional[str] = None
-    s : Optional[str] = None
+    s: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         apiKey = self.apiKey
@@ -172,7 +174,6 @@ class PaymentRequest:
         payment_currency = d.get("payment_currency")
         s = d.get("s")
 
-
         return PaymentRequest(
             apiKey=apiKey,
             commerceOrder=commerceOrder,
@@ -189,6 +190,7 @@ class PaymentRequest:
             payment_currency=payment_currency,
             s=s,
         )
+
 
 @dataclass
 class PaymentRequestEmail:
@@ -208,7 +210,7 @@ class PaymentRequestEmail:
     timeout: Optional[int] = None
     merchantId: Optional[str] = None
     payment_currency: Optional[str] = None
-    s : Optional[str] = None
+    s: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         apiKey = self.apiKey
@@ -263,7 +265,6 @@ class PaymentRequestEmail:
         payment_currency = d.get("payment_currency")
         s = d.get("s")
 
-
         return PaymentRequest(
             apiKey=apiKey,
             commerceOrder=commerceOrder,
@@ -281,6 +282,7 @@ class PaymentRequestEmail:
             payment_currency=payment_currency,
             s=s,
         )
+
 
 @dataclass
 class PaymentResponse:
@@ -307,11 +309,7 @@ class PaymentResponse:
         token = d.get("token")
         flowOrder = d.get("flowOrder")
 
-        return PaymentResponse(
-            url=url,
-            token=token,
-            flowOrder=flowOrder,
-        )
+        return PaymentResponse(url=url, token=token, flowOrder=flowOrder,)
 
 
 @dataclass

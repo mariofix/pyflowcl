@@ -8,6 +8,4 @@ from typing import Any, Dict, Optional
 class ApiClient:
     """ Objeto para definir ApiClient """
 
-    base_url : str
-
-    
+    base_url: str
