@@ -20,11 +20,16 @@ This project is managed by Poetry (a requierements.txt file is also provided)
 ## Usage
 ```python
 from pyflowcl import Payment
-p = Payment.PaymentRequest()
-p.set_env(pyflowcl.__sandbox__)
-p.set_auth("token", "key")
-p.get_payment_url('Payment', 5000, Payment.CLP, Payment.ALL_METHODS)
-print(p)
+from pyflowcl.Clients import ApiClient
+
+API_URL = "https://sandbox.flow.cl/api"
+API_KEY = "your_key"
+API_SECRET = "your_secret"
+FLOW_TOKEN = "your_payment_token"
+api = ApiClient(API_URL, API_KEY, API_SECRET)
+
+call = Payment.get_status(api, FLOW_TOKEN)
+print(call)
 ```
 
 ---

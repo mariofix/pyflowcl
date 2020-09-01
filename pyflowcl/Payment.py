@@ -27,7 +27,7 @@ def get_status(
     }
     signature = apiclient.make_signature(params)
     params["s"] = signature
-    
+
     response = apiclient.get(url, params)
 
     if response.status_code == 200:
@@ -57,7 +57,7 @@ def get_status_by_commerce_id(
     }
     signature = apiclient.make_signature(params)
     params["s"] = signature
-    
+
     response = apiclient.get(url, params)
 
     if response.status_code == 200:
