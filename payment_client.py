@@ -1,22 +1,44 @@
-from dataclasses import asdict
-
+from typing import Any, Dict
 from pyflowcl import Payment
 from pyflowcl.Clients import ApiClient
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
-api = ApiClient(
-    "https://sandbox.flow.cl/api",
-    "api_key",
-    "api_secret",
-)
+API_URL = "https://sandbox.flow.cl/api"
+API_KEY = "your_key"
+API_SECRET = "your_secret"
 
-llamada = Payment.get_status(api, "notification_token")
+api = ApiClient(API_URL, API_KEY, API_SECRET)
+
+pago: Dict[str, Any] = {
+    "subject": "Asunto Email",
+    "commerceOrder": "1234",
+    "amount": 5000,
+    "email": "mariofix@pm.me",
+    "urlConfirmation": "https://mariofix.com",
+    "urlReturn": "https://mariofix.com"
+    }
+llamada = Payment.create(api, pago)
 print(llamada)
 del llamada
 
-llamada = Payment.get_status_by_commerce_id(api, "commerce_id")
+llamada = Payment.createEmail(api, pago)
 print(llamada)
 del llamada
 
-llamada = Payment.get_status_by_flow_order(api, 11111)
+llamada = Payment.get_status(api, "token")
+print(llamada)
+del llamada
+
+llamada = Payment.get_status_by_commerce_id(api, "commerce-id")
+print(llamada)
+del llamada
+
+llamada = Payment.get_status_by_flow_order(api, "flow-order")
+print(llamada)
+del llamada
+
+data: Dict[str, Any] = {'apiKey': '', 'date': 'yyyy-mm-dd'}
+llamada = Payment.getPayments(api, data)
 print(llamada)
 del llamada

@@ -1,24 +1,61 @@
-from pyflowcl.models import Error, PaymentList, PaymentResponse
+from pyflowcl.models import (
+    Error,
+    PaymentList,
+    PaymentResponse,
+    PaymentRequest,
+    PaymentRequestEmail,
+)
 
 
-def test_error_object():
+def test_model_error():
     e = Error()
-    assert e == Error(code=None, message=None)
-    base_dict = {"code": None, "message": None}
-    assert e.from_dict(base_dict) == Error(code=None, message=None)
+    assert e.code is None
+    assert e.message is None
 
 
-def test_payment_list_object():
+def test_model_payment_list():
     p = PaymentList()
-    assert p == PaymentList(total=None, hasMore=None, data=None)
-    base_dict = {"total": None, "hasMore": None, "data": None}
-    assert p.from_dict(base_dict) == PaymentList(total=None, hasMore=None, data=None)
+    assert p.total is None
+    assert p.hasMore is None
+    assert p.data is None
 
 
-def test_payment_response_object():
+def test_model_payment_response():
     p = PaymentResponse()
-    assert p == PaymentResponse(url=None, token=None, flowOrder=None,)
-    base_dict = {"url": None, "token": None, "flowOrder": None}
-    assert p.from_dict(base_dict) == PaymentResponse(
-        url=None, token=None, flowOrder=None,
-    )
+    assert p.url is None
+    assert p.token is None
+    assert p.flowOrder is None
+
+
+def test_model_payment_request():
+    p = PaymentRequest()
+    assert p.amount == 0
+    assert p.apiKey == "API_KEY"
+    assert p.email == "correo@ejemplo.cl"
+    assert p.urlConfirmation == ""
+    assert p.urlReturn == ""
+    assert p.subject == ""
+    assert p.s == ""
+    assert p.payment_currency == "CLP"
+    assert p.currency is None
+    assert p.merchantId is None
+    assert p.optional is None
+    assert p.payment_method is None
+    assert p.timeout is None
+
+
+def test_model_payment_request_email():
+    p = PaymentRequestEmail()
+    assert p.amount == 0
+    assert p.apiKey == "API_KEY"
+    assert p.email == "correo@ejemplo.cl"
+    assert p.urlConfirmation == ""
+    assert p.urlReturn == ""
+    assert p.s == ""
+    assert p.forward_days_after is None
+    assert p.forward_times is None
+    assert p.merchantId is None
+    assert p.optional is None
+    assert p.payment_currency is None
+    assert p.subject is None
+    assert p.timeout is None

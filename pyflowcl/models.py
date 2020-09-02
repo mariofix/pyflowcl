@@ -71,52 +71,52 @@ class PaymentStatus:
 class PaymentRequest:
     """ Objeto para generar una URL de pago """
 
-    apiKey: Optional[str] = None
-    commerceOrder: Optional[str] = None
-    subject: Optional[str] = None
+    amount: float = 0
+    apiKey: str = "API_KEY"
+    commerceOrder: str = ""
     currency: Optional[str] = None
-    amount: Optional[float] = None
-    email: Optional[str] = None
-    payment_method: Optional[int] = 9
-    urlConfirmation: Optional[str] = None
-    urlReturn: Optional[str] = None
-    optional: Optional[str] = None
-    timeout: Optional[int] = None
+    email: str = "correo@ejemplo.cl"
     merchantId: Optional[str] = None
-    payment_currency: Optional[str] = None
-    s: Optional[str] = None
+    optional: Optional[str] = None
+    payment_currency: str = "CLP"
+    payment_method: Optional[int] = None
+    subject: str = ""
+    timeout: Optional[int] = None
+    urlConfirmation: str = ""
+    urlReturn: str = ""
+    s: str = ""
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> PaymentRequest:
+        amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceOrder = d.get("commerceOrder")
-        subject = d.get("subject")
         currency = d.get("currency")
-        amount = d.get("amount")
         email = d.get("email")
+        merchantId = d.get("merchantId")
+        optional = d.get("optional")
+        payment_currency = d.get("payment_currency")
         payment_method = d.get("payment_method")
+        subject = d.get("subject")
+        timeout = d.get("timeout")
         urlConfirmation = d.get("urlConfirmation")
         urlReturn = d.get("urlReturn")
-        optional = d.get("optional")
-        timeout = d.get("timeout")
-        merchantId = d.get("merchantId")
-        payment_currency = d.get("payment_currency")
         s = d.get("s")
 
         return PaymentRequest(
+            amount=amount,
             apiKey=apiKey,
             commerceOrder=commerceOrder,
-            subject=subject,
             currency=currency,
-            amount=amount,
             email=email,
+            merchantId=merchantId,
+            optional=optional,
+            payment_currency=payment_currency,
             payment_method=payment_method,
+            subject=subject,
+            timeout=timeout,
             urlConfirmation=urlConfirmation,
             urlReturn=urlReturn,
-            optional=optional,
-            timeout=timeout,
-            merchantId=merchantId,
-            payment_currency=payment_currency,
             s=s,
         )
 
@@ -125,55 +125,55 @@ class PaymentRequest:
 class PaymentRequestEmail:
     """ Objeto para generar un correo electronico de pago """
 
-    apiKey: Optional[str] = None
-    commerceOrder: Optional[str] = None
-    subject: Optional[str] = None
+    amount: float = 0
+    apiKey: str = "API_KEY"
+    commerceOrder: str = ""
     currency: Optional[str] = None
-    amount: Optional[float] = None
-    email: Optional[str] = None
+    email: str = "correo@ejemplo.cl"
     forward_days_after: Optional[int] = None
     forward_times: Optional[int] = None
-    urlConfirmation: Optional[str] = None
-    urlReturn: Optional[str] = None
-    optional: Optional[str] = None
-    timeout: Optional[int] = None
     merchantId: Optional[str] = None
+    optional: Optional[str] = None
     payment_currency: Optional[str] = None
-    s: Optional[str] = None
+    subject: Optional[str] = None
+    timeout: Optional[int] = None
+    urlConfirmation: str = ""
+    urlReturn: str = ""
+    s: str = ""
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> PaymentRequestEmail:
+        amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceOrder = d.get("commerceOrder")
-        subject = d.get("subject")
         currency = d.get("currency")
-        amount = d.get("amount")
         email = d.get("email")
         forward_days_after = d.get("forward_days_after")
         forward_times = d.get("forward_times")
+        merchantId = d.get("merchantId")
+        optional = d.get("optional")
+        payment_currency = d.get("payment_currency")
+        subject = d.get("subject")
+        timeout = d.get("timeout")
         urlConfirmation = d.get("urlConfirmation")
         urlReturn = d.get("urlReturn")
-        optional = d.get("optional")
-        timeout = d.get("timeout")
-        merchantId = d.get("merchantId")
-        payment_currency = d.get("payment_currency")
         s = d.get("s")
 
-        return PaymentRequest(
+        return PaymentRequestEmail(
+            amount=amount,
             apiKey=apiKey,
             commerceOrder=commerceOrder,
-            subject=subject,
             currency=currency,
-            amount=amount,
             email=email,
             forward_days_after=forward_days_after,
             forward_times=forward_times,
+            merchantId=merchantId,
+            optional=optional,
+            payment_currency=payment_currency,
+            subject=subject,
+            timeout=timeout,
             urlConfirmation=urlConfirmation,
             urlReturn=urlReturn,
-            optional=optional,
-            timeout=timeout,
-            merchantId=merchantId,
-            payment_currency=payment_currency,
             s=s,
         )
 
