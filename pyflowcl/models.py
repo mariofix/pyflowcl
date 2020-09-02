@@ -210,3 +210,66 @@ class PaymentList:
         data = d.get("data")
 
         return PaymentList(total=total, hasMore=hasMore, data=data,)
+
+
+@dataclass
+class RefundRequest:
+    """ Refund  Request object """
+
+    amount: float = 0
+    apiKey: str = "API_KEY"
+    commerceTrxId: Optional[str] = None
+    flowTrxId: Optional[float] = None
+    receiverEmail: str = "correo@ejemplo.cl"
+    refundCommerceOrder: str = ""
+    urlCallBack: str = ""
+    s: str = ""
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> RefundRequest:
+        amount = d.get("amount")
+        apiKey = d.get("apiKey")
+        commerceTrxId = d.get("commerceTrxId")
+        flowTrxId = d.get("flowTrxId")
+        receiverEmail = d.get("receiverEmail")
+        refundCommerceOrder = d.get("refundCommerceOrder")
+        urlCallBack = d.get("urlCallBack")
+        s = d.get("s")
+
+        return RefundRequest(
+            amount=amount,
+            apiKey=apiKey,
+            commerceTrxId=commerceTrxId,
+            flowTrxId=flowTrxId,
+            receiverEmail=receiverEmail,
+            refundCommerceOrder=refundCommerceOrder,
+            urlCallBack=urlCallBack,
+            s=s,
+        )
+
+
+@dataclass
+class RefundStatus:
+    """ Refund object """
+
+    flowRefundOrder: int = 0
+    date: str = ""
+    status: str = ""
+    amount: float = 0
+    fee: float = 0
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> RefundStatus:
+        flowRefundOrder = d.get("flowRefundOrder")
+        date = d.get("date")
+        status = d.get("status")
+        amount = d.get("amount")
+        fee = d.get("fee")
+
+        return RefundStatus(
+            flowRefundOrder=flowRefundOrder,
+            date=date,
+            status=status,
+            amount=amount,
+            fee=fee,
+        )

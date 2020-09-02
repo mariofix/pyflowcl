@@ -4,6 +4,8 @@ from pyflowcl.models import (
     PaymentResponse,
     PaymentRequest,
     PaymentRequestEmail,
+    RefundRequest,
+    RefundStatus,
 )
 
 
@@ -59,3 +61,24 @@ def test_model_payment_request_email():
     assert p.payment_currency is None
     assert p.subject is None
     assert p.timeout is None
+
+
+def test_model_refund_request():
+    p = RefundRequest()
+    assert p.amount == 0
+    assert p.apiKey == "API_KEY"
+    assert p.receiverEmail == "correo@ejemplo.cl"
+    assert p.refundCommerceOrder == ""
+    assert p.urlCallback == ""
+    assert p.s == ""
+    assert p.commerceTrxId is None
+    assert p.flowTrxId is None
+
+
+def test_model_refund_status():
+    p = RefundStatus()
+    assert p.flowRefundOrder == 0
+    assert p.date == ""
+    assert p.status == ""
+    assert p.amount == 0
+    assert p.fee == 0
