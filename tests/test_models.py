@@ -69,7 +69,7 @@ def test_model_refund_request():
     assert p.apiKey == "API_KEY"
     assert p.receiverEmail == "correo@ejemplo.cl"
     assert p.refundCommerceOrder == ""
-    assert p.urlCallback == ""
+    assert p.urlCallBack == ""
     assert p.s == ""
     assert p.commerceTrxId is None
     assert p.flowTrxId is None
