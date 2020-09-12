@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyflowcl"
-version = "1.0.0"
+version = "1.0.1"
 description = "Cliente para comunicacion con flowAPI-3 de flow.cl"
 authors = ["Mario Hernandez <yo@mariofix.com>"]
 license = "MIT"
@@ -15,7 +15,7 @@ classifiers=[
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 requests = "^2.24.0"
 
 [tool.poetry.dev-dependencies]
