@@ -42,3 +42,5 @@ print(call)
 
 Este proyecto está licenciado bajo los términos de la licencia **MIT**.  
 FlowAPI está licenciado bajo los términos de la licencia **Apache 2.0**.
+  
+![Tests PyFlowCL](https://github.com/mariofix/pyflowcl/workflows/Test%20PyFlowCL/badge.svg)
