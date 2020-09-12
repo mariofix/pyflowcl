@@ -14,7 +14,6 @@ jobs:
         python-version: [3.6, 3.7, 3.8]
       max-parallel: 1
     steps:
-    - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -28,3 +27,12 @@ jobs:
         poetry --version
         poetry self update --preview
         poetry --version
+    - name: Checkout Repo 
+      uses: actions/checkout@v2
+
+    - name: Install Repo
+      run: poetry install
+    - name: Run Tests
+      run: poetry run pytest
+
+    
