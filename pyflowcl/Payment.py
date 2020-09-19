@@ -1,16 +1,13 @@
 from dataclasses import asdict
 from typing import Any, Dict, Union, cast
-
-from .models import (
-    Error,
-    PaymentStatus,
-    PaymentRequest,
-    PaymentRequestEmail,
-    PaymentResponse,
-    PaymentList,
-)
 from .Clients import ApiClient
 import logging
+import sys
+
+if sys.version_info[0] == 3 and sys.version_info[1] < 7:
+    from .models_36 import *
+else:
+    from .models import *
 
 
 def getStatus(
@@ -96,7 +93,7 @@ def getStatusByFlowOrder(
 
 def getPayments(
     apiclient: ApiClient, payment_info: Dict[str, Any]
-    ) -> Union[
+) -> Union[
     PaymentList, Error,
 ]:
     """
@@ -106,7 +103,7 @@ def getPayments(
     """
     url = f"{apiclient.api_url}/payment/getPayments"
 
-    payment_info['apiKey'] = apiclient.api_key
+    payment_info["apiKey"] = apiclient.api_key
     signature = apiclient.make_signature(payment_info)
     payment_info["s"] = signature
     logging.debug("Before Request:" + str(payment_info))

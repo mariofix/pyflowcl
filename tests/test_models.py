@@ -1,12 +1,8 @@
-from pyflowcl.models import (
-    Error,
-    PaymentList,
-    PaymentResponse,
-    PaymentRequest,
-    PaymentRequestEmail,
-    RefundRequest,
-    RefundStatus,
-)
+import sys
+if sys.version_info[0] == 3 and sys.version_info[1] < 7:
+    from pyflowcl.models_36 import *
+else:
+    from pyflowcl.models import *
 
 
 def test_model_error():
