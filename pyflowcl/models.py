@@ -11,7 +11,7 @@ class Error:
     message: Optional[str] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> Error:
+    def from_dict(d: Dict[str, Any]) -> Error:  # noqa: F821
         code = d.get("code")
         message = d.get("message")
 
@@ -36,7 +36,7 @@ class PaymentStatus:
     merchant_id: Optional[str] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> PaymentStatus:
+    def from_dict(d: Dict[str, Any]) -> PaymentStatus:  # noqa: F821
         flow_order = d.get("flowOrder")
         commerce_order = d.get("commerceOrder")
         request_date = d.get("requestDate")
@@ -86,7 +86,7 @@ class PaymentRequest:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> PaymentRequest:
+    def from_dict(d: Dict[str, Any]) -> PaymentRequest:  # noqa: F821
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceOrder = d.get("commerceOrder")
@@ -141,7 +141,7 @@ class PaymentRequestEmail:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> PaymentRequestEmail:
+    def from_dict(d: Dict[str, Any]) -> PaymentRequestEmail:  # noqa: F821
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceOrder = d.get("commerceOrder")
@@ -186,7 +186,7 @@ class PaymentResponse:
     flowOrder: Optional[float] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> PaymentResponse:
+    def from_dict(d: Dict[str, Any]) -> PaymentResponse:  # noqa: F821
         url = d.get("url")
         token = d.get("token")
         flowOrder = d.get("flowOrder")
@@ -203,7 +203,7 @@ class PaymentList:
     data: Optional[List[Dict[Any, Any]]] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> PaymentList:
+    def from_dict(d: Dict[str, Any]) -> PaymentList:  # noqa: F821
         total = d.get("total")
         hasMore = d.get("hasMore")
         data = d.get("data")
@@ -225,7 +225,7 @@ class RefundRequest:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> RefundRequest:
+    def from_dict(d: Dict[str, Any]) -> RefundRequest:  # noqa: F821
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceTrxId = d.get("commerceTrxId")
@@ -258,7 +258,7 @@ class RefundStatus:
     fee: float = 0
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> RefundStatus:
+    def from_dict(d: Dict[str, Any]) -> RefundStatus:  # noqa: F821
         flowRefundOrder = d.get("flowRefundOrder")
         date = d.get("date")
         status = d.get("status")
