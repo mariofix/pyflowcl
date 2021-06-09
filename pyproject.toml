@@ -12,20 +12,21 @@ classifiers=[
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 [tool.poetry.dependencies]
 python = "^3.6"
-requests = "^2.24.0"
-dataclasses = { version = "*", python = "3.6" }
+requests = "^2.25.1"
+dataclasses = { version = "*", python = "~3.6" }
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.0"
-pytest-pep8 = "^1.0.6"
-black = "^19.10b0"
-tox = "^3.20.0"
+pytest = "*"
+pytest-pep8 = "*"
+black = "*"
+tox = "*"
 
 [build-system]
 requires = ["poetry>=0.12"]
