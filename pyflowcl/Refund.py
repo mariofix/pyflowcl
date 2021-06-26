@@ -1,9 +1,13 @@
 from dataclasses import asdict
 from typing import Any, Dict, Union, cast
-
-from .models import Error, RefundRequest, RefundStatus
 from .Clients import ApiClient
 import logging
+import sys
+
+if sys.version_info[0] == 3 and sys.version_info[1] < 7:
+    from .models_36 import *
+else:
+    from .models import *
 
 
 def create(

@@ -1,5 +1,5 @@
 from typing import Any, Dict
-from pyflowcl import Payment, Customer
+from pyflowcl import Payment
 from pyflowcl.Clients import ApiClient
 import logging
 
