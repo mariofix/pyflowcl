@@ -11,11 +11,10 @@ else:
 
 
 def getStatus(
-    apiclient: ApiClient, token: str,
-) -> Union[
-    PaymentStatus, Error,
-]:
-    """ Obtiene el estado de un pago previamente creado, el parametro token
+    apiclient: ApiClient,
+    token: str,
+) -> Union[PaymentStatus, Error,]:
+    """Obtiene el estado de un pago previamente creado, el parametro token
     hace referencia a notification id, el cual se recibe luego de procesado
     un pago
     """
@@ -38,11 +37,10 @@ def getStatus(
 
 
 def getStatusByCommerceId(
-    apiclient: ApiClient, commerceId: str,
-) -> Union[
-    PaymentStatus, Error,
-]:
-    """ Obtiene el estado de un pago previamente creado, el parametro token
+    apiclient: ApiClient,
+    commerceId: str,
+) -> Union[PaymentStatus, Error,]:
+    """Obtiene el estado de un pago previamente creado, el parametro token
     hace referencia a notification id, el cual se recibe luego de procesado
     un pago
     """
@@ -65,11 +63,10 @@ def getStatusByCommerceId(
 
 
 def getStatusByFlowOrder(
-    apiclient: ApiClient, flowOrder: int,
-) -> Union[
-    PaymentStatus, Error,
-]:
-    """ Obtiene el estado de un pago previamente creado, el parametro token
+    apiclient: ApiClient,
+    flowOrder: int,
+) -> Union[PaymentStatus, Error,]:
+    """Obtiene el estado de un pago previamente creado, el parametro token
     hace referencia a notification id, el cual se recibe luego de procesado
     un pago
     """
@@ -93,9 +90,7 @@ def getStatusByFlowOrder(
 
 def getPayments(
     apiclient: ApiClient, payment_info: Dict[str, Any]
-) -> Union[
-    PaymentList, Error,
-]:
+) -> Union[PaymentList, Error,]:
     """
     Este método permite obtener la lista paginada de pagos recibidos en
     un día.Los objetos pagos de la lista tienen la misma estructura de
@@ -121,9 +116,7 @@ def getPayments(
 
 def create(
     apiclient: ApiClient, payment_data: Dict[str, Any]
-) -> Union[
-    PaymentResponse, Error,
-]:
+) -> Union[PaymentResponse, Error,]:
     """
     Este método permite crear una orden de pago a Flow y recibe como respuesta
     la URL para redirigir el browser del pagador y el token que identifica la
@@ -158,9 +151,7 @@ def create(
 
 def createEmail(
     apiclient: ApiClient, payment_data: Dict[str, Any]
-) -> Union[
-    PaymentResponse, Error,
-]:
+) -> Union[PaymentResponse, Error,]:
     """
     Permite generar un cobro por email. Flow emite un email al pagador
     que contiene la información de la Orden de pago y el link de pago

@@ -14,7 +14,10 @@ class Error:
         code = d.get("code")
         message = d.get("message")
 
-        return Error(code=code, message=message,)
+        return Error(
+            code=code,
+            message=message,
+        )
 
 
 @dataclass
@@ -190,7 +193,11 @@ class PaymentResponse:
         token = d.get("token")
         flowOrder = d.get("flowOrder")
 
-        return PaymentResponse(url=url, token=token, flowOrder=flowOrder,)
+        return PaymentResponse(
+            url=url,
+            token=token,
+            flowOrder=flowOrder,
+        )
 
 
 @dataclass
@@ -207,7 +214,11 @@ class PaymentList:
         hasMore = d.get("hasMore")
         data = d.get("data")
 
-        return PaymentList(total=total, hasMore=hasMore, data=data,)
+        return PaymentList(
+            total=total,
+            hasMore=hasMore,
+            data=data,
+        )
 
 
 @dataclass

@@ -12,9 +12,7 @@ else:
 
 def create(
     apiclient: ApiClient, refund_data: Dict[str, Any]
-) -> Union[
-    RefundStatus, Error,
-]:
+) -> Union[RefundStatus, Error,]:
     """
     Este servicio permite crear una orden de reembolso. Una vez que el
     receptor del reembolso acepte o rechaze el reembolso, Flow
@@ -44,10 +42,9 @@ def create(
 
 
 def getStatus(
-    apiclient: ApiClient, token: str,
-) -> Union[
-    RefundStatus, Error,
-]:
+    apiclient: ApiClient,
+    token: str,
+) -> Union[RefundStatus, Error,]:
     """
     Permite obtener el estado de un reembolso solicitado. Este servicio
     se debe invocar desde la página del comercio que se señaló en el
