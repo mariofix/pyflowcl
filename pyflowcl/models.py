@@ -12,7 +12,7 @@ class Error:
     message: Optional[str] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> Error:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> Error:
         code = d.get("code")
         message = d.get("message")
 
@@ -37,7 +37,7 @@ class PaymentStatus:
     merchant_id: Optional[str] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> PaymentStatus:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> PaymentStatus:
         flow_order = d.get("flowOrder")
         commerce_order = d.get("commerceOrder")
         request_date = d.get("requestDate")
@@ -87,7 +87,7 @@ class PaymentRequest:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> PaymentRequest:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> PaymentRequest:
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceOrder = d.get("commerceOrder")
@@ -142,7 +142,7 @@ class PaymentRequestEmail:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> PaymentRequestEmail:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> PaymentRequestEmail:
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceOrder = d.get("commerceOrder")
@@ -187,7 +187,7 @@ class PaymentResponse:
     flowOrder: Optional[float] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> PaymentResponse:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> PaymentResponse:
         url = d.get("url")
         token = d.get("token")
         flowOrder = d.get("flowOrder")
@@ -204,7 +204,7 @@ class PaymentList:
     data: Optional[List[Dict[Any, Any]]] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> PaymentList:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> PaymentList:
         total = d.get("total")
         hasMore = d.get("hasMore")
         data = d.get("data")
@@ -226,7 +226,7 @@ class RefundRequest:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> RefundRequest:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> RefundRequest:
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceTrxId = d.get("commerceTrxId")
@@ -259,7 +259,7 @@ class RefundStatus:
     fee: float = 0
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> RefundStatus:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> RefundStatus:
         flowRefundOrder = d.get("flowRefundOrder")
         date = d.get("date")
         status = d.get("status")
@@ -291,7 +291,7 @@ class Customer:
     status: int = 0
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> Customer:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> Customer:
         created = d.get("created")
         creditCardType = d.get("creditCardType")
         customerId = d.get("customerId")
@@ -329,7 +329,7 @@ class CustomerRequest:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> CustomerRequest:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> CustomerRequest:
         apiKey = d.get("apiKey")
         customerId = d.get("customerId")
         email = d.get("email")
@@ -356,7 +356,7 @@ class CustomerList:
     data: Optional[List[Dict[Any, Any]]] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> CustomerList:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> CustomerList:
         total = d.get("total")
         hasMore = d.get("hasMore")
         data = d.get("data")
@@ -372,7 +372,7 @@ class CustomerRegisterResponse:
     token: Optional[str] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> CustomerRegisterResponse:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> CustomerRegisterResponse:
         url = d.get("url")
         token = d.get("token")
 
@@ -389,7 +389,7 @@ class CustomerRegisterStatusResponse:
     status: int = 0
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> CustomerRegisterStatusResponse:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> CustomerRegisterStatusResponse:
         creditCardType = d.get("creditCardType")
         customerId = d.get("customerId")
         last4CardDigits = d.get("last4CardDigits")
@@ -416,7 +416,7 @@ class CustomerChargeRequest:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> CustomerChargeRequest:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> CustomerChargeRequest:
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceOrder = d.get("commerceOrder")
@@ -449,7 +449,7 @@ class CollectResponse:
     url: Optional[str] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> CollectResponse:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> CollectResponse:
         type = d.get("type")
         commerce_order = d.get("commerceOrder")
         flow_order = d.get("flowOrder")
@@ -496,7 +496,7 @@ class CollectRequest:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> CollectRequest:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> CollectRequest:
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         byEmail = d.get("byEmail")
@@ -545,7 +545,7 @@ class CollectObject:
     optional: Optional[str] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> CollectObject:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> CollectObject:
         customer_id = d.get("customerId")
         commerce_order = d.get("commerceOrder")
         subject = d.get("subject")
@@ -579,7 +579,7 @@ class BatchCollectRequest:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> BatchCollectRequest:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> BatchCollectRequest:
         apiKey = d.get("apiKey")
         batchRows = d.get("batchRows")
         byEmail = d.get("byEmail")
@@ -615,7 +615,7 @@ class BatchCollectRejectedRow:
     errorMsg: Optional[str] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> BatchCollectRejectedRow:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> BatchCollectRejectedRow:
         customerId = d.get("customerId")
         commerceOrder = d.get("commerceOrder")
         rowNumber = d.get("rowNumber")
@@ -641,7 +641,7 @@ class BatchCollectResponse:
     rejectedRows: Optional[List[BatchCollectRejectedRow]] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> BatchCollectResponse:  # noqa: F821
+    def from_dict(d: Dict[str, Any]) -> BatchCollectResponse:
         token = d.get("token")
         receivedRows = d.get("receivedRows")
         acceptedRows = d.get("acceptedRows")

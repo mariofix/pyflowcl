@@ -15,7 +15,7 @@ Cliente API para operaciones con el servicio de pagos Flow.cl
 
 ## Instalacion
 Este proyecto es administrado por Poetry.  
-Se entrega archivo requirements.txt
+Se entrega archivo requirements.txt para PIP.
 
 
 ---
