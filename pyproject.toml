@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyflowcl"
-version = "1.0.3"
+version = "1.0.4"
 description = "Cliente para comunicacion con flowAPI-3 de flow.cl"
 authors = ["Mario Hernandez <yo@mariofix.com>"]
 license = "MIT"
@@ -9,7 +9,6 @@ repository = "https://github.com/mariofix/pyflowcl"
 classifiers=[
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -18,9 +17,8 @@ classifiers=[
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 requests = "^2.25.1"
-dataclasses = { version = "*", python = "~3.6" }
 
 [tool.poetry.dev-dependencies]
 pytest = "*"

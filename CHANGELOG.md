@@ -10,11 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Coupon, Invoice: 1.2.0
 - Settlement, Merchant: 1.3.0
 
-## [1.0.3] - 2021-09-18
+## [1.0.4] - 2021-07-09
+### Removed
+- Python 3.6 Support
+
+## [1.0.3] - 2020-09-18
 ### Added
 - Stable
 
-## [1.0.2-beta] - 2021-09-18
+## [1.0.2-beta] - 2020-09-18
 ### Added
 - Soporte python 3.6
 - Configuracion Tox
