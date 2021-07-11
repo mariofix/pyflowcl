@@ -1,3 +1,8 @@
+"""
+pyflowcl.models
+~~~~~~~~~~~~~~~~
+Modelos de distintos objetos del paquete
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -6,7 +11,7 @@ from typing import Any, Dict, Optional, List, cast
 
 @dataclass
 class Error:
-    """ Objeto para definir un error """
+    """Objeto para definir un error"""
 
     code: Optional[float] = None
     message: Optional[str] = None
@@ -24,7 +29,7 @@ class Error:
 
 @dataclass
 class PaymentStatus:
-    """ Objeto para obtener el estado de un pago """
+    """Objeto para obtener el estado de un pago"""
 
     flow_order: Optional[int] = None
     commerce_order: Optional[str] = None
@@ -72,7 +77,7 @@ class PaymentStatus:
 
 @dataclass
 class PaymentRequest:
-    """ Objeto para generar una URL de pago """
+    """Objeto para generar una URL de pago"""
 
     amount: float = 0
     apiKey: str = "API_KEY"
@@ -126,7 +131,7 @@ class PaymentRequest:
 
 @dataclass
 class PaymentRequestEmail:
-    """ Objeto para generar un correo electronico de pago """
+    """Objeto para generar un correo electronico de pago"""
 
     amount: float = 0
     apiKey: str = "API_KEY"
@@ -183,7 +188,7 @@ class PaymentRequestEmail:
 
 @dataclass
 class PaymentResponse:
-    """ Objeto respuesta de una creacion de pago """
+    """Objeto respuesta de una creacion de pago"""
 
     url: Optional[str] = None
     token: Optional[str] = None
@@ -204,7 +209,7 @@ class PaymentResponse:
 
 @dataclass
 class PaymentList:
-    """ Lista de pagos """
+    """Lista de pagos"""
 
     total: Optional[float] = None
     hasMore: Optional[bool] = None
@@ -225,7 +230,7 @@ class PaymentList:
 
 @dataclass
 class RefundRequest:
-    """ Refund  Request object """
+    """Refund  Request object"""
 
     amount: float = 0
     apiKey: str = "API_KEY"
@@ -261,7 +266,7 @@ class RefundRequest:
 
 @dataclass
 class RefundStatus:
-    """ Refund object """
+    """Refund object"""
 
     flowRefundOrder: int = 0
     date: str = ""
@@ -288,7 +293,7 @@ class RefundStatus:
 
 @dataclass
 class Customer:
-    """ Customer Object """
+    """Customer Object"""
 
     created: str = ""
     creditCardType: Optional[str] = None
@@ -330,7 +335,7 @@ class Customer:
 
 @dataclass
 class CustomerRequest:
-    """ CustomerRequest Object """
+    """CustomerRequest Object"""
 
     apiKey: str = ""
     customerId: str = ""
@@ -360,7 +365,7 @@ class CustomerRequest:
 
 @dataclass
 class CustomerList:
-    """ Lista de Clientes """
+    """Lista de Clientes"""
 
     total: Optional[float] = None
     hasMore: Optional[bool] = None
@@ -381,7 +386,7 @@ class CustomerList:
 
 @dataclass
 class CustomerRegisterResponse:
-    """ Objeto respuesta """
+    """Objeto respuesta"""
 
     url: Optional[str] = None
     token: Optional[str] = None
@@ -399,7 +404,7 @@ class CustomerRegisterResponse:
 
 @dataclass
 class CustomerRegisterStatusResponse:
-    """ Objeto respuesta """
+    """Objeto respuesta"""
 
     creditCardType: str = ""
     customerId: str = ""
@@ -423,7 +428,7 @@ class CustomerRegisterStatusResponse:
 
 @dataclass
 class CustomerChargeRequest:
-    """ Objeto para generar una URL de pago """
+    """Objeto para generar una URL de pago"""
 
     amount: float = 0
     apiKey: str = "API_KEY"
@@ -456,7 +461,7 @@ class CustomerChargeRequest:
 
 @dataclass
 class CollectResponse:
-    """ Objeto para CollectResponse """
+    """Objeto para CollectResponse"""
 
     commerce_order: Optional[str] = None
     flow_order: Optional[float] = None
@@ -493,7 +498,7 @@ class CollectResponse:
 
 @dataclass
 class CollectRequest:
-    """ Objeto para generar un correo electronico de pago """
+    """Objeto para generar un correo electronico de pago"""
 
     amount: float = 0
     apiKey: str = "API_KEY"
@@ -552,7 +557,7 @@ class CollectRequest:
 
 @dataclass
 class CollectObject:
-    """ Objeto de cobro para un lote de cobros """
+    """Objeto de cobro para un lote de cobros"""
 
     customer_id: str
     commerce_order: str
