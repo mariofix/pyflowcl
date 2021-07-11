@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyflowcl"
-version = "1.0.4"
+version = "1.0.5"
 description = "Cliente para comunicacion con flowAPI-3 de flow.cl"
 authors = ["Mario Hernandez <yo@mariofix.com>"]
 license = "MIT"
@@ -25,6 +25,9 @@ pytest = "*"
 pytest-pep8 = "*"
 black = "*"
 tox = "*"
+thankyou = "^0.0.1"
+sphinx = "*"
+sphinx-theme = "*"
 
 [build-system]
 requires = ["poetry>=0.12"]
