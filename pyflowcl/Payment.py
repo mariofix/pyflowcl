@@ -2,7 +2,7 @@ from dataclasses import asdict
 from typing import Any, Dict, Union, cast
 from pyflowcl.Clients import ApiClient
 from pyflowcl.models import (
-    Error,
+    GenericError,
     PaymentStatus,
     PaymentRequest,
     PaymentResponse,
@@ -15,7 +15,7 @@ import logging
 def getStatus(
     apiclient: ApiClient,
     token: str,
-) -> Union[PaymentStatus, Error,]:
+) -> PaymentStatus:
     """Obtiene el estado de un pago previamente creado, el parametro token
     hace referencia a notification id, el cual se recibe luego de procesado
     un pago
@@ -30,18 +30,18 @@ def getStatus(
 
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 400:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 401:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 400:
+        raise Error(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 401:
+        raise Error(cast(Dict[str, Any], response.json()))
     else:
-        raise Exception(response=response)
+        raise Error({"code": response.status_code, "message": response})
 
 
 def getStatusByCommerceId(
     apiclient: ApiClient,
     commerceId: str,
-) -> Union[PaymentStatus, Error,]:
+) -> PaymentStatus:
     """Obtiene el estado de un pago previamente creado, el parametro token
     hace referencia a notification id, el cual se recibe luego de procesado
     un pago
@@ -56,18 +56,18 @@ def getStatusByCommerceId(
 
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 400:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 401:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 400:
+        raise Error(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 401:
+        raise Error(cast(Dict[str, Any], response.json()))
     else:
-        raise Exception(response=response)
+        raise Error({"code": response.status_code, "message": response})
 
 
 def getStatusByFlowOrder(
     apiclient: ApiClient,
     flowOrder: int,
-) -> Union[PaymentStatus, Error,]:
+) -> PaymentStatus:
     """Obtiene el estado de un pago previamente creado, el parametro token
     hace referencia a notification id, el cual se recibe luego de procesado
     un pago
@@ -82,17 +82,15 @@ def getStatusByFlowOrder(
 
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 400:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 401:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 400:
+        raise Error(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 401:
+        raise Error(cast(Dict[str, Any], response.json()))
     else:
-        raise Exception(response=response)
+        raise Error({"code": response.status_code, "message": response})
 
 
-def getPayments(
-    apiclient: ApiClient, payment_info: Dict[str, Any]
-) -> Union[PaymentList, Error,]:
+def getPayments(apiclient: ApiClient, payment_info: Dict[str, Any]) -> PaymentList:
     """
     Este método permite obtener la lista paginada de pagos recibidos en
     un día.Los objetos pagos de la lista tienen la misma estructura de
@@ -108,17 +106,15 @@ def getPayments(
 
     if response.status_code == 200:
         return PaymentList.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 400:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 401:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 400:
+        raise Error(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 401:
+        raise Error(cast(Dict[str, Any], response.json()))
     else:
-        raise Exception(response=response)
+        raise Error({"code": response.status_code, "message": response})
 
 
-def create(
-    apiclient: ApiClient, payment_data: Dict[str, Any]
-) -> Union[PaymentResponse, Error,]:
+def create(apiclient: ApiClient, payment_data: Dict[str, Any]) -> PaymentResponse:
     """
     Este método permite crear una orden de pago a Flow y recibe como respuesta
     la URL para redirigir el browser del pagador y el token que identifica la
@@ -132,28 +128,22 @@ def create(
     """
     url = f"{apiclient.api_url}/payment/create"
     payment = PaymentRequest.from_dict(payment_data)
-    if payment.apiKey is None:
+    if not payment.apiKey:
         payment.apiKey = apiclient.api_key
-
     payment.s = apiclient.make_signature(asdict(payment))
-
     logging.debug("Before Request:" + str(payment))
-
     response = apiclient.post(url, asdict(payment))
-
     if response.status_code == 200:
         return PaymentResponse.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 400:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 401:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 400:
+        raise Error(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 401:
+        raise Error(cast(Dict[str, Any], response.json()))
     else:
-        raise Exception(response=response)
+        raise Error({"code": response.status_code, "message": response})
 
 
-def createEmail(
-    apiclient: ApiClient, payment_data: Dict[str, Any]
-) -> Union[PaymentResponse, Error,]:
+def createEmail(apiclient: ApiClient, payment_data: Dict[str, Any]) -> PaymentResponse:
     """
     Permite generar un cobro por email. Flow emite un email al pagador
     que contiene la información de la Orden de pago y el link de pago
@@ -174,9 +164,9 @@ def createEmail(
 
     if response.status_code == 200:
         return PaymentResponse.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 400:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
-    if response.status_code == 401:
-        return Error.from_dict(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 400:
+        raise Error(cast(Dict[str, Any], response.json()))
+    elif response.status_code == 401:
+        raise Error(cast(Dict[str, Any], response.json()))
     else:
-        raise Exception(response=response)
+        raise Error({"code": response.status_code, "message": response})

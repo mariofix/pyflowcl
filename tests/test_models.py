@@ -1,10 +1,12 @@
-from pyflowcl.models import *
-
-
-def test_model_error():
-    e = Error()
-    assert e.code is None
-    assert e.message is None
+from pyflowcl.models import (
+    PaymentList,
+    PaymentResponse,
+    PaymentRequest,
+    PaymentList,
+    PaymentRequestEmail,
+    RefundRequest,
+    RefundStatus,
+)
 
 
 def test_model_payment_list():
