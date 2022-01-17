@@ -31,11 +31,11 @@ def getStatus(
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(Dict[str, Any], response.json()))
     elif response.status_code == 400:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     elif response.status_code == 401:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     else:
-        raise Error({"code": response.status_code, "message": response})
+        raise GenericError({"code": response.status_code, "message": response})
 
 
 def getStatusByCommerceId(
@@ -57,11 +57,11 @@ def getStatusByCommerceId(
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(Dict[str, Any], response.json()))
     elif response.status_code == 400:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     elif response.status_code == 401:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     else:
-        raise Error({"code": response.status_code, "message": response})
+        raise GenericError({"code": response.status_code, "message": response})
 
 
 def getStatusByFlowOrder(
@@ -83,11 +83,11 @@ def getStatusByFlowOrder(
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(Dict[str, Any], response.json()))
     elif response.status_code == 400:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     elif response.status_code == 401:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     else:
-        raise Error({"code": response.status_code, "message": response})
+        raise GenericError({"code": response.status_code, "message": response})
 
 
 def getPayments(apiclient: ApiClient, payment_info: Dict[str, Any]) -> PaymentList:
@@ -107,11 +107,11 @@ def getPayments(apiclient: ApiClient, payment_info: Dict[str, Any]) -> PaymentLi
     if response.status_code == 200:
         return PaymentList.from_dict(cast(Dict[str, Any], response.json()))
     elif response.status_code == 400:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     elif response.status_code == 401:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     else:
-        raise Error({"code": response.status_code, "message": response})
+        raise GenericError({"code": response.status_code, "message": response})
 
 
 def create(apiclient: ApiClient, payment_data: Dict[str, Any]) -> PaymentResponse:
@@ -136,11 +136,11 @@ def create(apiclient: ApiClient, payment_data: Dict[str, Any]) -> PaymentRespons
     if response.status_code == 200:
         return PaymentResponse.from_dict(cast(Dict[str, Any], response.json()))
     elif response.status_code == 400:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     elif response.status_code == 401:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     else:
-        raise Error({"code": response.status_code, "message": response})
+        raise GenericError({"code": response.status_code, "message": response})
 
 
 def createEmail(apiclient: ApiClient, payment_data: Dict[str, Any]) -> PaymentResponse:
@@ -165,8 +165,8 @@ def createEmail(apiclient: ApiClient, payment_data: Dict[str, Any]) -> PaymentRe
     if response.status_code == 200:
         return PaymentResponse.from_dict(cast(Dict[str, Any], response.json()))
     elif response.status_code == 400:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     elif response.status_code == 401:
-        raise Error(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(Dict[str, Any], response.json()))
     else:
-        raise Error({"code": response.status_code, "message": response})
+        raise GenericError({"code": response.status_code, "message": response})
