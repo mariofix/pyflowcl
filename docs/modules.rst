@@ -1,5 +1,5 @@
 pyflowcl
-======
+========
 
 .. toctree::
    :maxdepth: 4

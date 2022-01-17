@@ -6,6 +6,7 @@ authors = ["Mario Hernandez <yo@mariofix.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/mariofix/pyflowcl"
+documentation = "https://pyflowcl.readthedocs.io/es/latest/index.html"
 classifiers=[
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
@@ -30,5 +31,5 @@ sphinx = "*"
 sphinx-theme = "*"
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -12,14 +12,6 @@ pyflowcl.Clients module
    :undoc-members:
    :show-inheritance:
 
-pyflowcl.Customer module
-------------------------
-
-.. automodule:: pyflowcl.Customer
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 pyflowcl.Payment module
 -----------------------
 
