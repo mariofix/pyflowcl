@@ -1,8 +1,15 @@
 from dataclasses import asdict
 from typing import Any, Dict, Union, cast
-from .Clients import ApiClient
+from pyflowcl.Clients import ApiClient
+from pyflowcl.models import (
+    Error,
+    PaymentStatus,
+    PaymentRequest,
+    PaymentResponse,
+    PaymentRequestEmail,
+    PaymentList,
+)
 import logging
-from .models import *
 
 
 def getStatus(
