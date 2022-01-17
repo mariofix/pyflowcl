@@ -9,22 +9,14 @@ from dataclasses import dataclass
 from typing import Any, Dict, Optional, List, cast
 
 
-@dataclass
-class Error:
-    """Objeto para definir un error"""
+class GenericError(BaseException):
+    def __init__(self, data):
+        self.code = data.get("code")
+        self.message = data.get("message")
+        super().__init__(f"{self.code}: {self.message}")
 
-    code: Optional[float] = None
-    message: Optional[str] = None
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> Error:
-        code = d.get("code")
-        message = d.get("message")
-
-        return Error(
-            code=code,
-            message=message,
-        )
+    def __str__(self):
+        return f"{self.code}: {self.message}"
 
 
 @dataclass
