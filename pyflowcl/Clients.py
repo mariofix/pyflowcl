@@ -10,6 +10,7 @@ import requests
 import hashlib
 import hmac
 import logging
+import warnings
 
 
 @dataclass
@@ -54,6 +55,11 @@ class ApiClient:
 
         :rtype: dict
         """
+        warnings.warn(
+            "ApiClient será reemplazado por apispec en PyFlowCL-1.2.0",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return requests.get(url, params=query_string)
 
     def post(self, url: str, post_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -61,6 +67,11 @@ class ApiClient:
 
         :rtype: dict
         """
+        warnings.warn(
+            "ApiClient será reemplazado por apispec en PyFlowCL-1.2.0",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return requests.post(url, data=post_data)
 
     def put(self, url: str, put_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -68,4 +79,9 @@ class ApiClient:
 
         :rtype: dict
         """
+        warnings.warn(
+            "ApiClient será reemplazado por apispec en PyFlowCL-1.2.0",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return requests.put(url, data=put_data)
