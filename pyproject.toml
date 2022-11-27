@@ -24,6 +24,7 @@ packages = [{include = "pyflowcl"}]
 python = "^3.7"
 requests = "^2.25.1"
 openapi3 = {git = "https://github.com/Dorthu/openapi3.git", rev = "master"}
+python-fsutil = "^0.7.0"
 
 [tool.poetry.group.dev]
 optional = true
