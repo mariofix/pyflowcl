@@ -1,0 +1,63 @@
+site_name: pyFlowCl - API de conexión para Flow Chile
+site_url: https://mariofix.github.io/pyflowcl
+repo_url: https://github.com/mariofix/pyflowcl
+repo_name: mariofix/pyflowcl
+site_description: Documentacion para pyFlowCl
+site_author: mariofix <yo@mariofix.com>
+copyright: "&copy;2022 - Mario Hernández"
+edit_uri: ""
+
+theme:
+  name: material
+  language: es
+  palette:
+    scheme: slate
+    primary: indigo
+  features:
+    - navigation.tracking
+    - navigation.top
+    - header.autohide
+
+plugins:
+  - mkdocstrings
+  - git-authors
+
+nav:
+  - index.md
+  - FlowAPI: flowapi.md
+  - ApiClient: apiclient.md
+  - apiFlow.yaml.md
+
+markdown_extensions:
+
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde

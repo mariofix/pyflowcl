@@ -7,9 +7,10 @@ La clase FlowAPI permite, con mínima codificacion, hacer llamadas a la API de F
 conociendo solamente la accion a realizar, sin configuraciones ni validaciones tediosas.  
 
 Modulos disponibles:  
-- `ApiClient`: Cliente API genérico, permite llamadas HTTP con validacion X-Header-Token  
-- `FlowAPI`: Wrapper sobre OpenAPI3, permite descubrir los métodos y funciones usando 
+- `FlowAPI` - Wrapper sobre OpenAPI3, permite descubrir los métodos y funciones usando 
 el archivo openapi directamente.  
+- `ApiClient` - __Deprecado__ Cliente API genérico, permite llamadas HTTP con validacion
+X-Header-Token  
 
 """
 from pyflowcl.flowapi_spec import FlowAPI
