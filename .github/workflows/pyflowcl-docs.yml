@@ -26,6 +26,6 @@ jobs:
       - name: Install Repo
         run: poetry install --with dev
       - name: Genera Documentacion
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: poetry run mkdocs build
+      - name: Deploy Documentacion
+        run: poetry run mkdocs gh-deploy
