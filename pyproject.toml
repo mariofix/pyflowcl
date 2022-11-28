@@ -25,6 +25,7 @@ python = "^3.7"
 requests = "^2.25.1"
 openapi3 = {git = "https://github.com/Dorthu/openapi3.git", rev = "master"}
 python-fsutil = "^0.7.0"
+python-slugify = "^7.0.0"
 
 [tool.poetry.group.dev]
 optional = true
@@ -34,6 +35,10 @@ pytest = "*"
 pytest-cov = "*"
 coverage = "*"
 black = "*"
+mkdocs = {extras = ["i18n"], version = "^1.4.2"}
+mkdocs-material = "^8.5.10"
+mkdocstrings = {extras = ["python"], version = "^0.19.0"}
+mkdocs-git-authors-plugin = "^0.7.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -5,6 +5,8 @@ Frunciona como wrapper sobre cliente [OpenAPI3] (https://github.com/Dorthu/opena
 
 El cliente ApiClient estará disponible hasta la version 1.2.0  
 
+[![pyflowcl-tests](https://github.com/mariofix/pyflowcl/actions/workflows/pyflowcl.yml/badge.svg?branch=openapi-client)](https://github.com/mariofix/pyflowcl/actions/workflows/pyflowcl.yml)
+[![PyPI version](https://badge.fury.io/py/pyflowcl.svg)](https://badge.fury.io/py/pyflowcl)
 ---
 
 ## Instalación

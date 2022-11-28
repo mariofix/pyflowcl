@@ -8,4 +8,4 @@ from pyflowcl import FlowAPI
 
 api = FlowAPI(flow_key="key", flow_secret="secret")
 api.init_api()
-# print(f"{api=}")
+openapi = api.give_me_openapi3()
