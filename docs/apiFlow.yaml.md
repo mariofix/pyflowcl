@@ -1004,7 +1004,7 @@ paths:
                   type: integer
                 merchantId: 
                   description: Id de comercio asociado. Solo aplica si usted es comercio integrador.
-                  type: string        
+                  type: string      
                 payment_currency:
                   description: Moneda en que se espera se pague la orden
                   type: string
@@ -3989,6 +3989,12 @@ components:
               format: float
               description: El costo del servicio
               example: 551
+            taxes:
+              type: number
+              nullable: true
+              format: float
+              description: Impuestos
+              example: 28
             balance:
               type: number
               nullable: true

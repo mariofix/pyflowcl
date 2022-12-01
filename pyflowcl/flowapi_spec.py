@@ -9,9 +9,24 @@ Este modulo contiene
 
 __Uso Básico__:
 ```python
+from pyflowcl import FlowAPI
+from pyflowcl.utils import genera_parametros
+
 api = FlowAPI(flow_key="api_key", flow_secret="api_secret")
-api.call_get_payment_getstatus()
+parametros = {"apiKey": api.apiKey, "token": "TOKEN_PAGO"}
+api.objetos.call_get_payment_getstatus(
+    parameters=genera_parametros(parametros, api.secretKey)
+)
 ```
+
+__Para ver una lista de operaciones disponibles__:
+```python
+from pyflowcl import FlowAPI
+
+api = FlowAPI(flow_key="api_key", flow_secret="api_secret")
+api.listar_operaciones()
+```
+
 
 
 """
@@ -38,30 +53,36 @@ class FlowAPI(object):
         _openapi3: El objeto OpenAPI principal
         flow_key: APIKey entregado por Flow
         flow_secret: SecretKey entregado por Flow
+        flow_url: URL para realizar las llamadas (live o sandbox)
         flow_yaml_file: Ruta a la especificacion OpenAPI
         flow_yaml_spec: Objeto YAML de flow_yaml_file
+        fix_openapi: ver `FlowAPI.fix_openapi3()`
     """
 
     _openapi3: Optional[OpenAPI] = field(init=False)
     flow_key: str = None
     flow_secret: str = None
+    flow_url: str = None
     flow_yaml_file: str = None
     flow_yaml_spec: dict = field(repr=False, default=None)
+    fix_openapi: bool = True
 
     def __post_init__(self):
-        """
-        Dataclass lo usa como reemplazo a la llamada ``__init__``
-        Se definen parametros por defecto.
-        """
         if not self.flow_key:
             self.flow_key = os.getenv("PYFLOWCL_KEY", None)
         if not self.flow_secret:
             self.flow_secret = os.getenv("PYFLOWCL_SECRET", None)
         if not self.flow_yaml_file:
             self.flow_yaml_file = os.getenv("PYFLOWCL_YAML_FILE", None)
+        sandbox = os.getenv("PYFLOWCL_USE_SANDBOX", False)
+        self.flow_url = (
+            "https://sandbox.flow.cl/api" if sandbox else "https://flow.cl/api"
+        )
         self._openapi3 = None
 
-    def init_api(self) -> bool:
+        self.init_api()
+
+    def init_api(self) -> None:
         """
         Genera las validaciones y configuraciones necesarias para leer el
         archivo YAML con la especificacion.
@@ -74,11 +95,10 @@ class FlowAPI(object):
         # Se crea uno para cada endpoint usando ``slugify``
         # `fix_it=False` para deshabilitar (por defecto en True)
 
-        self.create_openapi3(fix_it=True)
+        self.create_openapi3(fix_it=self.fix_openapi)
 
-        return True
-
-    def give_me_openapi3(self) -> OpenAPI:
+    @property
+    def objetos(self) -> OpenAPI:
         """
         Entrega la instancia OpenAPI
 
@@ -86,6 +106,41 @@ class FlowAPI(object):
             Objeto ``openapi3.OpenAPI``
         """
         return self._openapi3
+
+    def listar_operaciones(self) -> list:
+        """Lista operaciones disponibles
+
+        Returns:
+            Operaciones disponibles
+        """
+        return self._openapi3._operation_map.keys()
+
+    @property
+    def apiKey(self) -> str:
+        """Retorna APIKey
+
+        Returns:
+            `apiKey`
+        """
+        return self.flow_key
+
+    @property
+    def secretKey(self) -> str:
+        """Retorna SecretKey
+
+        Returns:
+            `SecretKey`
+        """
+        return self.flow_secret
+
+    @property
+    def url(self) -> str:
+        """Retorna URL seleccionada (live o sandbox)
+
+        Returns:
+            `url`
+        """
+        return self.flow_url
 
     def set_yaml_file(self) -> None:
         """Define que archivo YAML se va a cargar"""

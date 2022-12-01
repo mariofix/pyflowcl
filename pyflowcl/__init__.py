@@ -19,4 +19,4 @@ from pyflowcl.Clients import ApiClient
 __version__ = "1.1.0"
 
 
-# __all__ = ["FlowAPI", "ApiClient", "ConfigException", "__version__"]
+__all__ = ["FlowAPI", "ApiClient", "__version__"]

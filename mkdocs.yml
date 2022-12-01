@@ -25,6 +25,7 @@ plugins:
 nav:
   - index.md
   - FlowAPI: flowapi.md
+  - Utils: utils.md
   - ApiClient: apiclient.md
   - apiFlow.yaml.md
 

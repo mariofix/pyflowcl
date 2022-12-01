@@ -32,5 +32,3 @@ export PYFLOWCL_KEY="key"
 export PYFLOWCL_SECRET="SECRET"
 python cliente_flow.py
 ```
-
-::: pyflowcl
