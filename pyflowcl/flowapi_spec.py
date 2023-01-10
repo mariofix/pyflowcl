@@ -60,7 +60,7 @@ class FlowAPI(object):
         fix_openapi: ver `FlowAPI.fix_openapi3()`
     """
 
-    base_path: Any = Path(__file__).resolve().parent.parent
+    base_path: Any = Path(__file__).resolve().parent
     _openapi3: Optional[OpenAPI] = field(init=False)
     flow_key: str = None
     flow_secret: str = None
