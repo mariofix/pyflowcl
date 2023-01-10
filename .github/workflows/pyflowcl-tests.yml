@@ -2,7 +2,7 @@ name: Tests
 
 on:
   push:
-    branches: [ openapi-client ]
+    branches: [ dev ]
 
 jobs:
   tests:
@@ -25,4 +25,6 @@ jobs:
       - name: Install Repo
         run: poetry install --with dev
       - name: Run Tests
-        run: poetry run pytest
+        run: poetry run coverage run -m pytest -rP
+      - name: Coverage Report
+        run: poetry run coverage report -m
