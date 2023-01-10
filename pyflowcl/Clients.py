@@ -9,7 +9,7 @@ Este modulo contiene
 
 __Uso Básico__:
 ```python
-API_URL = "https://sandbox.flow.cl/api"
+API_URL = "https://www.flow.cl/api"
 API_KEY = "your_key"
 API_SECRET = "your_secret"
 FLOW_TOKEN = "your_payment_token"
@@ -31,28 +31,28 @@ class ApiClient:
     """Clase ApiClient con los objetos para realizar llamadas
 
     Implementa todos los métodos de ``dataclass``.
-    
+
     Attributes:
         api_url: URL de API Flow (live o sandbox)
         api_key: APIKey entregado por Flow
         api_secret: SecretKey entregado por Flow
     """
 
-    api_url: str = "https://sandbox.flow.cl/api"
+    api_url: str = "https://www.flow.cl/api"
     api_key: str = ""
     api_secret: str = ""
 
     def __post_init__(self):
-        warnings.warn(
-            "ApiClient será reemplazado por FlowAPI en pyFlowCl-1.2.0",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        
+        # warnings.warn(
+        #     "ApiClient será reemplazado por FlowAPI en pyFlowCl-1.2.0",
+        #     DeprecationWarning,
+        #     stacklevel=2,
+        # )
+        pass
 
     def make_signature(self, params: Dict[str, Any]) -> str:
         """Crea el Hash de validacion para ser enviado con la informacion
-        
+
         Args:
             params: Parametros para crear la firma
 

@@ -40,6 +40,8 @@ from functools import lru_cache
 import fsutil
 import logging
 from slugify import slugify
+import logging
+from pathlib import Path
 
 
 @dataclass
@@ -50,37 +52,58 @@ class FlowAPI(object):
     Implementa todos los métodos de ``dataclass``.
 
     Attributes:
-        _openapi3: El objeto OpenAPI principal
         flow_key: APIKey entregado por Flow
         flow_secret: SecretKey entregado por Flow
-        flow_url: URL para realizar las llamadas (live o sandbox)
-        flow_yaml_file: Ruta a la especificacion OpenAPI
+        flow_use_sandbox: True para usar `sandbox`, False o indefinido para `live`
+        flow_yaml_file: Ruta alternativa a la especificacion OpenAPI, no puede ser usada en conjunto con `FlowAPI.flow_use_sandbox`.
         flow_yaml_spec: Objeto YAML de flow_yaml_file
         fix_openapi: ver `FlowAPI.fix_openapi3()`
     """
 
+    base_path: Any = Path(__file__).resolve().parent.parent
     _openapi3: Optional[OpenAPI] = field(init=False)
     flow_key: str = None
     flow_secret: str = None
-    flow_url: str = None
     flow_yaml_file: str = None
     flow_yaml_spec: dict = field(repr=False, default=None)
+    flow_use_sandbox: bool = False
     fix_openapi: bool = True
 
     def __post_init__(self):
+        """Procesos post inicio
+
+        Define las variables dentro del objeto, ejecuta inicializacion de configuraciones
+        """
+
         if not self.flow_key:
             self.flow_key = os.getenv("PYFLOWCL_KEY", None)
         if not self.flow_secret:
             self.flow_secret = os.getenv("PYFLOWCL_SECRET", None)
+        if not self.flow_use_sandbox:
+            val = os.getenv("PYFLOWCL_USE_SANDBOX", "False")
+            self.flow_use_sandbox = True if (val.lower() == "true") else False
+            del val
         if not self.flow_yaml_file:
             self.flow_yaml_file = os.getenv("PYFLOWCL_YAML_FILE", None)
-        sandbox = os.getenv("PYFLOWCL_USE_SANDBOX", False)
-        self.flow_url = (
-            "https://sandbox.flow.cl/api" if sandbox else "https://flow.cl/api"
-        )
+        if not self.fix_openapi:
+            val = os.getenv("PYFLOWCL_FIX_OPENAPI", "True")
+            self.fix_openapi = True if (val.lower() == "true") else False
+            del val
         self._openapi3 = None
 
         self.init_api()
+
+    def _define_archivo(self) -> None:
+        if self.flow_yaml_file:
+            return
+
+        if self.flow_use_sandbox:
+            self.flow_yaml_file = os.path.join(
+                self.base_path, "cache/apiFlow.sandbox.min.yaml"
+            )
+        else:
+            self.flow_yaml_file = os.path.join(self.base_path, "cache/apiFlow.min.yaml")
+        return
 
     def init_api(self) -> None:
         """
@@ -88,14 +111,14 @@ class FlowAPI(object):
         archivo YAML con la especificacion.
         """
         self.check_config()
-        self.set_yaml_file()
+        self._define_archivo()
         self.load_yaml_spec(self.flow_yaml_file)
 
         # Flow no agrega operationId dentro de las propiedades de cada endpoint
         # Se crea uno para cada endpoint usando ``slugify``
         # `fix_it=False` para deshabilitar (por defecto en True)
 
-        self.create_openapi3(fix_it=self.fix_openapi)
+        self.create_openapi3()
 
     @property
     def objetos(self) -> OpenAPI:
@@ -107,7 +130,7 @@ class FlowAPI(object):
         """
         return self._openapi3
 
-    def listar_operaciones(self) -> list:
+    def lista_operaciones(self) -> list:
         """Lista operaciones disponibles
 
         Returns:
@@ -133,24 +156,7 @@ class FlowAPI(object):
         """
         return self.flow_secret
 
-    @property
-    def url(self) -> str:
-        """Retorna URL seleccionada (live o sandbox)
-
-        Returns:
-            `url`
-        """
-        return self.flow_url
-
-    def set_yaml_file(self) -> None:
-        """Define que archivo YAML se va a cargar"""
-        if not self.flow_yaml_file:
-            # No se ingresó por constructor ni por env
-            self.flow_yaml_file = fsutil.join_filepath(
-                fsutil.get_parent_dir(__file__), "cache/apiFlow.yaml"
-            )
-
-    def check_config(self, raise_exceptions: bool = True) -> bool:
+    def check_config(self) -> bool:
         """
         Verifica que los datos de configuracion sean correctos.
 
@@ -166,34 +172,31 @@ class FlowAPI(object):
         export PYFLOWCL_SECRET="SecretKey"
         ```
 
-        Args:
-            raise_exceptions: Define como se tratarán los errores Excepciones o logger.error
-
         Returns:
             ``True`` si la validacion fue exitosa, ``False`` de lo contrario.
 
         Raises:
             ConfigException: Cuando falta un parametro por definir
         """
+
+        if self.flow_use_sandbox and self.flow_yaml_file:
+            raise ConfigException(
+                "No se puede definir `flow_use_sandbox` y `flow_yaml_file`"
+            )
+
         if not self.flow_key:
             error_msg = 'Se necesita configurar FLOW_KEY, puedes agregarlo al constructor: api = FlowAPI(key="secret_key") o como variable de entorno: export PYFLOWCL_KEY="secret_key" '
-            if raise_exceptions:
-                raise ConfigException(error_msg)
-            else:
-                logging.error(error_msg)
-                return False
+            raise ConfigException(error_msg)
+            return False
 
         if not self.flow_secret:
             error_msg = 'Se necesita configurar FLOW_SECRET, puedes agregarlo al constructor api = FlowAPI(secret="secret") o como variable de entorno export PYFLOWCL_SECRET="secret" '
-            if raise_exceptions:
-                raise ConfigException(error_msg)
-            else:
-                logging.error(error_msg)
-                return False
+            raise ConfigException(error_msg)
+            return False
 
         return True
 
-    def load_yaml_spec(self, spec: str = None, download: bool = True) -> None:
+    def load_yaml_spec(self, spec: str = None) -> None:
         """
         Carga el documento YAML como diccionario Python en ``FlowAPI.flow_yaml_spec``
 
@@ -209,31 +212,6 @@ class FlowAPI(object):
         try:
             self.flow_yaml_spec = load_yaml_file(spec)
         except OSError as e:
-            if download:
-                self.download_flow_spec()
-            else:
-                raise e
-
-    def download_flow_spec(self) -> None:
-        """
-        Descarga apiFlow.yaml desde https://www.flow.cl/docs/apiFlow.yaml?v=6
-
-        Raises:
-            Exception: No fue posible descargar el archivo o guardarlo en ``cache/``
-        """
-        dest_folder = fsutil.join_filepath(fsutil.get_parent_dir(__file__), "cache")
-        dest_file = "apiFlow.yaml"
-        try:
-            fsutil.download_file(
-                url="https://www.flow.cl/docs/apiFlow.yaml?v=6",
-                dirpath=dest_folder,
-                filename=dest_file,
-            )
-            self.load_yaml_spec(
-                fsutil.join_filepath(dest_folder, dest_file), download=False
-            )
-        except Exception as e:  # pragma nocover
-            logging.error(e)
             raise e
 
     def create_openapi3(self, fix_it: bool = True) -> None:

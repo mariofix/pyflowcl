@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "pyflowcl"
-version = "1.1.0"
+version = "1.1.1"
 description = "Cliente para comunicacion con flowAPI-3 de flow.cl"
 authors = ["Mario Hernandez <yo@mariofix.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/mariofix/pyflowcl"
-documentation = "https://pyflowcl.readthedocs.io/es/latest/index.html"
+documentation = "https://mariofix.github.io/pyflowcl/"
 classifiers=[
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
@@ -27,12 +27,14 @@ openapi3 = {git = "https://github.com/Dorthu/openapi3.git", rev = "master"}
 python-fsutil = "^0.7.0"
 python-slugify = "^7.0.0"
 
+[tool.poetry.build]
+generate-setup-file = true
+
 [tool.poetry.group.dev]
 optional = true
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"
-pytest-cov = "*"
 coverage = "*"
 black = "*"
 mkdocs = {extras = ["i18n"], version = "^1.4.2"}

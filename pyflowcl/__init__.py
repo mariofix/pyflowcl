@@ -9,14 +9,14 @@ conociendo solamente la accion a realizar, sin configuraciones ni validaciones t
 Modulos disponibles:  
 - `FlowAPI` - Wrapper sobre OpenAPI3, permite descubrir los métodos y funciones usando 
 el archivo openapi directamente.  
-- `ApiClient` - __Deprecado__ Cliente API genérico, permite llamadas HTTP con validacion
+- `ApiClient` -  Cliente API genérico, permite llamadas HTTP con validacion
 X-Header-Token  
 
 """
 from pyflowcl.flowapi_spec import FlowAPI
 from pyflowcl.Clients import ApiClient
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 
 __all__ = ["FlowAPI", "ApiClient", "__version__"]

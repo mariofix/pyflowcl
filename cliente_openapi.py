@@ -1,11 +1,14 @@
 from pyflowcl import FlowAPI
+from pyflowcl.utils import genera_parametros
 
-# api = OpenAPI(spec)
-# api.servers[0].url  - produccion
-# api.servers[1].url  - sandbox
-
-# api.paths['/payment/getStatus'].[get,post,put].request(api.servers[1].url).[body,headers,etc]
-
-api = FlowAPI(flow_key="key", flow_secret="secret")
+api = FlowAPI(
+    flow_key="APIKey",
+    flow_secret="secretKey",
+)
 api.init_api()
-openapi = api.give_me_openapi3()
+parametros = {"apiKey": api.apiKey, "token": "TOKEN"}
+print(
+    api.objetos.call_get_payment_getstatus(
+        parameters=genera_parametros(parametros, api.secretKey)
+    )
+)
