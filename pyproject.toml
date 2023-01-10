@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyflowcl"
-version = "1.1.1"
+version = "1.1.2"
 description = "Cliente para comunicacion con flowAPI-3 de flow.cl"
 authors = ["Mario Hernandez <yo@mariofix.com>"]
 license = "MIT"
@@ -23,7 +23,7 @@ packages = [{include = "pyflowcl"}]
 [tool.poetry.dependencies]
 python = "^3.7"
 requests = "^2.25.1"
-openapi3 = {git = "https://github.com/Dorthu/openapi3.git", rev = "master"}
+openapi3 = "^1.7.0"
 python-fsutil = "^0.7.0"
 python-slugify = "^7.0.0"
 

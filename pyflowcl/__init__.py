@@ -16,7 +16,7 @@ X-Header-Token
 from pyflowcl.flowapi_spec import FlowAPI
 from pyflowcl.Clients import ApiClient
 
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 
 
 __all__ = ["FlowAPI", "ApiClient", "__version__"]

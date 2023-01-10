@@ -204,7 +204,6 @@ class FlowAPI(object):
 
         Args:
             spec: Cadena de texto con el documento YAML
-            download: Descarga el archivo desde Flow en caso de no encontarse.
         Raises:
             Exception: Cuando ``spec`` no está definido
             OSError: Cuando no fue posible descargar el archivo YAML

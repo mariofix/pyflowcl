@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Futuros Cambios]
 
-## [1.1.1]- 2022-11-23
+## [1.1.2]- 2023-01-09
+### Cambiado
+- Cambios Menores
+
+## [1.1.1]- 2023-01-07
 ### Cambiado
 - Documentacion
 - Tests
 - apiFlow.min.yaml y apiFlow.sandbox.min.yaml son las especificaciones para ahorrar tiempo de carga.
+
 
 ## [1.1.0]- 2022-11-23
 ### Agregado

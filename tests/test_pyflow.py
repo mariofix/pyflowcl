@@ -4,7 +4,7 @@ import fsutil
 
 
 def test_version():
-    assert __version__ == "1.1.1"
+    assert __version__ == "1.1.2"
 
 
 def test_FlowAPI_config_via_init_sandbox():
