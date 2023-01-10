@@ -99,10 +99,12 @@ class FlowAPI(object):
 
         if self.flow_use_sandbox:
             self.flow_yaml_file = os.path.join(
-                self.base_path, "cache/apiFlow.sandbox.min.yaml"
+                self.base_path, "yaml_files/apiFlow.sandbox.min.yaml"
             )
         else:
-            self.flow_yaml_file = os.path.join(self.base_path, "cache/apiFlow.min.yaml")
+            self.flow_yaml_file = os.path.join(
+                self.base_path, "yaml_files/apiFlow.min.yaml"
+            )
         return
 
     def init_api(self) -> None:
