@@ -1,7 +1,7 @@
 from dataclasses import asdict
 from typing import Any, Dict, Union, cast
-from pyflowcl.Clients import ApiClient
-from pyflowcl.models import (
+from .Clients import ApiClient
+from .models import (
     GenericError,
     PaymentStatus,
     PaymentRequest,

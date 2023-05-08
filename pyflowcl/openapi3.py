@@ -35,12 +35,11 @@ from dataclasses import dataclass, field
 from openapi3 import OpenAPI
 import yaml
 import os
-from pyflowcl.exceptions import ConfigException
+from .exceptions import ConfigException
 from functools import lru_cache
 import fsutil
 import logging
 from slugify import slugify
-import logging
 from pathlib import Path
 
 
@@ -52,22 +51,20 @@ class FlowAPI(object):
     Implementa todos los métodos de ``dataclass``.
 
     Attributes:
-        flow_key: APIKey entregado por Flow
-        flow_secret: SecretKey entregado por Flow
-        flow_use_sandbox: True para usar `sandbox`, False o indefinido para `live`
-        flow_yaml_file: Ruta alternativa a la especificacion OpenAPI, no puede ser usada en conjunto con `FlowAPI.flow_use_sandbox`.
-        flow_yaml_spec: Objeto YAML de flow_yaml_file
-        fix_openapi: ver `FlowAPI.fix_openapi3()`
+        key: APIKey entregado por Flow
+        secret: SecretKey entregado por Flow
+        use_sandbox: True para usar `sandbox`, False o indefinido para `live`
     """
 
-    base_path: Any = Path(__file__).resolve().parent
+    key: str = None
+    secret: str = None
+    use_sandbox: bool = False
+    _base_path: Any = Path(__file__).resolve().parent
+    _fragments: list = None
     _openapi3: Optional[OpenAPI] = field(init=False)
-    flow_key: str = None
-    flow_secret: str = None
-    flow_yaml_file: str = None
-    flow_yaml_spec: dict = field(repr=False, default=None)
-    flow_use_sandbox: bool = False
-    fix_openapi: bool = True
+    _yaml_file: str = field(repr=False, default=None)
+    _yaml_spec: dict = field(repr=False, default=None)
+    _fix_openapi: bool = field(repr=False, default=None)
 
     def __post_init__(self):
         """Procesos post inicio

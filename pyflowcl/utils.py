@@ -8,12 +8,12 @@ Este modulo contiene
 - `genera_parametros()` - Funcion para generar parametros a enviar
 
 """
-from pyflowcl.exceptions import ParamsException
+from .exceptions import ParamsException
 import hashlib
 import hmac
 
 
-def genera_firma(params: dict = {}, flow_secret: str = None) -> str:
+def genera_firma(params: dict = None, flow_secret: str = None) -> str:
     """Crea el Hash de validacion
 
     Args:
@@ -40,7 +40,7 @@ def genera_firma(params: dict = {}, flow_secret: str = None) -> str:
     return hash_string
 
 
-def genera_parametros(params: dict = {}, flow_secret: str = None) -> dict:
+def genera_parametros(params: dict = None, flow_secret: str = None) -> dict:
     """Normaliza y genera los parametros para las llamadas
 
     Este esta funcion verifica que los parametros se encuentren ordenados

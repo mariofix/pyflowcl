@@ -1,4 +1,4 @@
-from pyflowcl import FlowAPI
+from pyflowcl.openapi3 import FlowAPI
 from pyflowcl.utils import genera_parametros
 
 api = FlowAPI(
