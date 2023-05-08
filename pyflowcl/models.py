@@ -3,8 +3,6 @@ pyflowcl.models
 ~~~~~~~~~~~~~~~~
 Modelos de distintos objetos del paquete
 """
-from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Any, Dict, Optional, List, cast
 

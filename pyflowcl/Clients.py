@@ -43,11 +43,11 @@ class ApiClient:
     api_secret: str = ""
 
     def __post_init__(self):
-        # warnings.warn(
-        #     "ApiClient será reemplazado por FlowAPI en pyFlowCl-1.2.0",
-        #     DeprecationWarning,
-        #     stacklevel=2,
-        # )
+        warnings.warn(
+            "ApiClient está deprecado, porfavor usa FlowAPI",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         pass
 
     def make_signature(self, params: Dict[str, Any]) -> str:

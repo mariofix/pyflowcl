@@ -13,8 +13,10 @@ el archivo openapi directamente.
 X-Header-Token  
 
 """
-from pyflowcl.flowapi_spec import FlowAPI
-from pyflowcl.Clients import ApiClient
+
+### TODO: Setear Logger
+from .openapi3 import FlowAPI
+from .Clients import ApiClient
 
 __version__ = "1.1.2"
 
