@@ -1,0 +1,3 @@
+servers:
+  - url: 'https://sandbox.flow.cl/api'
+    description: Production server (uses test data)

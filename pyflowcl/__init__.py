@@ -18,7 +18,7 @@ import logging
 from .Clients import ApiClient
 from .openapi3 import FlowAPI
 
-__version__ = "1.1.2"
+__version__ = "1.1.3"
 
 logger = logging.getLogger(__name__)
 __all__ = ["FlowAPI", "ApiClient", "__version__", "logger"]
