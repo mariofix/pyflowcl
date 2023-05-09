@@ -49,7 +49,6 @@ requests = "*"
 openapi3 = "*"
 python-fsutil = "*"
 python-slugify = "*"
-pre-commit = "^3.3.1"
 
 
 [tool.poetry.group.dev]
@@ -65,16 +64,20 @@ mkdocstrings = {extras = ["python"], version = "*"}
 mkdocs-git-authors-plugin = "*"
 flake8 = "*"
 isort = "*"
+pre-commit = "*"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra"
 testpaths = [
-    "pyflowcl",
+    "tests",
 ]
 python_files =[
-    "tests/*.py"
+    "test*.py"
 ]
+
+[tool.black]
+line-length = 79
 
 [build-system]
 requires = ["poetry-core"]

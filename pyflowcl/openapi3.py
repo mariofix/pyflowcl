@@ -12,7 +12,7 @@ __Uso Básico__:
 from pyflowcl import FlowAPI
 from pyflowcl.utils import genera_parametros
 
-api = FlowAPI(flow_key="api_key", flow_secret="api_secret")
+api = FlowAPI(api_key="api_key", secret_key="api_secret")
 parametros = {"apiKey": api.apiKey, "token": "TOKEN_PAGO"}
 api.objetos.call_get_payment_getstatus(
     parameters=genera_parametros(parametros, api.secretKey)
@@ -56,55 +56,44 @@ class FlowAPI(object):
     Implementa todos los métodos de ``dataclass``.
 
     Attributes:
-        key: APIKey entregado por Flow
-        secret: SecretKey entregado por Flow
-        use_sandbox: True para usar `sandbox`, False o indefinido para `live`
+        api_key: APIKey entregado por Flow
+        secret_key: SecretKey entregado por Flow
+        use_sandbox: True para usar `sandbox`
+        fragments: Listado de strings con las operaciones a realizar
     """
 
-    key: str = None
-    secret: str = None
+    """ api_key: APIKey entregado por Flow """
+    api_key: str = None
+    """ secret_key: SecretKey entregado por Flow """
+    secret_key: str = None
+    """ use_sandbox: True para usar `sandbox` """
     use_sandbox: bool = False
+    """ fragments: Listado de strings con las operaciones a realizar"""
+    fragments: list = field(default_factory=list)
+
     _base_path: Any = Path(__file__).resolve().parent
-    _fragments: list = None
     _openapi3: Optional[OpenAPI] = field(init=False)
-    _yaml_file: str = field(repr=False, default=None)
-    _yaml_spec: dict = field(repr=False, default=None)
-    _fix_openapi: bool = field(repr=False, default=None)
 
     def __post_init__(self):
         """Variables de inicio"""
 
-        if not self.flow_key:
-            self.flow_key = os.getenv("PYFLOWCL_KEY", None)
-        if not self.flow_secret:
-            self.flow_secret = os.getenv("PYFLOWCL_SECRET", None)
-        if not self.flow_use_sandbox:
+        if not self.api_key:
+            self.api_key = os.getenv("PYFLOWCL_API_KEY", None)
+        if not self.secret_key:
+            self.secret_key = os.getenv("PYFLOWCL_API_SECRET", None)
+        if not self.use_sandbox:
             val = os.getenv("PYFLOWCL_USE_SANDBOX", "False")
-            self.flow_use_sandbox = True if (val.lower() == "true") else False
+            self.use_sandbox = True if (val.lower() == "true") else False
             del val
-        if not self.flow_yaml_file:
-            self.flow_yaml_file = os.getenv("PYFLOWCL_YAML_FILE", None)
-        if not self.fix_openapi:
-            val = os.getenv("PYFLOWCL_FIX_OPENAPI", "True")
-            self.fix_openapi = True if (val.lower() == "true") else False
-            del val
+        # if not self._yaml_file:
+        #     self._yaml_file = os.getenv("PYFLOWCL_YAML_FILE", None)
+        # if not self._fix_openapi:
+        #     val = os.getenv("PYFLOWCL_FIX_OPENAPI", "True")
+        #     self._fix_openapi = True if (val.lower() == "true") else False
+        #     del val
         self._openapi3 = None
 
         self.init_api()
-
-    def _define_archivo(self) -> None:
-        if self.flow_yaml_file:
-            return
-
-        if self.flow_use_sandbox:
-            self.flow_yaml_file = os.path.join(
-                self.base_path, "yaml_files/apiFlow.sandbox.min.yaml"
-            )
-        else:
-            self.flow_yaml_file = os.path.join(
-                self.base_path, "yaml_files/apiFlow.min.yaml"
-            )
-        return
 
     def init_api(self) -> None:
         """
@@ -112,14 +101,92 @@ class FlowAPI(object):
         archivo YAML con la especificacion.
         """
         self.check_config()
-        self._define_archivo()
-        self.load_yaml_spec(self.flow_yaml_file)
+        # self.load_yaml_spec(self.flow_yaml_file)
 
         # Flow no agrega operationId dentro de las propiedades de cada endpoint
         # Se crea uno para cada endpoint usando ``slugify``
         # `fix_it=False` para deshabilitar (por defecto en True)
 
-        self.create_openapi3()
+        # self.create_openapi3()
+
+    def check_config(self) -> bool:
+        """
+        Verifica que los datos de configuracion sean correctos.
+
+        Se pueden definir desde la instancia
+
+        ```python
+        api = FlowAPI(api_key="APIKey", api_secret="SecretKey")
+        ```
+        o usando variables de entorno
+
+        ```bash
+        export PYFLOWCL_API_KEY="APIKey"
+        export PYFLOWCL_API_SECRET="SecretKey"
+        ```
+
+        Returns:
+            ``True`` si la validacion fue exitosa
+
+        Raises:
+            ConfigException: Cuando falta un parametro por definir
+        """
+
+        if self.use_sandbox and self._yaml_file:
+            raise ConfigException(
+                "No se puede definir `use_sandbox` y `_yaml_file`"
+            )
+
+        if not self.api_key:
+            error_msg = 'Se necesita configurar FLOW_KEY, puedes agregarlo al constructor: api = FlowAPI(key="secret_key") o como variable de entorno: export PYFLOWCL_KEY="secret_key" '
+            raise ConfigException(error_msg)
+
+        if not self.secret_key:
+            error_msg = 'Se necesita configurar FLOW_SECRET, puedes agregarlo al constructor api = FlowAPI(secret="secret") o como variable de entorno export PYFLOWCL_SECRET="secret" '
+            raise ConfigException(error_msg)
+
+        return True
+
+    def load_yaml_spec(self, spec: str = None) -> None:
+        if not spec:
+            raise Exception("spec debe ser un documento/archivo YAML válido")
+        try:
+            self.flow_yaml_spec = load_yaml_file(spec)
+        except OSError as e:
+            raise e
+
+    def create_openapi3(self, fix_it: bool = True) -> None:
+        if fix_it:
+            self.fix_openapi3()
+        api_spec = OpenAPI(self.flow_yaml_spec)
+        self._openapi3 = api_spec
+
+    def fix_openapi3(self):
+        """
+        Por defecto, Flow no entrega "operationId" en cada una de las
+        operaciones esto provoca que no sea posible generar llamadas
+        automaticas.
+        Este método crea el valor "operationId" y lo actualiza directamente en
+        ``FlowAPI.flow_yaml_spec``.
+        El valor de cada operacion es generado con slugify siguiendo esta
+        estructura
+
+        Examples:
+            >>> slugify("get /payment/getStatus", separator="_")
+            'get_payment_getstatus'
+        """
+        for path in self.flow_yaml_spec["paths"]:
+            for verb in self.flow_yaml_spec["paths"][path]:
+                slug = None
+                # Saltar si existe
+                if (
+                    "operationId"
+                    not in self.flow_yaml_spec["paths"][path][verb]
+                ):
+                    slug = slugify(f"{verb} {path}", separator="_")
+                    self.flow_yaml_spec["paths"][path][verb][
+                        "operationId"
+                    ] = slug
 
     @property
     def objetos(self) -> OpenAPI:
@@ -157,97 +224,6 @@ class FlowAPI(object):
         """
         return self.flow_secret
 
-    def check_config(self) -> bool:
-        """
-        Verifica que los datos de configuracion sean correctos.
-
-        Se pueden definir desde la instancia
-
-        ```python
-        api = FlowAPI(flow_key="APIKey", flow_secret="SecretKey")
-        ```
-        o usando variables de entorno
-
-        ```bash
-        export PYFLOWCL_KEY="APIKey"
-        export PYFLOWCL_SECRET="SecretKey"
-        ```
-
-        Returns:
-            ``True`` si la validacion fue exitosa, ``False`` de lo contrario.
-
-        Raises:
-            ConfigException: Cuando falta un parametro por definir
-        """
-
-        if self.flow_use_sandbox and self.flow_yaml_file:
-            raise ConfigException(
-                "No se puede definir `flow_use_sandbox` y `flow_yaml_file`"
-            )
-
-        if not self.flow_key:
-            error_msg = 'Se necesita configurar FLOW_KEY, puedes agregarlo al constructor: api = FlowAPI(key="secret_key") o como variable de entorno: export PYFLOWCL_KEY="secret_key" '
-            raise ConfigException(error_msg)
-            return False
-
-        if not self.flow_secret:
-            error_msg = 'Se necesita configurar FLOW_SECRET, puedes agregarlo al constructor api = FlowAPI(secret="secret") o como variable de entorno export PYFLOWCL_SECRET="secret" '
-            raise ConfigException(error_msg)
-            return False
-
-        return True
-
-    def load_yaml_spec(self, spec: str = None) -> None:
-        """
-        Carga el documento YAML como diccionario Python en ``FlowAPI.flow_yaml_spec``
-
-        Args:
-            spec: Cadena de texto con el documento YAML
-        Raises:
-            Exception: Cuando ``spec`` no está definido
-            OSError: Cuando no fue posible descargar el archivo YAML
-        """
-        if not spec:
-            raise Exception("spec debe ser un documento/archivo YAML válido")
-        try:
-            self.flow_yaml_spec = load_yaml_file(spec)
-        except OSError as e:
-            raise e
-
-    def create_openapi3(self, fix_it: bool = True) -> None:
-        """
-        Crea la instancia OpenAPI y la guarda en ``FlowAPI._openapi3``
-
-        Args:
-            fix_it: Soluciona en problema en la especificacion
-        """
-        if fix_it:
-            self.fix_openapi3()
-        api_spec = OpenAPI(self.flow_yaml_spec)
-        self._openapi3 = api_spec
-
-    def fix_openapi3(self):
-        """
-        Por defecto, Flow no entrega "operationId" en cada una de las operaciones
-        esto provoca que no sea posible generar llamadas automaticas.
-        Este método crea el valor "operationId" y lo actualiza directamente en
-        ``FlowAPI.flow_yaml_spec``.
-        El valor de cada operacion es generado con slugify siguiendo esta estructura
-
-        Examples:
-            >>> slugify("get /payment/getStatus", separator="_")
-            'get_payment_getstatus'
-        """
-        for path in self.flow_yaml_spec["paths"]:
-            for verb in self.flow_yaml_spec["paths"][path]:
-                slug = None
-                """
-                Si Flow decide agregar los operationId, entonces nos los saltamos
-                """
-                if "operationId" not in self.flow_yaml_spec["paths"][path][verb]:
-                    slug = slugify(f"{verb} {path}", separator="_")
-                    self.flow_yaml_spec["paths"][path][verb]["operationId"] = slug
-
 
 @lru_cache()
 def load_yaml_file(yaml_file: str = None) -> Any:
@@ -272,3 +248,14 @@ def load_yaml_file(yaml_file: str = None) -> Any:
         Se eliminan ``\\t`` ya que el archivo de flow tiene un error de formato
         """
         return yaml.safe_load(f.read().replace("\t", ""))
+
+
+with open("pyflowcl/fragments/fragment-core.yml") as f:
+    core = yaml.safe_load(f.read())
+
+
+with open("pyflowcl/fragments/fragment-sandbox-server.yml") as f:
+    server = yaml.safe_load(f.read())
+
+with open("pyflowcl/fragments/fragment-payments.yml") as f:
+    payments = yaml.safe_load(f.read())

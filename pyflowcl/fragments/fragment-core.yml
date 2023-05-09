@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  description: "API Flow Chile"
+  version: "3.0.1"
+  title: Flow API
+  termsOfService: "https://www.flow.cl/terminos.php"
+  contact:
+    email: soporte@flow.cl
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  x-logo:
+    url: 'https://www.flow.cl/images/header/logo-flow.svg'
+
+components:
+  schemas:
+    List:
+      type: object
+      properties:
+        total:
+          type: number
+          description: El número total de registros encontrados
+          example: 200
+        hasMore:
+          type: boolean
+          description: |
+            - 1 Si existen más páginas
+            - 0 Si es la última página
+          example: 1
+        data:
+          type: array
+          items:
+            type: object
+          description: arreglo de registros de la página
+          example: '[{item list 1}{item list 2}{item list n..}'
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+          description: Código de error
+          example: 401
+        message:
+          type: string
+          description: Mensaje de error
+          example: 'Bad Request'
