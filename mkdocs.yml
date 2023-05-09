@@ -1,5 +1,5 @@
 site_name: pyFlowCl - API de conexión para Flow Chile
-site_url: https://mariofix.github.io/pyflowcl
+site_url: https://www.flow.cl/docs/api.html
 repo_url: https://github.com/mariofix/pyflowcl
 repo_name: mariofix/pyflowcl
 site_description: Documentacion para pyFlowCl
@@ -27,7 +27,7 @@ nav:
   - FlowAPI: flowapi.md
   - Utils: utils.md
   - ApiClient: apiclient.md
-  - apiFlow.yaml.md
+  - apiFlow.yaml.md # Agregar Swagger
 
 markdown_extensions:
 
@@ -49,8 +49,8 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      # emoji_index: !!python/name:materialx.emoji.twemoji
+      # emoji_generator: !!python/name:materialx.emoji.to_svg
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.keys

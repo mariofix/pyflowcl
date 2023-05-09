@@ -8,9 +8,10 @@ Este modulo contiene
 - `genera_parametros()` - Funcion para generar parametros a enviar
 
 """
-from .exceptions import ParamsException
 import hashlib
 import hmac
+
+from .exceptions import ParamsException
 
 
 def genera_firma(params: dict = None, flow_secret: str = None) -> str:

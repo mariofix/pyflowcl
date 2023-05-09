@@ -1,8 +1,9 @@
+import logging
 from dataclasses import asdict
 from typing import Any, Dict, Union, cast
+
 from .Clients import ApiClient
-from .models import RefundRequest, RefundStatus, GenericError
-import logging
+from .models import GenericError, RefundRequest, RefundStatus
 
 
 def create(apiclient: ApiClient, refund_data: Dict[str, Any]) -> RefundStatus:

@@ -1,6 +1,6 @@
-# pyflowcl/flowapi_spec.py
+# pyflowcl/openapi3.py
 """
-Entrega funciones de procesamiento de la API de Flow Chile para procesamiento de pagos.
+Entrega funciones de procesamiento de la API de Flow Chile.
 
 Este modulo contiene
 
@@ -20,27 +20,32 @@ api.objetos.call_get_payment_getstatus(
 ```
 
 __Para ver una lista de operaciones disponibles__:
-```python
-from pyflowcl import FlowAPI
-
-api = FlowAPI(flow_key="api_key", flow_secret="api_secret")
-api.listar_operaciones()
+```bash
+poetry run pyflow operaciones
+```
+o
+```bash
+(venv) pyflow operaciones
 ```
 
 
 
 """
-from typing import Any, Optional
-from dataclasses import dataclass, field
-from openapi3 import OpenAPI
-import yaml
 import os
-from .exceptions import ConfigException
+from dataclasses import dataclass, field
 from functools import lru_cache
-import fsutil
-import logging
-from slugify import slugify
 from pathlib import Path
+from typing import Any, Optional
+
+import fsutil
+import yaml
+from openapi3 import OpenAPI
+from slugify import slugify
+
+from .exceptions import ConfigException
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -67,10 +72,7 @@ class FlowAPI(object):
     _fix_openapi: bool = field(repr=False, default=None)
 
     def __post_init__(self):
-        """Procesos post inicio
-
-        Define las variables dentro del objeto, ejecuta inicializacion de configuraciones
-        """
+        """Variables de inicio"""
 
         if not self.flow_key:
             self.flow_key = os.getenv("PYFLOWCL_KEY", None)

@@ -16,14 +16,14 @@ FLOW_TOKEN = "your_payment_token"
 api = ApiClient(API_URL, API_KEY, API_SECRET)
 ```
 """
-from dataclasses import dataclass
-from typing import Any, Dict
-
-import requests
 import hashlib
 import hmac
 import logging
 import warnings
+from dataclasses import dataclass
+from typing import Any, Dict
+
+import requests
 
 
 @dataclass

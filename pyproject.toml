@@ -14,7 +14,7 @@ keywords = [
     "plataforma de pagos",
     "pagos",
     "pagar",
-    "cobrar",    
+    "cobrar",
     "ecommerce",
     "tarjetas",
     "credito",
@@ -49,6 +49,7 @@ requests = "*"
 openapi3 = "*"
 python-fsutil = "*"
 python-slugify = "*"
+pre-commit = "^3.3.1"
 
 
 [tool.poetry.group.dev]
@@ -62,6 +63,8 @@ mkdocs = {extras = ["i18n"], version = "*"}
 mkdocs-material = "*"
 mkdocstrings = {extras = ["python"], version = "*"}
 mkdocs-git-authors-plugin = "*"
+flake8 = "*"
+isort = "*"
 
 [tool.pytest.ini_options]
 minversion = "6.0"

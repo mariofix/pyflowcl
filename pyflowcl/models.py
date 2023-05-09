@@ -4,7 +4,7 @@ pyflowcl.models
 Modelos de distintos objetos del paquete
 """
 from dataclasses import dataclass
-from typing import Any, Dict, Optional, List, cast
+from typing import Any, Dict, List, Optional, cast
 
 
 class GenericError(BaseException):
