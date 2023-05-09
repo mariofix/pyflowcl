@@ -1,15 +1,10 @@
+import logging
 from dataclasses import asdict
 from typing import Any, Dict, Union, cast
+
 from .Clients import ApiClient
-from .models import (
-    GenericError,
-    PaymentStatus,
-    PaymentRequest,
-    PaymentResponse,
-    PaymentRequestEmail,
-    PaymentList,
-)
-import logging
+from .models import (GenericError, PaymentList, PaymentRequest,
+                     PaymentRequestEmail, PaymentResponse, PaymentStatus)
 
 
 def getStatus(
