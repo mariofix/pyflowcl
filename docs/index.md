@@ -1,12 +1,12 @@
 # pyFlowCL
 
-Cliente API para operaciones con el servicio de pagos Flow.cl  [FlowAPI-3.0.1](https://www.flow.cl/docs/api.html)  
-Frunciona como wrapper sobre cliente [OpenAPI3](https://github.com/Dorthu/openapi3)  
+Cliente API para operaciones con el servicio de pagos Flow.cl  [FlowAPI-3.0.1](https://www.flow.cl/docs/api.html)
+Frunciona como wrapper sobre cliente [OpenAPI3](https://github.com/Dorthu/openapi3)
 
 
 ## Instalación
-Este proyecto está desarrollado para Python 3.7 y superior.  
-Este proyecto es administrado por Poetry.  
+Este proyecto está desarrollado para Python 3.7 y superior.
+Este proyecto es administrado por Poetry.
 
 ### con Poetry
 ```bash

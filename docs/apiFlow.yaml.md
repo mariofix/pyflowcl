@@ -12,7 +12,7 @@ info:
 
     Bienvenido a la documentacion de referencia del **API REST** de Flow!
     [REST](http://en.wikipedia.org/wiki/REST_API) es un protocolo de servicio web que se presta para un desarrollo rápido mediante el uso de la tecnología HTTP y JSON.
-    
+
     La API REST de Flow proporciona un amplio conjunto de operaciones y recursos para:
 
     - Payments (Pagos)
@@ -22,31 +22,31 @@ info:
     - Refunds (Reembolsos)
 
     - Subscriptions (Suscripciones, cobros recurrentes)
-    
+
     - Coupons (Cupones de descuento para subscripciones)
-    
+
     - Settlement (Liquidaciones de pagos, reembolsos y comisiones,)
-    
+
     - Merchants (Gestión de comercios asociados)
-    
+
     ## Versionamiento
     La API se encuentra en constante crecimiento, añadiendo nuevos servicios y/o mejorando funcionalidades existentes para que nuestros clientes puedan sacar el mayor provecho posible a sus integraciones. Por lo mismo, cada vez que se hacen cambios en la API se considera que son <b>compatibles con la versiones anteriores</B>.
-    
+
     Ahora bien, FLOW considera los siguientes cambios como compatibles con versiones anteriores:
-    
+
     - Añadir nuevos servicios
     - Añadir nuevos parámetros opcionales a servicios existentes
     - Añadir nuevas propiedades a respuestas de servicios existentes
     - Modificar el orden de las propiedades en respuestas existentes
-    
+
     Debido a lo anterior es que instamos a nuestros clientes a que consideren estos aspectos en sus integraciones, para evitar inconvenientes con nuevas versiones.
-    
+
     Para más información en relación a los cambios pueden revisar el <a href='api_changelog.txt' download target='_blank'>API changelog</a> y suscribirse a nuestra <a href='https://groups.google.com/d/forum/api-list-flow-cl' download target='_blank'>lista de correos</a> para enterarse de anuncios de la API.
-    
+
     ## Acceso al API
 
     SI tienes una cuenta en Flow, puedes acceder al API REST mediante los siguientes endpoints:
-    
+
     <table>
       <thead>
         <tr>
@@ -65,11 +65,11 @@ info:
         </tr>
       </tbody>
     </table>
-    
+
     El endpoint de Producción proporciona acceso directo para generar transacciones reales. El endpoint Sandbox permite probar su integración sin afectar los datos reales.
-    
+
     ## Autenticación y Seguridad
-    
+
     El API soporta como método de autenticación el **APIKey** y como seguridad, los datos que usted envíe siempre deberían estar firmado con su **SecretKey**. De esta forma, Flow verifica que los datos enviados le pertenecen y que no fueron adulterados durante la transmisión de red.
     Además, los datos viajan encriptados con un canal seguro mediante **SSL.**
 
@@ -98,32 +98,32 @@ info:
     Primero se deben ordenar los parámetros de forma alfabética ascendente en base al nombre del parámetro.
 
     Una vez ordenados, se deben concatenar en un string los parámetros de la siguiente forma:
-    
+
     Nombre_del_parametro  **valor**  nombre_del_parametro  **valor**.
-    
+
     **Ejemplo:**
-   
+
     Si sus parámetros son:
     - "apiKey" = "XXXX-XXXX-XXXX"
     - "currency" = "CLP"
     - "amount" = 5000
-    
+
     El string ordenado para firmar deberia ser:
-    
+
     **"amount5000apiKeyXXXX-XXXX-XXXXcurrencyCLP"**
-    
-    
-    
+
+
+
     El string concatenado se debe firmar con la función **hmac** utilizando el algoritmo **sha256** y su **secretKey** como llave.
-    
-    
+
+
     ### Ejemplo PHP
     Ordenando los parámetros:
     ```php
-    $params = array( 
+    $params = array(
       "apiKey" => "1F90971E-8276-4715-97FF-2BLG5030EE3B,
       "token" = "AJ089FF5467367"
-    ); 
+    );
     $keys = array_keys($params);
     sort($keys);
     ```
@@ -139,12 +139,12 @@ info:
     $signature = hash_hmac('sha256', $toSign , $secretKey);
     ```
     ### Ejemplos de firmado:
-    
+
     **PHP:**
     ```php
     $sign = hash_hmac('sha256', $string_to_sign, $secretKey);
     ```
-    
+
     **Java:**
     ```java
     String sign = hmacSHA256(secretKey, string_to_sign);
@@ -159,7 +159,7 @@ info:
     ```javascript
     var sign = CryptoJS.HmacSHA256(stringToSign, secretKey);
     ```
-    
+
     ## Consumiendo servicios método GET
     Una vez obtenida la firma de los parámetros, agregue al resto de los parámetros el parámetro **s** con el valor del hash obtenido en el proceso de firma.
     ### Ejemplo PHP:
@@ -179,7 +179,7 @@ info:
         if($response === false) {
           $error = curl_error($ch);
           throw new Exception($error, 1);
-        } 
+        }
         $info = curl_getinfo($ch);
         if(!in_array($info['http_code'], array('200', '400', '401')) {
           throw new Exception('Unexpected error occurred. HTTP_CODE: '.$info['http_code'] , $info['http_code']);
@@ -192,7 +192,7 @@ info:
 
     ## Consumiendo servicios método POST
     Una vez obtenida la firma de los parámetros, agregue al resto de los parámetros el parámetro **s** con el valor del hash obtenido en el proceso de firma.
-    
+
     ### Ejemplo PHP:
     ```php
     $url = 'https://www.flow.cl/api';
@@ -210,7 +210,7 @@ info:
       if($response === false) {
         $error = curl_error($ch);
         throw new Exception($error, 1);
-      } 
+      }
       $info = curl_getinfo($ch);
       if(!in_array($info['http_code'], array('200', '400', '401')) {
         throw new Exception('Unexpected error occurred. HTTP_CODE: '.$info['http_code'] , $info['http_code']);
@@ -225,7 +225,7 @@ info:
     Para todas las transaciones asíncronas **Flow** envía a su comercio notificaciones a sus páginas de callback, por medio de request via **POST**, content-type: **application/x-www-form-urlencoded**, enviando como parámetro un **token**, con este token el comercio debe invocar el servicio correspondiente que responde con los datos. Por ejemplo:
     Para crear un pago, en el servicio **payment/create** el comercio envía como uno de los parámetros **urlConfirmation**, que corresponde a la url donde **Flow** notificará el estado del pago. En esta página, el comercio recibirá el **token** y deberá invocar el servicio **payment/getStatus** para obtener el resultado del pago.
     ### Transacciones asíncronas:
-    
+
     <table>
       <thead>
         <tr>
@@ -274,7 +274,7 @@ info:
 
     ## Códigos de error de intentos de pago
     Al utilizar los servicios extendidos **payment/getStatusExtended** y **payment/getStatusByFlowOrderExtended** se puede obtener la información de error en el último intento de pago. Los códigos existentes son:
-    
+
     <table>
       <thead>
         <tr>
@@ -333,10 +333,10 @@ info:
         </tr>
       </tbody>
     </table>
-    
+
     ## Paginación
     Todos los servicios cuyo resultado son listas **Flow** entrega los resultados paginados. La cantidad de registros por página y la navegación por las distintas páginas se controlan con los siguientes parámetros:
-    
+
     <table>
       <thead>
         <tr>
@@ -355,7 +355,7 @@ info:
         </tr>
       </tbody>
     </table>
-    
+
     Todos los servicios de paginación retornan un objeto JSON con los siguientes datos:
     ```
     {
@@ -364,9 +364,9 @@ info:
       "data": [{}] arreglo con los registros
     }
     ```
-    
+
     Para recorrer las páginas, si como resultado **hasMore** es 1, entonces suma el valor del parámetro **limit** al parámetro **start** y vuelve a invocar el servicio hasta que **hasMore** retorne 0
-    
+
     ## Clientes API
     Disponemos de los siguientes clientes API Rest que facilitan la integración con Flow:
     <table>
@@ -383,20 +383,20 @@ info:
         </tr>
       </tbody>
     </table>
-    
+
     ## Postman
     Disponemos de Collections de Postman para probar el consumo de los distintos servicios del API. Estas colecciones están agrupadas por funcionalidades y vienen con el algoritmo de firmado pre-programado.
-    
+
     **¿Que es Postman?** Postman es una herramienta que permite crear peticiones sobre APIs de una forma muy sencilla y poder, de esta manera, probar las APIs
-    
+
     Puede descargar Postman aquí: <a href='https://www.getpostman.com/downloads/' target='_blank'>Postman download</a>
-    
+
     Para utilizarlos, deberá crear **Environment** con las siguientes variables de ambiente:
     - apiKey: apiKey obtenida de su cuenta Flow
     - secretKey: secretKey obtenida de su cuenta Flow
     - Hosting: **sandbox.flow.cl** para ambiente sandbox o **www.flow.cl** para ambiente productivo.
-    
-    
+
+
     Puede descargar los archivos Collections para Postman aquí:
     <table>
       <thead>
@@ -444,14 +444,14 @@ info:
         </tr>
       </tbody>
     </table>
-    
+
     ## Realizar pruebas en nuestro ambiente Sandbox
     Puede realizar pruebas en nuestro ambiente Sandbox para los distintos medios de pagos.
-    
+
     Para realizar pruebas de pago con Webpay o registrar una tarjeta de crédito para cargo automático utilice los siguientes datos:
-    
+
     ### Tarjeta de crédito
-    
+
     <table>
       <thead>
         <tr>
@@ -478,9 +478,9 @@ info:
         </tr>
       </tbody>
     </table>
-    
+
     ### En la simulación del banco usar:
-    
+
     <table>
       <thead>
         <tr>
@@ -499,15 +499,15 @@ info:
         </tr>
       </tbody>
     </table>
-    
+
     ### Para los medios de pago:
     - Servipag
     - Multicaja
     - Mach
     - Cryptocompra
-    
+
     Se presentan simuladores de pago, donde sólo debe hacer clic en el botón aceptar.
-    
+
   version: "3.0.1"
   title: Flow API
   termsOfService: "https://www.flow.cl/terminos.php"
@@ -537,13 +537,13 @@ tags:
   - name: settlement
     description: 'Permite obtener las liquidaciones de pagos efectuadas por Flow'
   - name: merchant
-    description: 'Permite gestionar los comercios asociados'   
+    description: 'Permite gestionar los comercios asociados'
 paths:
   /payment/getStatus:
     get:
       tags:
         - payment
-      summary: Obtiene el estado de una orden de pago. 
+      summary: Obtiene el estado de una orden de pago.
       description: 'Este método se utiliza para obtener el estado de un pago. Se debe utilizar en la página callback del comercio para recibir notificaciones de pagos. Cada vez que el pagador efectúe un pago, **Flow** enviará vía POST una llamada a la página del comercio, pasando como parámetro un **token** que deberá utilizarse en este servicio.'
       parameters:
         - in: query
@@ -583,7 +583,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   /payment/getStatusByCommerceId:
     get:
       tags:
@@ -628,7 +628,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
   /payment/getStatusByFlowOrder:
     get:
       tags:
@@ -674,7 +674,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   /payment/getPayments:
     get:
       tags:
@@ -735,7 +735,7 @@ paths:
     get:
       tags:
         - payment
-      summary: Obtiene el estado extendido de una orden de pago. 
+      summary: Obtiene el estado extendido de una orden de pago.
       description: 'Este método se utiliza para obtener el estado de un pago. A diferencia del /payment/getStatus este servicio retorna el tipo de pago, los 4 últimos dígitos de la tarjeta (si el pago se hizo con tarjeta) y la información del último intento de pago. Se debe utilizar en la página callback del comercio para recibir notificaciones de pagos. Cada vez que el pagador efectúe un pago, **Flow** enviará vía POST una llamada a la página del comercio, pasando como parámetro un **token** que deberá utilizarse en este servicio.'
       parameters:
         - in: query
@@ -825,7 +825,7 @@ paths:
     post:
       tags:
         - payment
-      summary: Genera una orden de pago 
+      summary: Genera una orden de pago
       description: "Este método permite crear una orden de pago a **Flow** y recibe como respuesta la **URL** para redirigir el browser del pagador y el **token** que identifica la transacción. La url de redirección se debe formar concatenando los valores recibidos en la respuesta de la siguiente forma:\n\n **url** + \"?token=\" +**token**\n\n
       Una vez que el pagador efectúe el pago, **Flow** notificará el resultado a la página del comercio que se envió en el parámetro **urlConfirmation**."
       responses:
@@ -873,7 +873,7 @@ paths:
                   type: string
                   format: email
                 paymentMethod:
-                  description: | 
+                  description: |
                     Identificador del medio de pago. Si se envía el identificador, el pagador será redireccionado directamente al medio de pago que se indique, de lo contrario Flow le presentará una página para seleccionarlo. El medio de pago debe haber sido previamente contratado. Podrá ver los identificadores de sus medios de pago en la sección "Mis Datos" ingresando a Flow con sus credenciales. Para indicar todos los medios de pago utilice el identificador:
                     - 9 Todos los medios
                   type: integer
@@ -886,14 +886,14 @@ paths:
                   type: string
                   format: uri
                 optional:
-                  description: | 
+                  description: |
                     Datos opcionales en formato JSON clave = valor, ejemplo:
                       {"rut":"9999999-9","nombre":"cliente 1"}
                   type: string
                 timeout:
                   description: tiempo en segundos para que una orden expire después de haber sido creada. Si no se envía este parámetro la orden no expirará y estará vigente para pago por tiempo indefinido. Si envía un valor en segundos, la orden expirará x segundos después de haber sido creada y no podrá pagarse.
                   type: integer
-                merchantId: 
+                merchantId:
                   description: Id de comercio asociado. Solo aplica si usted es comercio integrador.
                   type: string
                 payment_currency:
@@ -927,9 +927,9 @@ paths:
               responses:
                 '200':
                   description: Your server returns this code if it accepts the callback
-                        
-                
-  
+
+
+
   /payment/createEmail:
     post:
       tags:
@@ -995,16 +995,16 @@ paths:
                   description: Número de veces de envío de mail de persistencia.
                   type: number
                 optional:
-                  description: | 
+                  description: |
                     Datos opcionales en formato JSON clave = valor, ejemplo:
                       {"rut":"9999999-9","nombre":"cliente 1"}
                   type: string
                 timeout:
                   description: tiempo en segundos para que una orden expire después de haber sido creada. Si no se envía este parámetro la orden no expirará y estará vigente para pago por tiempo indefinido. Si envía un valor en segundos, la orden expirará x segundos después de haber sido creada y no podrá pagarse.
                   type: integer
-                merchantId: 
+                merchantId:
                   description: Id de comercio asociado. Solo aplica si usted es comercio integrador.
-                  type: string      
+                  type: string
                 payment_currency:
                   description: Moneda en que se espera se pague la orden
                   type: string
@@ -1019,8 +1019,8 @@ paths:
                 - email
                 - urlConfirmation
                 - urlReturn
-                - s   
-                
+                - s
+
   /refund/create:
     post:
       tags:
@@ -1084,7 +1084,7 @@ paths:
                 - amount
                 - urlCallBack
                 - s
-                
+
   /refund/cancel:
     post:
       tags:
@@ -1129,13 +1129,13 @@ paths:
                 - apiKey
                 - token
                 - s
-                
+
   /refund/getStatus:
     get:
       tags:
         - refund
       summary: "Obtiene el estado de un reemboso."
-      description: "Permite obtener el estado de un reembolso solicitado. Este servicio se debe invocar desde la página del comercio que se señaló en el parámetro **urlCallback** del servicio **refund/create**."  
+      description: "Permite obtener el estado de un reembolso solicitado. Este servicio se debe invocar desde la página del comercio que se señaló en el parámetro **urlCallback** del servicio **refund/create**."
       parameters:
         - in: query
           name: apiKey
@@ -1174,7 +1174,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-          
+
   #<--- Customer
   /customer/create:
     post:
@@ -1217,7 +1217,7 @@ paths:
                   description: Email del cliente
                   type: string
                 externalId:
-                  description: Identificador externo del cliente, es decir, el identificador con el que su sistema lo reconoce. 
+                  description: Identificador externo del cliente, es decir, el identificador con el que su sistema lo reconoce.
                   type: string
                 s:
                   description: la firma de los parámetros efectuada con su secretKey
@@ -1282,7 +1282,7 @@ paths:
                 - apiKey
                 - customerId
                 - s
-                
+
   /customer/delete:
     post:
       tags:
@@ -1378,7 +1378,7 @@ paths:
       summary: "Lista de clientes"
       description: "Permite obtener la lista de clientes paginada de acuerdo a los parámetros de paginación. Además, se puede definir los siguientes filtros:\n\n
       * filter: filtro por nombre del cliente\n
-      * status: filtro por estado del cliente" 
+      * status: filtro por estado del cliente"
       parameters:
         - in: query
           name: apiKey
@@ -1444,7 +1444,7 @@ paths:
         Envía a un cliente a registrar su tarjeta de crédito para poder efectuarle cargos automáticos.
         El servicio responde con la **URL** para redirigir el browser del pagador y el **token** que identifica la transacción. La **url** de redirección se debe formar concatenando los valores recibidos en la respuesta de la siguiente forma:
           > **url** + "?token=" +**token**
-          
+
         Una vez redirigido el browser del cliente, Flow responderá por medio de una llamada POST a la url callback del comercio indicada en el parámetro **url_return** pasando como parámetro **token**. El comercio debe implementar una página y capturar el parámetro token enviado por Flow para luego consumir el servicio "customer/getRegisterStatus" para obtener el resultado del registro.
       responses:
         '200':
@@ -1539,7 +1539,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
   /customer/unRegister:
     post:
       tags:
@@ -1584,7 +1584,7 @@ paths:
                 - apiKey
                 - customerId
                 - s
-                
+
   /customer/charge:
     post:
       tags:
@@ -1635,7 +1635,7 @@ paths:
                   description: Moneda del cargo (CLP, UF)
                   type: string
                 optionals:
-                  description: | 
+                  description: |
                     Datos opcionales en formato JSON clave = valor, ejemplo:
                       {"rut":"9999999-9","nombre":"cliente 1"}
                   type: string
@@ -1649,12 +1649,12 @@ paths:
                 - subject
                 - commerceOrder
                 - s
-                
+
   /customer/collect:
     post:
       tags:
         - customer
-      summary: "Envía un cobro a un cliente." 
+      summary: "Envía un cobro a un cliente."
       description: "Este servicio envía un cobro a un cliente. Si el cliente tiene registrada una tarjeta de crédito se le hace un cargo automático, si no tiene registrada una tarjeta de credito se genera un cobro. Si se envía el parámetro byEmail = 1, se genera un cobro por email."
       responses:
         '200':
@@ -1708,7 +1708,7 @@ paths:
                   description: Moneda del cargo (CLP, UF)
                   type: string
                 paymentMethod:
-                  description: | 
+                  description: |
                     Identificador del medio de pago. Si se envía el identificador, el pagador será redireccionado directamente al medio de pago que se indique, de lo contrario Flow le presentará una página para seleccionarlo. El medio de pago debe haber sido previamente contratado. Podrá ver los identificadores de sus medios de pago en la sección "Mis Datos" ingresando a Flow con sus credenciales. Para indicar todos los medios de pago utilice el identificador:
                     - 9 Todos los medios
                   type: integer
@@ -1722,10 +1722,10 @@ paths:
                   description: Número de veces de envío de mail de persistencia.
                   type: integer
                 ignore_auto_charging:
-                  description: Si se envía este parámetro con valor 1 entonces ignora el método de cargo automático aunque el cliente tenga registrada una tarjeta de crédito 
+                  description: Si se envía este parámetro con valor 1 entonces ignora el método de cargo automático aunque el cliente tenga registrada una tarjeta de crédito
                   type: integer
                 optionals:
-                  description: | 
+                  description: |
                     Datos opcionales en formato JSON clave = valor, ejemplo:
                       {"rut":"9999999-9","nombre":"cliente 1"}
                   type: string
@@ -1744,12 +1744,12 @@ paths:
                 - urlConfirmation
                 - urlReturn
                 - s
-                
+
   /customer/batchCollect:
     post:
       tags:
         - customer
-      summary: "Envía de forma masiva un lote de cobros a  clientes." 
+      summary: "Envía de forma masiva un lote de cobros a  clientes."
       description: Este servicio envía de forma masiva un lote de cobros a clientes. Similar al servicio collect pero masivo y asíncrono. Este servicio responde con un token identificador del lote y el número de filas recibidas.
       responses:
         '200':
@@ -1865,7 +1865,7 @@ paths:
               responses:
                 '200':
                   description: Your server returns this code if it accepts the callback
-  
+
   /customer/getBatchCollectStatus:
     get:
       tags:
@@ -1910,13 +1910,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   /customer/reverseCharge:
     post:
       tags:
         - customer
       summary: "Reversa un cargo efectuado en la tarjeta de crédito de un cliente"
-      description: | 
+      description: |
         Este servicio permite reversar un cargo previamente efectuado a un cliente. Para que el cargo se reverse, este servicio debe ser invocado dentro de las 24 horas siguientes a efectuado el cargo, las 24 horas rigen desde las 14:00 hrs, es decir, si el cargo se efectuó a las 16:00 hrs, este puede reversarse hasta las 14:00 hrs del día siguiente.\n\n
           Puede enviar como parámetros el **commerceOrder** o el **flowOrder**.
       responses:
@@ -2034,7 +2034,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
   /customer/getChargeAttemps:
     get:
       tags:
@@ -2110,7 +2110,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
   /customer/getSubscriptions:
     get:
       tags:
@@ -2173,7 +2173,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-       
+
   /plans/create:
     post:
       tags:
@@ -2209,7 +2209,7 @@ paths:
                   description: apiKey del comercio
                   type: string
                 planId:
-                  description: | 
+                  description: |
                     Identificador del Plan. Un texto identificador del Plan, sin espacios, ejemplo: PlanMensual
                   type: string
                 name:
@@ -2222,7 +2222,7 @@ paths:
                   description: Monto del Plan
                   type: number
                 interval:
-                  description: | 
+                  description: |
                     Especifica la frecuencia de cobros (generación de importe)
                       - 1 diario
                       - 2 semanal
@@ -2230,7 +2230,7 @@ paths:
                       - 4 anual
                   type: number
                 interval_count:
-                  description: | 
+                  description: |
                     Número de intervalos de frecuencia de cobros, por ejemplo:
                       - interval = 2 y interval_count = 2 la frecuancia será quincenal. El valor por omisión es 1.
                   type: number
@@ -2264,7 +2264,7 @@ paths:
                 - amount
                 - interval
                 - s
-        
+
   /plans/get:
     get:
       tags:
@@ -2356,7 +2356,7 @@ paths:
                   description: Monto del Plan
                   type: number
                 interval:
-                  description: | 
+                  description: |
                     Especifica la frecuencia de cobros (generación de importe)
                       - 1 diario
                       - 2 semanal
@@ -2364,7 +2364,7 @@ paths:
                       - 4 anual
                   type: number
                 interval_count:
-                  description: | 
+                  description: |
                     Número de intervalos de frecuencia de cobros, por ejemplo:
                       - interval = 2 y interval_count = 2 la frecuancia será quincenal. El valor por omisión es 1.
                   type: number
@@ -2394,7 +2394,7 @@ paths:
               required:
                 - apiKey
                 - planId
-  
+
   /plans/delete:
     post:
       tags:
@@ -2438,7 +2438,7 @@ paths:
               required:
                 - apiKey
                 - planId
-  
+
   /plans/list:
     get:
       tags:
@@ -2503,7 +2503,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   /subscription/create:
     post:
       tags:
@@ -2588,7 +2588,7 @@ paths:
                 - planId
                 - customerId
                 - s
-  
+
   /subscription/get:
     get:
       tags:
@@ -2633,7 +2633,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   /subscription/list:
     get:
       tags:
@@ -2704,14 +2704,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-          
+
   /subscription/changeTrial:
     post:
       tags:
         - subscription
       summary: Modifica los días de Trial de una suscripción
-      description: | 
-        Este servicio permite modificar los días de Trial de una suscripción. 
+      description: |
+        Este servicio permite modificar los días de Trial de una suscripción.
         Sólo se puede modificar los días de Trial a una suscripción que aún no se ha iniciado o que todavía está vigente el Trial.
       responses:
         '200':
@@ -2755,17 +2755,17 @@ paths:
                 - subscriptionId
                 - trial_period_days
                 - s
-  
+
   /subscription/cancel:
     post:
       tags:
         - subscription
       summary: "Cancela una suscripción"
-      description: | 
+      description: |
         Este servicio permite cancelar una suscripción. Existen formas de cancelar una suscripción:
         - inmediatamente. Es decir, en este instante
         - al terminar el perído vigente.
-      
+
         Si desea cancelar la suscripción inmediatamente, envíe el parámetro **at_period_end** con valor 0, si desea cancelarla al final del período vigente envíe el valor 1.
       responses:
         '200':
@@ -2808,7 +2808,7 @@ paths:
                 - apiKey
                 - subscriptionId
                 - s
-  
+
   /subscription/addCoupon:
     post:
       tags:
@@ -2844,7 +2844,7 @@ paths:
                   description: apiKey del comercio
                   type: string
                 subscriptionId:
-                  description: Identificador de la suscripción 
+                  description: Identificador de la suscripción
                   type: string
                 couponId:
                   description: Identificador del cupón de descuento.
@@ -2857,7 +2857,7 @@ paths:
                 - subscriptionId
                 - couponId
                 - s
-                
+
   /subscription/deleteCoupon:
     post:
       tags:
@@ -2902,7 +2902,7 @@ paths:
                 - apiKey
                 - subscriptionId
                 - s
-                
+
   /coupon/create:
     post:
       tags:
@@ -2938,25 +2938,25 @@ paths:
                   description: apiKey del comercio
                   type: string
                 name:
-                  description: Nombre del cupón 
+                  description: Nombre del cupón
                   type: string
                 percent_off:
                   description: Porcentaje del cupon. Número entre 0 y 100. Permite 2 decimales con punto decimal. Ejemplo 10.2. No se agrega el signo %
                   type: number
                 currency:
-                  description: Moneda del descuento. Solo agregue la moneda para cupones de monto. 
+                  description: Moneda del descuento. Solo agregue la moneda para cupones de monto.
                   type: string
                 amount:
                   description: Monto del descuento
                   type: number
                 duration:
-                  description: | 
+                  description: |
                     Duración del cupón:
                     - 1 definida
                     - 0 indefinida
                   type: number
                 times:
-                  description: | 
+                  description: |
                     Si la duración del cupón es definida, este campo indica las veces de duración del cupón. Si el cupón se aplica a un cliente veces corresponderá a meses. Si l cupón se aplica a una suscripción, veces corresponderá a los períodos del Plan.
                   type: number
                 max_redemptions:
@@ -2972,7 +2972,7 @@ paths:
                 - apiKey
                 - name
                 - s
-                  
+
   /coupon/edit:
     post:
       tags:
@@ -3021,7 +3021,7 @@ paths:
                 - couponId
                 - name
                 - s
-                
+
   /coupon/delete:
     post:
       tags:
@@ -3066,7 +3066,7 @@ paths:
                 - apiKey
                 - couponId
                 - s
-                
+
   /coupon/get:
     get:
       tags:
@@ -3111,7 +3111,7 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Error'
-  
+
   /coupon/list:
     get:
       tags:
@@ -3145,7 +3145,7 @@ paths:
             type: string
         - in: query
           name: status
-          description: | 
+          description: |
             Filtro por el estado del cupón:
             - 1 Activo
             - 0 Inactivo
@@ -3176,8 +3176,8 @@ paths:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/Error'     
-                
+                  $ref: '#/components/schemas/Error'
+
   /invoice/get:
     get:
       tags:
@@ -3222,7 +3222,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-          
+
   /invoice/cancel:
     post:
       tags:
@@ -3267,7 +3267,7 @@ paths:
                 - apiKey
                 - invoiceId
                 - s
-                
+
   /invoice/outsidePayment:
       post:
         tags:
@@ -3382,7 +3382,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
   /invoice/retryToCollect:
     post:
       tags:
@@ -3475,7 +3475,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-            
+
   /settlement/getById:
     get:
       tags:
@@ -3628,7 +3628,7 @@ paths:
     post:
       tags:
         - merchant
-      summary: Crea un comercio asociado 
+      summary: Crea un comercio asociado
       description: "Este método permite crear un nuevo comercio asociado en **Flow**"
       responses:
         '200':
@@ -3680,7 +3680,7 @@ paths:
     post:
       tags:
         - merchant
-      summary: Edita un comercio asociado 
+      summary: Edita un comercio asociado
       description: "Este método permite modificar un comercio asociado previamente creado en **Flow**"
       responses:
         '200':
@@ -3732,7 +3732,7 @@ paths:
     post:
       tags:
         - merchant
-      summary: Elimina un comercio asociado 
+      summary: Elimina un comercio asociado
       description: "Este método permite eliminar un comercio asociado previamente creado en **Flow**"
       responses:
         '200':
@@ -3776,7 +3776,7 @@ paths:
     get:
       tags:
         - merchant
-      summary: Obtener comercio asociado 
+      summary: Obtener comercio asociado
       description: "Este método permite obtener la información de un comercio asociado previamente creado en **Flow**"
       responses:
         '200':
@@ -3820,7 +3820,7 @@ paths:
     get:
       tags:
         - merchant
-      summary: Lista de comercios asociados 
+      summary: Lista de comercios asociados
       description: "Permite obtener la lista de comercios paginada de acuerdo a los parámetros de paginación. Además, se puede definir los siguientes filtros:\n\n
       * filter: filtro por nombre del comercio asociado\n
       * status: filtro por estado del comercio asociado"
@@ -3902,8 +3902,8 @@ components:
           example: '2017-07-21 12:32:11'
         status:
           type: integer
-          description: | 
-            El estado de la order 
+          description: |
+            El estado de la order
             - 1 pendiente de pago
             - 2 pagada
             - 3 rechazada
@@ -4030,8 +4030,8 @@ components:
           example: '2017-07-21 12:32:11'
         status:
           type: integer
-          description: | 
-            El estado de la order 
+          description: |
+            El estado de la order
             - 1 pendiente de pago
             - 2 pagada
             - 3 rechazada
@@ -4179,7 +4179,7 @@ components:
           type: number
           description: Número de order de cobro Flow
           example: 8765456
-    
+
     Customer:
       type: object
       properties:
@@ -4221,7 +4221,7 @@ components:
         status:
           type: string
           description: |
-            El estado del cliente: 
+            El estado del cliente:
             - 0 Eliminado
             - 1 Activo
           example: '1'
@@ -4239,7 +4239,7 @@ components:
           example: 200
         hasMore:
           type: boolean
-          description: | 
+          description: |
             - 1 Si existen más páginas
             - 0 Si es la última página
           example: 1
@@ -4249,7 +4249,7 @@ components:
             type: object
           description: arreglo de registros de la página
           example: '[{item list 1}{item list 2}{item list n..}'
-          
+
     RegisterResult:
       type: object
       properties:
@@ -4271,11 +4271,11 @@ components:
           type: string
           description: Últimos 4 dígitos de la tarjeta de crédito
           example: '0366'
-          
+
     RefundStatus:
       type: object
       properties:
-        token: 
+        token:
           type: string
           description: Token del reembolso
           example: C93B4FAD6D63ED9A3F25D21E5D6DD0105FA8CAAQ
@@ -4290,7 +4290,7 @@ components:
           example: '2017-07-21 12:33:15'
         status:
           type: string
-          description: | 
+          description: |
             Estado del reembolso, los estado pueden ser:
             - created Solicitud creada
             - accepted Reembolso aceptado
@@ -4306,11 +4306,11 @@ components:
           type: number
           description: Costo del servicio de reembolso
           example: '240.00'
-          
+
     CollectResponse:
       type: object
       properties:
-        type: 
+        type:
           type: number
           description: |
             Tipo de cobro:
@@ -4343,8 +4343,8 @@ components:
             - 1 Cobro emitido (collected)
         paymenResult:
           $ref: '#/components/schemas/PaymentStatus'
-          
-    
+
+
     CollectObject:
       type: object
       description: Objeto de cobro para un lote de cobros
@@ -4382,7 +4382,7 @@ components:
         - commerceOrder
         - subject
         - amount
-        
+
     BatchCollectResponse:
       type: object
       properties:
@@ -4403,8 +4403,8 @@ components:
           description: Arreglo de filas de collects rechazadas
           items:
             $ref: '#/components/schemas/BatchCollectRejectedRow'
-          
-          
+
+
     BatchCollectRejectedRow:
       type: object
       properties:
@@ -4444,7 +4444,7 @@ components:
           type: string
           description: descripción del error
           example: commerceOrder already sent
-          
+
     BatchCollectStatusResponse:
       type: object
       properties:
@@ -4474,7 +4474,7 @@ components:
           description: arreglo de resultados de los cargos (collect) generados
           items:
             $ref: '#/components/schemas/CollectStatus'
-          
+
     CollectStatus:
       type: object
       properties:
@@ -4482,7 +4482,7 @@ components:
           type: string
           description: El número de la orden del comercio
           example: 'zc23456'
-        type: 
+        type:
           type: integer
           description: |
             Tipo de cobro:
@@ -4519,7 +4519,7 @@ components:
           type: string
           description: Mensaje de error de la fila
           example: 12300 has been previously paid
-       
+
     ReverseChargeResponse:
       type: object
       properties:
@@ -4534,7 +4534,7 @@ components:
           type: string
           description: Mensaje resultado de la reversa
           example: Reverse charge was successful
-          
+
     Plan:
       type: object
       properties:
@@ -4603,7 +4603,7 @@ components:
             - 2 al importe (invoice)
         status:
           type: number
-          description: | 
+          description: |
             El estado del plan:
             - 1 activo
             - 0 eliminado
@@ -4615,7 +4615,7 @@ components:
             - 0 privado
             - 1 público
           example: 1
-             
+
     Subscription:
       type: object
       properties:
@@ -4681,7 +4681,7 @@ components:
           example: '2018-06-26 00:00:00'
         cancel_at_period_end:
           type: number
-          description: | 
+          description: |
             Si la suscripción será cancelada automáticamente al finalizar el período actual:
             - 0 No
             - 1 Si
@@ -4700,7 +4700,7 @@ components:
           example: 3
         status:
           type: number
-          description: | 
+          description: |
             Estado de la suscripción:
             - 0 Inactivo (no iniciada)
             - 1 Activa
@@ -4709,7 +4709,7 @@ components:
           example: 1
         morose:
           type: number
-          description: | 
+          description: |
             Si la subscripción está morosa:
             - 0 si todos los invoices está pagados.
             - 1 si uno o más invoices están vencidos.
@@ -4722,7 +4722,7 @@ components:
           description: Lista de los importe efectuados a la suscripción.
           items:
             $ref: '#/components/schemas/Invoice'
-            
+
     Coupon:
       properties:
         id:
@@ -4774,8 +4774,8 @@ components:
           type: number
           description: "El número de veces que se ha aplicado este cupón"
           example: 21
-          
-    
+
+
     Invoice:
       properties:
         id:
@@ -4823,7 +4823,7 @@ components:
           example: 0
         attemped:
           type: integer
-          description: | 
+          description: |
             Si este importe se cobrará:
             - 1 Se cobrará
             - 0 No se cobrará
@@ -4840,7 +4840,7 @@ components:
           example: '2018-06-30 00:00:00'
         status:
           type: integer
-          description: | 
+          description: |
             Estado del importe:
             - 0 impago
             - 1 pagado
@@ -4880,7 +4880,7 @@ components:
           description: Intentos de cargo fallidos
           items:
             $ref: '#/components/schemas/ChargeAttemps'
-            
+
     OutsidePayment:
       description: Objeto que muestra los datos de un pago por fuera
       type: object
@@ -4894,7 +4894,7 @@ components:
           type: string
           description: descripción del pago por fuera
           example: Pago por caja
-          
+
     InvoiceItem:
       type: object
       properties:
@@ -4923,7 +4923,7 @@ components:
           type: number
           description: Monto del item
           example: 20000
-          
+
     Error:
       type: object
       properties:
@@ -4935,7 +4935,7 @@ components:
           type: string
           description: Mensaje de error
           example: 'Bad Request'
-          
+
     Discount:
       type: object
       description: Descuento aplicado a una Suscripción
@@ -4946,7 +4946,7 @@ components:
           example: 181
         type:
           type: string
-          description: | 
+          description: |
             Tipo de descuento puede ser de 2 tipos
             - Subscription discount
             - Customer discount
@@ -4976,8 +4976,8 @@ components:
           example: 1
         coupon:
           $ref: '#/components/schemas/Coupon'
-          
-    
+
+
     Settlement:
       type: object
       properties:
@@ -5063,8 +5063,8 @@ components:
           description: Detalle de reembolsos facturados
           items:
             $ref: '#/components/schemas/RefundDetail'
-            
-    
+
+
     SettlementSummary:
       type: object
       description: Resumen de liquidación. Si los valores se muestran con signo negativo significa que se deducen ya sea de la transferencia bancaria o de la facturación.
@@ -5081,7 +5081,7 @@ components:
           type: number
           description: Monto del impuesto si es que aplica
           example: -190
-          
+
     TransferDetail:
       type: object
       description: Detalle de transferencia bancaria
@@ -5097,7 +5097,7 @@ components:
           example: 'Francisco Castillo'
         bank:
           type: string
-          description: Nombre del banco 
+          description: Nombre del banco
           example: 'Banco de Chile - Edwards'
         account:
           type: string
@@ -5123,14 +5123,14 @@ components:
           type: string
           description: Estado de la transferencia
           example: Transferida
-          
+
     PaymentDetail:
       type: object
       description: Detalle de pagos de una liquidación
       properties:
         id:
           type: number
-          description: Identificador Flow de la transacción 
+          description: Identificador Flow de la transacción
           example: 3879654
         date:
           type: string
@@ -5157,7 +5157,7 @@ components:
           type: number
           description: Monto de comisión aplicado
           example: 1960
-          
+
     GeneralDetail:
       type: object
       description: Detalle de Retención o Devolución
@@ -5179,7 +5179,7 @@ components:
           type: number
           description: Monto de la retención o devolución
           example: 100
-          
+
     RefundDetail:
       type: object
       description: Detalle de Reembolsos en liquidación
@@ -5265,7 +5265,7 @@ components:
                   type: array
                   description: Resumen de transferencia de fondos.
                   items:
-                    $ref: '#/components/schemas/SettlementSummary'    
+                    $ref: '#/components/schemas/SettlementSummary'
                 commission:
                   type: array
                   description: Resumen de comisiones
@@ -5427,7 +5427,7 @@ components:
           example: 83.8
         taxes:
           type: number
-          description: Impuesto 
+          description: Impuesto
           example: 15.9
         balance:
           type: number
@@ -5510,7 +5510,7 @@ components:
         balance:
           type: number
           description: Monto neto
-          example: 83.80      
+          example: 83.80
     ChargeAttemps:
       type: object
       description: Intentos fallidos de cargos automáticos
@@ -5557,7 +5557,7 @@ components:
       type: object
       description: Objeto de comercio asociado
       properties:
-        id: 
+        id:
           type: string
           description: Id de comercio asociado
           example: NEG-A
@@ -5586,9 +5586,9 @@ components:
       type: object
       description: Objeto de comercio asociado
       properties:
-        status: 
+        status:
           type: string
-          description: Estado de la operacion 
+          description: Estado de la operacion
           example: ok
         message:
           type: string
