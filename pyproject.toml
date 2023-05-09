@@ -11,12 +11,23 @@ repository = "https://github.com/mariofix/pyflowcl"
 documentation = "https://mariofix.github.io/pyflowcl/"
 homepage = "https://www.flow.cl/docs/api.html"
 keywords = [
-    "flow",
-    "chile",
+    "plataforma de pagos",
     "pagos",
-    "payment",
-    "integrator",
-    "flowcl"
+    "pagar",
+    "cobrar",    
+    "ecommerce",
+    "tarjetas",
+    "credito",
+    "debito",
+    "redcompra",
+    "webpay",
+    "tarjetas de credito",
+    "visa",
+    "mastercard",
+    "magna",
+    "american express",
+    "recaudar",
+    "transbank",
 ]
 classifiers=[
     "Development Status :: 4 - Beta",
