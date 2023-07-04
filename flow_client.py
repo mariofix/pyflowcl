@@ -1,7 +1,8 @@
+import logging
 from typing import Any, Dict
+
 from pyflowcl import Payment
 from pyflowcl.Clients import ApiClient
-import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
