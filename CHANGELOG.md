@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Futuros Cambios]
 
-## [1.1.3]- 2023-05-08
+## [1.1.4] - 2023-07-04
+
+### Cambiado
+- Version Update
+- Documentacion
+
+## [1.1.3] - 2023-05-08
 ### Cambiado
 - flowapi_spec.py -> openapi3.py (FlowAPI)
 
@@ -15,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tests (#20)
 - Documentacion (#20)
 - Acciones (#20)
--
+
 ### Eliminado
 - Python 3.7 (#20)
 

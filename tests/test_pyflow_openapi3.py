@@ -1,6 +1,6 @@
-import pytest
+import pytest  # noqa: F401
 
-from pyflowcl import FlowAPI, __version__, exceptions
+from pyflowcl import FlowAPI, __version__, exceptions  # noqa: F401
 
 
 def test_version():

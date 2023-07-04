@@ -1,4 +1,4 @@
-from pyflowcl.openapi3 import FlowAPI
+from pyflowcl import FlowAPI
 from pyflowcl.utils import genera_parametros
 
 api = FlowAPI(
@@ -7,8 +7,4 @@ api = FlowAPI(
 )
 api.init_api()
 parametros = {"apiKey": api.apiKey, "token": "TOKEN"}
-print(
-    api.objetos.call_get_payment_getstatus(
-        parameters=genera_parametros(parametros, api.secretKey)
-    )
-)
+print(api.objetos.call_get_payment_getstatus(parameters=genera_parametros(parametros, api.secretKey)))

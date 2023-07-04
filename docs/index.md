@@ -5,7 +5,7 @@ Frunciona como wrapper sobre cliente [OpenAPI3](https://github.com/Dorthu/openap
 
 
 ## Instalación
-Este proyecto está desarrollado para Python 3.7 y superior.
+Este proyecto está desarrollado para Python 3.8 y superior.
 Este proyecto es administrado por Poetry.
 
 ### con Poetry

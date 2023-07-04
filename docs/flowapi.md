@@ -1,1 +1,1 @@
-::: pyflowcl.flowapi_spec
+::: pyflowcl.FlowAPI
