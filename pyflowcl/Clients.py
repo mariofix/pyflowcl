@@ -48,7 +48,6 @@ class ApiClient:
             DeprecationWarning,
             stacklevel=2,
         )
-        pass
 
     def make_signature(self, params: Dict[str, Any]) -> str:
         """Crea el Hash de validacion para ser enviado con la informacion
@@ -64,9 +63,7 @@ class ApiClient:
             if d is not None:
                 string = string + f"{k}{d}"
         logging.debug(f"String to Hash: {string}")
-        hash_string = hmac.new(
-            self.api_secret.encode(), string.encode(), hashlib.sha256
-        ).hexdigest()
+        hash_string = hmac.new(self.api_secret.encode(), string.encode(), hashlib.sha256).hexdigest()
 
         return hash_string
 

@@ -4,7 +4,7 @@ repo_url: https://github.com/mariofix/pyflowcl
 repo_name: mariofix/pyflowcl
 site_description: Documentacion para pyFlowCl
 site_author: mariofix <yo@mariofix.com>
-copyright: "&copy;2022 - Mario Hernández"
+copyright: "&copy;2023 - Mario Hernández"
 edit_uri: ""
 
 theme:
@@ -26,8 +26,12 @@ nav:
   - index.md
   - FlowAPI: flowapi.md
   - Utils: utils.md
-  - ApiClient: apiclient.md
   - apiFlow.yaml.md # Agregar Swagger
+
+extra:
+  analytics:
+    provider: matomo
+    site_id: 3
 
 markdown_extensions:
 

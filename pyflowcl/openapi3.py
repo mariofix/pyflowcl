@@ -31,6 +31,7 @@ o
 
 
 """
+import logging
 import os
 from dataclasses import dataclass, field
 from functools import lru_cache
@@ -43,13 +44,12 @@ from openapi3 import OpenAPI
 from slugify import slugify
 
 from .exceptions import ConfigException
-import logging
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
-class FlowAPI(object):
+class FlowAPI:
     """
     Objeto principal, puede ser instanciado o heredado.
 
@@ -133,16 +133,16 @@ class FlowAPI(object):
         """
 
         if self.use_sandbox and self._yaml_file:
-            raise ConfigException(
-                "No se puede definir `use_sandbox` y `_yaml_file`"
-            )
+            raise ConfigException("No se puede definir `use_sandbox` y `_yaml_file`")
 
         if not self.api_key:
-            error_msg = 'Se necesita configurar FLOW_KEY, puedes agregarlo al constructor: api = FlowAPI(key="secret_key") o como variable de entorno: export PYFLOWCL_KEY="secret_key" '
+            error_msg = 'Se necesita configurar FLOW_KEY, puedes agregarlo al \
+            constructor: api = FlowAPI(key="secret_key") o como variable de entorno: export PYFLOWCL_KEY="secret_key" '
             raise ConfigException(error_msg)
 
         if not self.secret_key:
-            error_msg = 'Se necesita configurar FLOW_SECRET, puedes agregarlo al constructor api = FlowAPI(secret="secret") o como variable de entorno export PYFLOWCL_SECRET="secret" '
+            error_msg = 'Se necesita configurar FLOW_SECRET, puedes agregarlo al \
+            constructor api = FlowAPI(secret="secret") o como variable de entorno export PYFLOWCL_SECRET="secret" '
             raise ConfigException(error_msg)
 
         return True
@@ -179,14 +179,9 @@ class FlowAPI(object):
             for verb in self.flow_yaml_spec["paths"][path]:
                 slug = None
                 # Saltar si existe
-                if (
-                    "operationId"
-                    not in self.flow_yaml_spec["paths"][path][verb]
-                ):
+                if "operationId" not in self.flow_yaml_spec["paths"][path][verb]:
                     slug = slugify(f"{verb} {path}", separator="_")
-                    self.flow_yaml_spec["paths"][path][verb][
-                        "operationId"
-                    ] = slug
+                    self.flow_yaml_spec["paths"][path][verb]["operationId"] = slug
 
     @property
     def objetos(self) -> OpenAPI:
@@ -225,7 +220,7 @@ class FlowAPI(object):
         return self.flow_secret
 
 
-@lru_cache()
+@lru_cache
 def load_yaml_file(yaml_file: str = None) -> Any:
     """
     Lee el archivo YAML desde el disco, ``lru_cache`` activado por defecto
