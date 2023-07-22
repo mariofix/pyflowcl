@@ -27,13 +27,13 @@ theme:
       icon: material/weather-night
       name: Switch to light mode
   features:
-    - navigation.indexes
     - navigation.tracking
     - content.tabs.link
     - content.tooltips
     - content.code.annotate
     - content.code.copy
     - content.code.select
+    - toc.integrate
   icon:
     repo: fontawesome/brands/github
     logo: material/contactless-payment

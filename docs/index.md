@@ -18,18 +18,18 @@ Este proyecto es administrado por Poetry.
     ```
 
 ## Uso
-`flow_key` y `flow_secret` pueden ser configurados de dos maneras
+`api_key` y `api_secret` pueden ser configurados de dos maneras
 
 === "Constructor"
     ```python
     from pyflowcl import FlowAPI
-    flow = FlowAPI(flow_key="key", flow_secret="secret")
+    flow = FlowAPI(api_key="key", api_secret="secret")
     ```
 
 === "Variables de Entorno"
     ```shell
-    export PYFLOWCL_KEY="key"
-    export PYFLOWCL_SECRET="SECRET"
+    export PYFLOWCL_API_KEY="key"
+    export PYFLOWCL_API_SECRET="SECRET"
     python cliente_flow.py
     ```
 
