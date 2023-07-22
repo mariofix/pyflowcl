@@ -47,12 +47,14 @@ plugins:
 nav:
   - Inicio: index.md
   - Cómo Usar: uso.md
+  - CLI: cli.md
   - Referencia:
     - FlowAPI: flowapi.md
     - Utils: utils.md
     - apiFlow.yaml.md # Agregar Swagger
     - APIClient: apiclient.md
   - Uso Avanzado: uso-avanzado.md
+  - Django Payments: django-payments.md
   - Colabora: contributing.md
   - Registro de Cambios: changelog.md
 
@@ -60,13 +62,13 @@ extra:
   analytics:
     provider: matomo
     site_id: 3
-  alternate:
-  - link: /
-    name: es - Español
-    lang: es
-  # - link: /en/
-  #   name: en - English
-  #   lang: en
+#  alternate:
+#  - link:
+#    name: es - Español
+#    lang: es
+#  - link: /en/
+#    name: en - English
+#    lang: en
 
 markdown_extensions:
   toc:

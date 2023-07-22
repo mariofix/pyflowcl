@@ -1,3 +1,0 @@
-servers:
-  - url: 'https://www.flow.cl/api'
-    description: Production server (uses live data)

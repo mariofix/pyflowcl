@@ -2,8 +2,6 @@ openapi: 3.0.0
 servers:
   - url: 'https://www.flow.cl/api'
     description: Production server (uses live data)
-  - url: 'https://sandbox.flow.cl/api'
-    description: Sandbox server (uses test data)
 info:
   description: |
     Referirse a https://mariofix.github.io/pyflowcl/apiFlow.yaml/ para el archivo completo
