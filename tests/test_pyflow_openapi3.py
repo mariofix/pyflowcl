@@ -4,14 +4,15 @@ from pyflowcl import FlowAPI, __version__, exceptions  # noqa: F401
 
 
 def test_version():
-    assert __version__ == "1.1.5"
+    assert __version__ == "1.2.0"
 
 
 def test_FlowAPI_min_config():
-    api = FlowAPI(api_key="api-key", secret_key="secret-key")
+    api = FlowAPI(api_key="api-key", api_secret="secret-key")
 
     assert api.api_key == "api-key"
-    assert api.secret_key == "secret-key"
+    assert api.api_secret == "secret-key"
+    assert api.endpoint == "live"
 
 
 # def test_FlowAPI_min_config_error():
