@@ -1,4 +1,4 @@
-# pyFlowCL
+# API de Conexion para Flow.cl
 
 Cliente API para operaciones con el servicio de pagos Flow.cl  [FlowAPI-3.0.1](https://www.flow.cl/docs/api.html)
 Frunciona como wrapper sobre cliente [OpenAPI3](https://github.com/Dorthu/openapi3)
@@ -8,27 +8,31 @@ Frunciona como wrapper sobre cliente [OpenAPI3](https://github.com/Dorthu/openap
 Este proyecto está desarrollado para Python 3.8 y superior.
 Este proyecto es administrado por Poetry.
 
-### con Poetry
-```bash
-$ poetry add pyflowcl
-```
-### con PIP
-```bash
-$ pip install pyflowcl
-```
+=== "Usando Poetry"
+    ```shell
+    poetry add pyflowcl
+    ```
+=== "Usando pip"
+    ```shell
+    pip install pyflowcl
+    ```
 
 ## Uso
-APIKey y SecretKey pueden ser configurados de dos maneras
+`flow_key` y `flow_secret` pueden ser configurados de dos maneras
 
-### Usando el constructor
-```python
-from pyflowcl import FlowAPI
-flow = FlowAPI(flow_key="key", flow_secret="secret")
-```
+=== "Constructor"
+    ```python
+    from pyflowcl import FlowAPI
+    flow = FlowAPI(flow_key="key", flow_secret="secret")
+    ```
 
-### Usando variables de entorno
-```bash
-export PYFLOWCL_KEY="key"
-export PYFLOWCL_SECRET="SECRET"
-python cliente_flow.py
-```
+=== "Variables de Entorno"
+    ```shell
+    export PYFLOWCL_KEY="key"
+    export PYFLOWCL_SECRET="SECRET"
+    python cliente_flow.py
+    ```
+
+## Siguientes pasos
+
+Puedes revisar la [guia de uso](uso.md) o las [opciones avanzadas](uso-avanzado.md) para obtener mas información.

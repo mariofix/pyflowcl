@@ -1,2 +1,16 @@
 [flake8]
-max-line-length = 120
+max-complexity = 10
+max-line-length = 119
+max-doc-length = 120
+indent-size = 4
+exclude =
+    .git,
+    __pycache__,
+    __mypy_cache__,
+    .github,
+    docs,
+    tests
+filename = *.py
+accept-encodings = utf-8
+inline-quotes = single
+multiline-quotes =  double

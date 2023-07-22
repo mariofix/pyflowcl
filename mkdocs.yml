@@ -1,5 +1,5 @@
-site_name: pyFlowCl - API de conexión para Flow Chile
-site_url: https://www.flow.cl/docs/api.html
+site_name: pyFlowChile
+site_url: https://mariofix.github.io/pyflowcl
 repo_url: https://github.com/mariofix/pyflowcl
 repo_name: mariofix/pyflowcl
 site_description: Documentacion para pyFlowCl
@@ -8,61 +8,82 @@ copyright: "&copy;2023 - Mario Hernández"
 edit_uri: ""
 
 theme:
+  custom_dir: docs/overrides
   name: material
   language: es
   palette:
-    scheme: slate
+  - media: '(prefers-color-scheme: light)'
+    scheme: default
     primary: indigo
+    accent: teal
+    toggle:
+      icon: material/weather-sunny
+      name: Switch to dark mode
+  - media: '(prefers-color-scheme: dark)'
+    scheme: slate
+    primary: deep purple
+    accent: blue grey
+    toggle:
+      icon: material/weather-night
+      name: Switch to light mode
   features:
+    - navigation.indexes
     - navigation.tracking
-    - navigation.top
-    - header.autohide
+    - content.tabs.link
+    - content.tooltips
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/contactless-payment
+  font:
+    text: Montserrat
 
 plugins:
   - mkdocstrings
   - git-authors
 
 nav:
-  - index.md
-  - FlowAPI: flowapi.md
-  - Utils: utils.md
-  - apiFlow.yaml.md # Agregar Swagger
+  - Inicio: index.md
+  - Cómo Usar: uso.md
+  - Referencia:
+    - FlowAPI: flowapi.md
+    - Utils: utils.md
+    - apiFlow.yaml.md # Agregar Swagger
+    - APIClient: apiclient.md
+  - Uso Avanzado: uso-avanzado.md
+  - Colabora: contributing.md
+  - Registro de Cambios: changelog.md
 
 extra:
   analytics:
     provider: matomo
     site_id: 3
+  alternate:
+  - link: /
+    name: es - Español
+    lang: es
+  # - link: /en/
+  #   name: en - English
+  #   lang: en
 
 markdown_extensions:
-
-  # Python Markdown
-  - abbr
-  - admonition
-  - attr_list
-  - def_list
-  - footnotes
-  - md_in_html
-  - toc:
-      permalink: true
-
-  # Python Markdown Extensions
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.betterem:
-      smart_enable: all
-  - pymdownx.caret
-  - pymdownx.details
-  - pymdownx.emoji:
-      # emoji_index: !!python/name:materialx.emoji.twemoji
-      # emoji_generator: !!python/name:materialx.emoji.to_svg
-  - pymdownx.highlight
-  - pymdownx.inlinehilite
-  - pymdownx.keys
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-  - pymdownx.superfences
-  - pymdownx.tabbed:
-      alternate_style: true
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.tilde
+  toc:
+    permalink: true
+  markdown.extensions.codehilite:
+    guess_lang: false
+  mdx_include:
+    base_path: docs
+  admonition:
+  codehilite:
+  extra:
+  pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format ''
+  pymdownx.tabbed:
+    alternate_style: true
+  attr_list:
+  md_in_html:

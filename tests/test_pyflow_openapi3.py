@@ -4,7 +4,7 @@ from pyflowcl import FlowAPI, __version__, exceptions  # noqa: F401
 
 
 def test_version():
-    assert __version__ == "1.1.4"
+    assert __version__ == "1.1.5"
 
 
 def test_FlowAPI_min_config():
