@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyflowcl"
-version = "1.2.0"
+version = "1.2.1"
 description = "Cliente para comunicacion con flowAPI-3 de flow.cl"
 authors = [
     "Mario Hernandez <yo@mariofix.com>"
@@ -42,11 +42,11 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.8.5"
 certifi = "*"
-requests = "2.31.0"
-openapi3 = "1.8.1"
-python-fsutil = "0.10.0"
-python-slugify = "8.0.1"
-pyyaml = "6.0.1"
+requests = "*"
+openapi3 = "^1.8"
+python-fsutil = "*"
+python-slugify = "*"
+pyyaml = "^6.0"
 typer = {extras = ["all"], version = "^0.9.0"}
 
 [tool.poetry.scripts]
