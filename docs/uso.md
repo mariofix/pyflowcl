@@ -113,14 +113,26 @@ La API nos entrega dos opciones para generar un pago:
 Usaremos `payment_create` para simular la operacion mas común.
 
 ``` py title="Generacion de un pago"
-from pyflow import FlowAPI
+from pyflowcl import FlowAPI
 from pyflowcl.utils import genera_parametros
 
 api = FlowAPI(api_key="tu llave flow", api_secret="tu secreto flow")
-parametros = {"apiKey": api.api_key, }
+parametros = {
+    "apiKey": api.api_key,
+    "amount": 10000,
+    "currency": "CLP",
+    "subject": "Ejemplo de Pago",
+    "email": "correo@example.com",
+    "url_confirmation": "https://mi-sitio.com/confirmacion",
+}
 pago = api.objetos.call_payment_create(parameters=genera_parametros(parametros, api.api_secret))
 print(pago)
 > { "flowOrder": 123456, "url": "https://www.flow.cl/app/pay.php", "token": "tok_123456" }
+
+# Obtiene la URL de pago
+url_pago = pago.get("url")
+token_pago = pago.get("url")
+print(f"URL de pago: {url_pago}?token={token_pago}")
 ```
 
 ## Obtener estado de un pago

@@ -8,11 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Futuros Cambios]
 
-## [1.1.5] - 2023-07-21
+## [1.2.1] - 2023-07-25
+
+### Cambiado
+
+- Selección endpoint
+- INDEX.md
+- CHANGELOG.md
+
+## [1.2.0] - 2023-07-21
 
 ### Cambiado
 
 - Mejoras Documentación
+- CLI app flow-cl
 
 ## [1.1.4] - 2023-07-04
 

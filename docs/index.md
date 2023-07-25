@@ -17,21 +17,32 @@ Este proyecto es administrado por Poetry.
     pip install pyflowcl
     ```
 
-## Uso
-`api_key` y `api_secret` pueden ser configurados de dos maneras
+## Uso Básico
 
-=== "Constructor"
-    ```python
-    from pyflowcl import FlowAPI
-    flow = FlowAPI(api_key="key", api_secret="secret")
-    ```
+Aquí hay un ejemplo básico de cómo usar pyflowcl para crear un pago:
 
-=== "Variables de Entorno"
-    ```shell
-    export PYFLOWCL_API_KEY="key"
-    export PYFLOWCL_API_SECRET="SECRET"
-    python cliente_flow.py
-    ```
+```shell
+from pyflowcl import FlowAPI
+from pyflowcl.utils import genera_parametros
+
+api = FlowAPI(api_key="tu llave flow", api_secret="tu secreto flow")
+parametros = {
+    "apiKey": api.api_key,
+    amount=10000,
+    currency="CLP",
+    subject="Ejemplo de Pago",
+    email="correo@example.com",
+    url_confirmation="https://mi-sitio.com/confirmacion",
+    }
+pago = api.objetos.call_payment_create(parameters=genera_parametros(parametros, api.api_secret))
+print(pago)
+> { "flowOrder": 123456, "url": "https://www.flow.cl/app/pay.php", "token": "tok_123456" }
+
+# Obtiene la URL de pago
+url_pago = pago.get("url")
+token_pago = pago.get("url")
+print(f"URL de pago: {url_pago}?token={token_pago}")
+```
 
 ## Siguientes pasos
 

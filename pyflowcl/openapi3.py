@@ -23,7 +23,7 @@ class FlowAPI:
 
     api_key: Union[None, str] = None
     api_secret: Union[None, str] = None
-    endpoint: str = "live"
+    endpoint: Union[None, str] = None
     _base_path: Any = Path(__file__).resolve().parent
     _yaml_file: Union[None, str] = None
     _openapi3: Union[None, OpenAPI] = field(init=False)
@@ -37,7 +37,7 @@ class FlowAPI:
             self.endpoint = os.getenv("PYFLOWCL_ENDPOINT", "live")
 
         try:
-            yaml_spec = load_yaml_file(f"{self._base_path}/yaml_files/apiFlow.min.yaml")
+            yaml_spec = load_yaml_file(f"{self._base_path}/yaml_files/apiFlow.{self.endpoint}.min.yaml")
         except Exception as e:
             raise Exception(f"No se pudo cargar el archivo: {e}")
         else:
