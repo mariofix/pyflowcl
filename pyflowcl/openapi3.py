@@ -12,15 +12,6 @@ from slugify import slugify
 
 @dataclass
 class FlowAPI:
-    """
-    Clase para interactuar con la API de Flow.
-
-    Args:
-        api_key (str, optional): Clave de API para autenticación. Si no se proporciona, se tomará del entorno.
-        api_secret (str, optional): Secreto de API para autenticación. Si no se proporciona, se tomará del entorno.
-        endpoint (str, optional): Ambiente Flow para llamadas ("live" o "sandbox").
-    """
-
     api_key: Union[None, str] = None
     api_secret: Union[None, str] = None
     endpoint: Union[None, str] = None
@@ -45,19 +36,6 @@ class FlowAPI:
             self._openapi3 = OpenAPI(yaml_spec)
 
     def fix_openapi3(self, flow_yaml_spec):
-        """
-        Por defecto, Flow no entrega "operationId" en cada una de las
-        operaciones esto provoca que no sea posible generar llamadas
-        automaticas.
-        Este método crea el valor "operationId" y lo actualiza directamente en
-        ``self._openapi3``.
-        El valor de cada operacion es generado con slugify siguiendo esta
-        estructura
-
-        Examples:
-            >>> slugify(f"{path}", separator="_")
-            'payment_getstatus'
-        """
         for path in flow_yaml_spec["paths"]:
             for verb in flow_yaml_spec["paths"][path]:
                 slug = None
@@ -70,22 +48,10 @@ class FlowAPI:
 
     @property
     def objetos(self) -> OpenAPI:
-        """
-        Propiedad que devuelve el objeto OpenAPI de la API de Flow.
-
-        Returns:
-            OpenAPI: El objeto OpenAPI que contiene la especificación de la API de Flow.
-        """
         return self._openapi3
 
     @property
     def operaciones(self) -> list:
-        """
-        Propiedad que devuelve una lista de las operaciones disponibles en la API de Flow.
-
-        Returns:
-            list: Lista de las operaciones disponibles en la API de Flow.
-        """
         return list(self._openapi3._operation_map)
 
 

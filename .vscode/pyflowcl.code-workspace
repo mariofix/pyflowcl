@@ -1,0 +1,30 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../stripe-python"
+		}
+	],
+	"settings": {
+		"python.analysis.typeCheckingMode": "basic",
+		"editor.defaultFormatter": "ms-python.black-formatter",
+		"editor.formatOnSaveMode": "file",
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": true
+		},
+		"[jsonc]": {
+			"editor.defaultFormatter": "vscode.json-language-features"
+		},
+		"isort.args": [
+			"--profile",
+			"black",
+			"--filter-files"
+		],
+		"isort.check": true,
+		"diffEditor.codeLens": true,
+		"python.defaultInterpreterPath": "/home/mariofix/.cache/pypoetry/virtualenvs/pyflowcl-S15X6UCq-py3.8/bin/python",
+	}
+}
