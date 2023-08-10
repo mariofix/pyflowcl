@@ -8,7 +8,7 @@
 		}
 	],
 	"settings": {
-		"python.analysis.typeCheckingMode": "basic",
+		"python.analysis.typeCheckingMode": "off",
 		"editor.defaultFormatter": "ms-python.black-formatter",
 		"editor.formatOnSaveMode": "file",
 		"editor.formatOnSave": true,
@@ -26,5 +26,8 @@
 		"isort.check": true,
 		"diffEditor.codeLens": true,
 		"python.defaultInterpreterPath": "/home/mariofix/.cache/pypoetry/virtualenvs/pyflowcl-S15X6UCq-py3.8/bin/python",
+		"[markdown]": {
+			"editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+		},
 	}
 }

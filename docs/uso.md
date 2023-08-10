@@ -123,16 +123,17 @@ parametros = {
     "currency": "CLP",
     "subject": "Ejemplo de Pago",
     "email": "correo@example.com",
-    "url_confirmation": "https://mi-sitio.com/confirmacion",
+    "urlConfirmation": "https://mariofix.github.io/pyflowcl/uso/#crear-un-pago",
+    "urlReturn": "https://mariofix.github.io/pyflowcl/uso/#crear-un-pago",
+    "commerceOrder": "order_1234",
 }
 pago = api.objetos.call_payment_create(parameters=genera_parametros(parametros, api.api_secret))
 print(pago)
 > { "flowOrder": 123456, "url": "https://www.flow.cl/app/pay.php", "token": "tok_123456" }
 
 # Obtiene la URL de pago
-url_pago = pago.get("url")
-token_pago = pago.get("url")
-print(f"URL de pago: {url_pago}?token={token_pago}")
+print(f"URL de pago: {pago.url}?token={pago.token}")
+> URL de pago: https://www.flow.cl/app/pay.php?token=tok_123456
 ```
 
 ## Obtener estado de un pago

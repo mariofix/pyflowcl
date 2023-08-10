@@ -5,8 +5,15 @@ Cliente API para operaciones con el servicio de pagos Flow.cl [FlowAPI-3.0.1](ht
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
 ## [Futuros Cambios]
+
+## [1.2.2] - 2023-08-10
+
+### Cambiado
+
+- Fix para [#24](https://github.com/mariofix/pyflowcl/issues/24)
+- Mejoras en ejemplos
+- cliente_openapi.py completo
 
 ## [1.2.1] - 2023-07-25
 
@@ -79,27 +86,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Excepciones
 
 ## [1.0.5] - 2021-07-10
+
 ### Agregado
+
 - Documentacion
 
 ## [1.0.4] - 2021-07-09
+
 ### Eliminado
+
 - Python 3.6 Support
 
 ## [1.0.3] - 2020-09-18
+
 ### Agregado
+
 - Stable
 
 ## [1.0.2-beta] - 2020-09-18
+
 ### Agregado
+
 - Soporte python 3.6
 - Configuracion Tox
 
 ## [1.0.1-beta]
+
 ### Agregado
+
 - Cambios menores
 
 ## [1.0.0-beta]
+
 ### Agregado
+
 - Payment
 - Refund

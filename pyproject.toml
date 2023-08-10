@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyflowcl"
-version = "1.2.1"
+version = "1.2.2"
 description = "Cliente para comunicacion con flowAPI-3 de flow.cl"
 authors = [
     "Mario Hernandez <yo@mariofix.com>"
@@ -43,11 +43,12 @@ packages = [
 python = "^3.8.5"
 certifi = "*"
 requests = "*"
-openapi3 = "^1.8"
+# openapi3 = "^1.8"
 python-fsutil = "*"
 python-slugify = "*"
 pyyaml = "^6.0"
 typer = {extras = ["all"], version = "^0.9.0"}
+openapi3 = {git = "https://github.com/mariofix/openapi3.git", rev = "www-form-urlencoded-support"}
 
 [tool.poetry.scripts]
 flow-cli = "pyflowcl.cli:app"
