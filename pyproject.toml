@@ -62,7 +62,7 @@ coverage = "^7.2.7"
 black = "^23.7.0"
 mkdocs = {version = "^1.4.3", extras = ["i18n"]}
 mkdocs-material = "^9.1.19"
-mkdocstrings = {version = "^0.22.0", extras = ["python"]}
+mkdocstrings = {version = ">=0.22,<0.25", extras = ["python"]}
 mkdocs-git-authors-plugin = "^0.7.2"
 pre-commit = "^3.3.3"
 mkdocs-markdownextradata-plugin = "^0.2.5"
