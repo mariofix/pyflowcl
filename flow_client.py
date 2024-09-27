@@ -4,8 +4,8 @@ from pyflowcl import Payment
 from pyflowcl.Clients import ApiClient
 
 API_URL = "https://sandbox.flow.cl/api"
-API_KEY = "5C627F95-4523-4AEB-9FBC-7883B1FL43E5"
-API_SECRET = "c08a5046b3bc357bf1cd3db9286e7560b4451501"
+API_KEY = "api_key"
+API_SECRET = "api_secret"
 
 api = ApiClient(
     api_url=API_URL,
