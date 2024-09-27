@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Union
+from warnings import warn
 
 import fsutil
 import yaml
@@ -20,6 +21,13 @@ class FlowAPI:
     _openapi3: Union[None, OpenAPI] = field(init=False)
 
     def __post_init__(self):
+        warn(
+            """
+            Lamentablemente el proyecto OpenAPI3 que era la base de este proyecto ha sido
+            abandonado por su mantenedor, he decidio deprecar esta version y volver a la clase
+            estable de este proyecto. Por favor mira la documentacion sobre como proseguir.
+            """
+        )
         if not self.api_key:
             self.api_key = os.getenv("PYFLOWCL_API_KEY", None)
         if not self.api_secret:

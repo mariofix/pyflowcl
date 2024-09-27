@@ -1,32 +1,21 @@
-# pyflowcl/utils.py
-"""
-Utilidades para pyflow
-
-Este modulo contiene
-
-- `genera_firma()` - Funcion para generar hash de validacion
-- `genera_parametros()` - Funcion para generar parametros a enviar
-
-"""
 import hashlib
 import hmac
+from typing import Any
 
 from .exceptions import ParamsException
 
 
+def firma_request(params: Any, secret: str) -> str:
+
+    print(f"{params = }")
+    string = ""
+    for k, d in params.iter():
+        string = f"{string}{k}{d}"
+    hash_string = hmac.new(secret.encode(), string.encode(), hashlib.sha256).hexdigest()
+    return hash_string
+
+
 def genera_firma(params: dict = None, flow_secret: str = None) -> str:
-    """Crea el Hash de validacion
-
-    Args:
-        params: Parametros para crear la firma
-        flow_secret: secretKey de Flow
-
-    Returns:
-        Hash de validacion
-
-    Raises:
-        ParamsException: Si `params` o `flow_key` no están definidos
-    """
     if not params or not flow_secret:
         raise ParamsException("Se necesita 'params' y 'flow_secret' para usar esta función")
     string = ""
@@ -38,21 +27,6 @@ def genera_firma(params: dict = None, flow_secret: str = None) -> str:
 
 
 def genera_parametros(params: dict = None, flow_secret: str = None) -> dict:
-    """Normaliza y genera los parametros para las llamadas
-
-    Este esta funcion verifica que los parametros se encuentren ordenados
-    alfabéticamente, para luego generar el hash de validacion
-
-    Args:
-        params: Parametros para crear la firma
-        flow_secret: secretKey de Flow
-
-    Returns:
-        `dict` ordenado alfabeticamente con `apiKey` y `s` incorporados
-
-    Raises:
-        ParamsException: Si `params` o `flow_secret` no están definidos
-    """
     if not params or not flow_secret or "apiKey" not in params:
         raise ParamsException("Se necesita 'params' y 'flow_secret' para usar esta función")
 

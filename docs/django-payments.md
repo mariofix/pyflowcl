@@ -1,1 +1,1 @@
-# Usar con Django-Payments
+# Integración con Django-Payments

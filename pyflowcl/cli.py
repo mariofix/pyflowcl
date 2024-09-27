@@ -5,7 +5,7 @@ from rich.table import Table
 
 from .openapi3 import FlowAPI
 
-app = typer.Typer(help="CLI para Flow Chile")
+app = typer.Typer(help="CLI para Flow Chile - No usar.")
 
 
 @app.command("listar-operaciones", help="Muestra las operaciones disponibles.")

@@ -1,104 +1,66 @@
-# pyflowcl/Clients.py
-"""
-##Este Cliente será deprecado en favor de FlowAPI.
-Cliente API genérico.
-
-Este modulo contiene
-
-- `ApiClient` - Objeto Principal
-
-__Uso Básico__:
-```python
-API_URL = "https://www.flow.cl/api"
-API_KEY = "your_key"
-API_SECRET = "your_secret"
-FLOW_TOKEN = "your_payment_token"
-api = ApiClient(API_URL, API_KEY, API_SECRET)
-```
-"""
 import hashlib
 import hmac
-import logging
-import warnings
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Any
 
 import requests
 
 
 @dataclass
 class ApiClient:
-    """Clase ApiClient con los objetos para realizar llamadas
-
-    Implementa todos los métodos de ``dataclass``.
+    """
+    Una clase para interactuar con la API de Flow.cl.
 
     Attributes:
-        api_url: URL de API Flow (live o sandbox)
-        api_key: APIKey entregado por Flow
-        api_secret: SecretKey entregado por Flow
+        api_url (str): La URL base de la API. Por defecto es "https://www.flow.cl/api".
+        api_key (str): La clave de la API proporcionada por Flow.cl.
+        api_secret (str): El secreto de la API proporcionado por Flow.cl.
     """
 
     api_url: str = "https://www.flow.cl/api"
     api_key: str = ""
     api_secret: str = ""
 
-    def __post_init__(self):
-        warnings.warn(
-            "ApiClient está deprecado, porfavor usa FlowAPI",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-
-    def make_signature(self, params: Dict[str, Any]) -> str:
-        """Crea el Hash de validacion para ser enviado con la informacion
+    def make_signature(self, params: dict[str, Any]) -> str:
+        """
+        Genera una firma HMAC-SHA256 para los parámetros dados.
 
         Args:
-            params: Parametros para crear la firma
+            params (dict[str, Any]): Un diccionario de parámetros para firmar.
 
         Returns:
-            Hash de validacion
+            str: La firma generada como una cadena hexadecimal.
         """
         string = ""
         for k, d in params.items():
             if d is not None:
                 string = string + f"{k}{d}"
-        logging.debug(f"String to Hash: {string}")
         hash_string = hmac.new(self.api_secret.encode(), string.encode(), hashlib.sha256).hexdigest()
 
         return hash_string
 
-    def get(self, url: str, query_string: Dict[str, Any]) -> Dict[str, Any]:
-        """Reimplementa get
+    def get(self, url: str, query_string: dict[str, Any]) -> dict[str, Any]:
+        """
+        Realiza una solicitud GET a la API.
 
         Args:
-            url: URL a obtener
-            query_string: diccionario con parametros get
+            url (str): La URL específica para la solicitud GET.
+            query_string (dict[str, Any]): Los parámetros de consulta para la solicitud.
 
         Returns:
-            El objeto `requests`
+            dict[str, Any]: La respuesta de la API como un diccionario.
         """
         return requests.get(url, params=query_string)
 
-    def post(self, url: str, post_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Reimplementa post
+    def post(self, url: str, post_data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Realiza una solicitud POST a la API.
 
         Args:
-            url: URL a obtener
-            post_data: diccionario con parametros post
+            url (str): La URL específica para la solicitud POST.
+            post_data (dict[str, Any]): Los datos a enviar en el cuerpo de la solicitud POST.
 
         Returns:
-            El objeto `requests`
+            dict[str, Any]: La respuesta de la API como un diccionario.
         """
         return requests.post(url, data=post_data)
-
-    def put(self, url: str, put_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Reimplementa put
-
-        Args:
-            url: URL a obtener
-            put_data: diccionario con parametros post
-
-        Returns:
-            El objeto `requests`
-        """
-        return requests.put(url, data=put_data)

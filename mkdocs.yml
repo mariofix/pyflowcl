@@ -4,28 +4,27 @@ repo_url: https://github.com/mariofix/pyflowcl
 repo_name: mariofix/pyflowcl
 site_description: Documentacion para pyFlowCl
 site_author: mariofix <yo@mariofix.com>
-copyright: "&copy;2023 - Mario Hernández"
+copyright: "MIT License"
 edit_uri: ""
 
 theme:
-  custom_dir: docs/overrides
   name: material
   language: es
   palette:
-  - media: '(prefers-color-scheme: light)'
-    scheme: default
-    primary: indigo
-    accent: teal
-    toggle:
-      icon: material/weather-sunny
-      name: Switch to dark mode
-  - media: '(prefers-color-scheme: dark)'
-    scheme: slate
-    primary: deep purple
-    accent: blue grey
-    toggle:
-      icon: material/weather-night
-      name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: blue grey
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
   features:
     - navigation.tracking
     - content.tabs.link
@@ -42,33 +41,19 @@ theme:
 
 plugins:
   - mkdocstrings
-  - git-authors
 
 nav:
   - Inicio: index.md
   - Cómo Usar: uso.md
-  - CLI: cli.md
   - Referencia:
-    - FlowAPI: flowapi.md
-    - Utils: utils.md
-    - apiFlow.yaml.md # Agregar Swagger
-    - APIClient: apiclient.md
-  - Uso Avanzado: uso-avanzado.md
+      - ApiClient: apiclient.md
+      - Payment: apiclient-payment.md
+      - Refund: apiclient-refund.md
+      - Modelos: models.md
   - Django Payments: django-payments.md
+  - Merchants: merchants.md
   - Colabora: contributing.md
   - Registro de Cambios: changelog.md
-
-extra:
-  analytics:
-    provider: matomo
-    site_id: 3
-#  alternate:
-#  - link:
-#    name: es - Español
-#    lang: es
-#  - link: /en/
-#    name: en - English
-#    lang: en
 
 markdown_extensions:
   toc:
@@ -82,9 +67,9 @@ markdown_extensions:
   extra:
   pymdownx.superfences:
     custom_fences:
-    - name: mermaid
-      class: mermaid
-      format: !!python/name:pymdownx.superfences.fence_code_format ''
+      - name: mermaid
+        class: mermaid
+        format: !!python/name:pymdownx.superfences.fence_code_format ""
   pymdownx.tabbed:
     alternate_style: true
   attr_list:

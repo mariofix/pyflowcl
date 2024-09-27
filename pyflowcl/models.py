@@ -1,11 +1,5 @@
-"""
-pyflowcl.models
-~~~~~~~~~~~~~~~~
-Modelos de distintos objetos del paquete
-"""
-
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, cast
+from typing import Any, Optional
 
 
 class GenericError(BaseException):
@@ -20,7 +14,31 @@ class GenericError(BaseException):
 
 @dataclass
 class PaymentStatus:
-    """Objeto para obtener el estado de un pago"""
+    """
+    Representa el estado de un pago en el sistema Flow.cl.
+
+    Esta clase contiene información detallada sobre un pago, incluyendo su estado,
+    detalles de la transacción y datos del pagador.
+
+    Attributes:
+        flow_order (Optional[int]): Número de orden asignado por Flow.
+        commerce_order (Optional[str]): Número de orden asignado por el comercio.
+        request_date (Optional[str]): Fecha y hora de la solicitud del pago.
+        status (Optional[int]): Estado actual del pago. Los valores posibles son:
+            1 (Pagado), 2 (Rechazado), 3 (Pendiente), 4 (Anulado).
+        subject (Optional[str]): Asunto o descripción del pago.
+        currency (Optional[str]): Código de la moneda utilizada en el pago (ej. CLP, USD).
+        amount (Optional[float]): Monto del pago.
+        payer (Optional[str]): Correo electrónico o identificación del pagador.
+        optional (Optional[str]): Campo para información adicional definida por el comercio.
+        pending_info (Optional[dict[Any, Any]]): Información adicional para pagos pendientes.
+        payment_data (Optional[dict[Any, Any]]): Datos adicionales relacionados con el método de pago.
+        merchant_id (Optional[str]): Identificador único del comercio en Flow.
+
+    Note:
+        Todos los campos son opcionales ya que pueden no estar presentes en todas las
+        respuestas de la API de Flow, dependiendo del estado y tipo de pago.
+    """
 
     flow_order: Optional[int] = None
     commerce_order: Optional[str] = None
@@ -31,12 +49,12 @@ class PaymentStatus:
     amount: Optional[float] = None
     payer: Optional[str] = None
     optional: Optional[str] = None
-    pending_info: Optional[Dict[Any, Any]] = None
-    payment_data: Optional[Dict[Any, Any]] = None
+    pending_info: Optional[dict[Any, Any]] = None
+    payment_data: Optional[dict[Any, Any]] = None
     merchant_id: Optional[str] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "PaymentStatus":
+    def from_dict(d: dict[str, Any]) -> "PaymentStatus":
         flow_order = d.get("flowOrder")
         commerce_order = d.get("commerceOrder")
         request_date = d.get("requestDate")
@@ -68,10 +86,35 @@ class PaymentStatus:
 
 @dataclass
 class PaymentRequest:
-    """Objeto para generar una URL de pago"""
+    """
+    Representa una solicitud de pago para ser procesada por Flow.cl.
+
+    Esta clase contiene todos los detalles necesarios para iniciar una transacción
+    de pago a través de la API de Flow.
+
+    Attributes:
+        amount (float): Monto del pago. Valor por defecto es 0.
+        commerceOrder (str): Número de orden único asignado por el comercio.
+        currency (Optional[str]): Moneda del pago. Si no se especifica, se utilizará
+            el valor de payment_currency.
+        email (str): Correo electrónico del pagador. Valor por defecto es "correo@ejemplo.cl".
+        merchantId (Optional[str]): Identificador único del comercio en Flow.
+        optional (Optional[str]): Campo opcional para información adicional definida por el comercio.
+        payment_currency (str): Moneda en la que se realizará el pago. Valor por defecto es "CLP".
+        payment_method (Optional[int]): Método de pago a utilizar. Los valores posibles dependen
+            de la configuración del comercio en Flow.
+        subject (str): Asunto o descripción del pago.
+        timeout (Optional[int]): Tiempo máximo (en segundos) para completar el pago.
+        urlConfirmation (str): URL a la que Flow enviará la confirmación del pago.
+        urlReturn (str): URL a la que se redirigirá al usuario después del pago.
+
+    Note:
+        Los campos opcionales (currency, merchantId, optional, payment_method, timeout)
+        pueden omitirse si no son necesarios para la transacción específica.
+    """
 
     amount: float = 0
-    apiKey: str = "API_KEY"
+    apiKey: str | None = None
     commerceOrder: str = ""
     currency: Optional[str] = None
     email: str = "correo@ejemplo.cl"
@@ -86,7 +129,7 @@ class PaymentRequest:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "PaymentRequest":
+    def from_dict(d: dict[str, Any]) -> "PaymentRequest":
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceOrder = d.get("commerceOrder")
@@ -122,7 +165,37 @@ class PaymentRequest:
 
 @dataclass
 class PaymentRequestEmail:
-    """Objeto para generar un correo electronico de pago"""
+    """
+    Representa una solicitud de pago por correo electrónico para ser procesada por Flow.cl.
+
+    Esta clase contiene todos los detalles necesarios para iniciar una transacción de pago
+    por correo electrónico a través de la API de Flow. Flow enviará un correo electrónico
+    al pagador con la información del pago y un enlace para completar la transacción.
+
+    Attributes:
+        amount (float): Monto del pago. Valor por defecto es 0.
+        commerceOrder (str): Número de orden único asignado por el comercio.
+        currency (Optional[str]): Moneda del pago. Si no se especifica, se utilizará
+            el valor de payment_currency.
+        email (str): Correo electrónico del pagador. Valor por defecto es "correo@ejemplo.cl".
+        forward_days_after (Optional[int]): Número de días después de los cuales se enviará
+            un recordatorio si el pago no se ha completado.
+        forward_times (Optional[int]): Número de veces que se enviará el recordatorio.
+        merchantId (Optional[str]): Identificador único del comercio en Flow.
+        optional (Optional[str]): Campo opcional para información adicional definida por el comercio.
+        payment_currency (Optional[str]): Moneda en la que se realizará el pago.
+        subject (Optional[str]): Asunto o descripción del pago.
+        timeout (Optional[int]): Tiempo máximo (en segundos) para completar el pago.
+        urlConfirmation (str): URL a la que Flow enviará la confirmación del pago.
+        urlReturn (str): URL a la que se redirigirá al usuario después del pago.
+
+    Note:
+        Los campos opcionales (currency, forward_days_after, forward_times, merchantId,
+        optional, payment_currency, subject, timeout) pueden omitirse si no son necesarios
+        para la transacción específica.
+        Los campos forward_days_after y forward_times son específicos para el envío
+        de recordatorios por correo electrónico.
+    """
 
     amount: float = 0
     apiKey: str = "API_KEY"
@@ -141,7 +214,7 @@ class PaymentRequestEmail:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "PaymentRequestEmail":
+    def from_dict(d: dict[str, Any]) -> "PaymentRequestEmail":
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceOrder = d.get("commerceOrder")
@@ -179,14 +252,31 @@ class PaymentRequestEmail:
 
 @dataclass
 class PaymentResponse:
-    """Objeto respuesta de una creacion de pago"""
+    """
+    Representa la respuesta a una solicitud de pago procesada por Flow.cl.
+
+    Esta clase contiene la información devuelta por Flow después de iniciar
+    una transacción de pago, incluyendo la URL de pago y el token de la transacción.
+
+    Attributes:
+        url (Optional[str]): URL a la que se debe redirigir al usuario para completar el pago.
+            Puede ser None si la respuesta no incluye una URL.
+        token (Optional[str]): Token único que identifica la transacción en el sistema de Flow.
+            Puede ser None si la respuesta no incluye un token.
+        flowOrder (Optional[int]): Número de orden asignado por Flow a esta transacción.
+            Puede ser None si la respuesta no incluye un número de orden.
+
+    Note:
+        Todos los campos son opcionales ya que pueden no estar presentes en todas las
+        respuestas de la API de Flow, dependiendo del tipo de solicitud y su estado.
+    """
 
     url: Optional[str] = None
     token: Optional[str] = None
-    flowOrder: Optional[float] = None
+    flowOrder: Optional[int] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "PaymentResponse":
+    def from_dict(d: dict[str, Any]) -> "PaymentResponse":
         url = d.get("url")
         token = d.get("token")
         flowOrder = d.get("flowOrder")
@@ -200,14 +290,37 @@ class PaymentResponse:
 
 @dataclass
 class PaymentList:
-    """Lista de pagos"""
+    """
+    Representa una lista paginada de pagos obtenida de Flow.cl.
 
-    total: Optional[float] = None
+    Esta clase contiene información sobre un conjunto de pagos, incluyendo
+    el número total de pagos, si hay más páginas disponibles, y los datos
+    de los pagos en la página actual.
+
+    Attributes:
+        total (Optional[int]): El número total de pagos en todas las páginas.
+            Puede ser None si la información no está disponible.
+        hasMore (Optional[bool]): Indica si hay más páginas de pagos disponibles.
+            True si hay más páginas, False si es la última página, None si no se proporciona.
+        data (Optional[list[dict[Any, Any]]]): Una lista de diccionarios, donde cada diccionario
+            contiene los detalles de un pago individual. Puede ser None si no hay datos disponibles.
+
+    Note:
+        - Todos los campos son opcionales ya que pueden no estar presentes en todas las
+          respuestas de la API de Flow, dependiendo del contexto de la solicitud.
+        - El campo 'data' contiene una lista de diccionarios. Cada diccionario representa
+          un pago y su estructura dependerá de la configuración específica de Flow y del
+          tipo de información solicitada.
+        - Esta clase es útil para manejar respuestas paginadas de la API de Flow,
+          permitiendo una fácil navegación a través de múltiples pagos.
+    """
+
+    total: Optional[int] = None
     hasMore: Optional[bool] = None
-    data: Optional[List[Dict[Any, Any]]] = None
+    data: Optional[list[dict[Any, Any]]] = None
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "PaymentList":
+    def from_dict(d: dict[str, Any]) -> "PaymentList":
         total = d.get("total")
         hasMore = d.get("hasMore")
         data = d.get("data")
@@ -221,8 +334,6 @@ class PaymentList:
 
 @dataclass
 class RefundRequest:
-    """Refund  Request object"""
-
     amount: float = 0
     apiKey: str = "API_KEY"
     commerceTrxId: Optional[str] = None
@@ -233,7 +344,7 @@ class RefundRequest:
     s: str = ""
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RefundRequest":
+    def from_dict(d: dict[str, Any]) -> "RefundRequest":
         amount = d.get("amount")
         apiKey = d.get("apiKey")
         commerceTrxId = d.get("commerceTrxId")
@@ -257,8 +368,6 @@ class RefundRequest:
 
 @dataclass
 class RefundStatus:
-    """Refund object"""
-
     flowRefundOrder: int = 0
     date: str = ""
     status: str = ""
@@ -266,7 +375,7 @@ class RefundStatus:
     fee: float = 0
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RefundStatus":
+    def from_dict(d: dict[str, Any]) -> "RefundStatus":
         flowRefundOrder = d.get("flowRefundOrder")
         date = d.get("date")
         status = d.get("status")
@@ -279,393 +388,4 @@ class RefundStatus:
             status=status,
             amount=amount,
             fee=fee,
-        )
-
-
-@dataclass
-class Customer:
-    """Customer Object"""
-
-    created: str = ""
-    creditCardType: Optional[str] = None
-    customerId: str = ""
-    email: str = ""
-    externalId: Optional[str] = None
-    last4CardDigits: Optional[str] = None
-    name: str = ""
-    pay_mode: Optional[str] = None
-    registerDate: Optional[str] = None
-    status: int = 0
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "Customer":
-        created = d.get("created")
-        creditCardType = d.get("creditCardType")
-        customerId = d.get("customerId")
-        email = d.get("email")
-        externalId = d.get("externalId")
-        last4CardDigits = d.get("last4CardDigits")
-        name = d.get("name")
-        pay_mode = d.get("pay_mode")
-        registerDate = d.get("registerDate")
-        status = d.get("status")
-
-        return Customer(
-            created=created,
-            creditCardType=creditCardType,
-            customerId=customerId,
-            email=email,
-            externalId=externalId,
-            last4CardDigits=last4CardDigits,
-            name=name,
-            pay_mode=pay_mode,
-            registerDate=registerDate,
-            status=status,
-        )
-
-
-@dataclass
-class CustomerRequest:
-    """CustomerRequest Object"""
-
-    apiKey: str = ""
-    customerId: str = ""
-    email: str = ""
-    externalId: str = ""
-    name: str = ""
-    s: str = ""
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CustomerRequest":
-        apiKey = d.get("apiKey")
-        customerId = d.get("customerId")
-        email = d.get("email")
-        externalId = d.get("externalId")
-        name = d.get("name")
-        s = d.get("s")
-
-        return CustomerRequest(
-            apiKey=apiKey,
-            customerId=customerId,
-            email=email,
-            externalId=externalId,
-            name=name,
-            s=s,
-        )
-
-
-@dataclass
-class CustomerList:
-    """Lista de Clientes"""
-
-    total: Optional[float] = None
-    hasMore: Optional[bool] = None
-    data: Optional[List[Dict[Any, Any]]] = None
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CustomerList":
-        total = d.get("total")
-        hasMore = d.get("hasMore")
-        data = d.get("data")
-
-        return CustomerList(
-            total=total,
-            hasMore=hasMore,
-            data=data,
-        )
-
-
-@dataclass
-class CustomerRegisterResponse:
-    """Objeto respuesta"""
-
-    url: Optional[str] = None
-    token: Optional[str] = None
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CustomerRegisterResponse":
-        url = d.get("url")
-        token = d.get("token")
-
-        return CustomerRegisterResponse(
-            url=url,
-            token=token,
-        )
-
-
-@dataclass
-class CustomerRegisterStatusResponse:
-    """Objeto respuesta"""
-
-    creditCardType: str = ""
-    customerId: str = ""
-    last4CardDigits: str = ""
-    status: int = 0
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CustomerRegisterStatusResponse":
-        creditCardType = d.get("creditCardType")
-        customerId = d.get("customerId")
-        last4CardDigits = d.get("last4CardDigits")
-        status = d.get("status")
-
-        return CustomerRegisterStatusResponse(
-            creditCardType=creditCardType,
-            customerId=customerId,
-            last4CardDigits=last4CardDigits,
-            status=status,
-        )
-
-
-@dataclass
-class CustomerChargeRequest:
-    """Objeto para generar una URL de pago"""
-
-    amount: float = 0
-    apiKey: str = "API_KEY"
-    commerceOrder: str = ""
-    currency: Optional[str] = None
-    optionals: Optional[str] = None
-    subject: str = ""
-    s: str = ""
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CustomerChargeRequest":
-        amount = d.get("amount")
-        apiKey = d.get("apiKey")
-        commerceOrder = d.get("commerceOrder")
-        currency = d.get("currency")
-        optionals = d.get("optionals")
-        subject = d.get("subject")
-        s = d.get("s")
-
-        return CustomerChargeRequest(
-            amount=amount,
-            apiKey=apiKey,
-            commerceOrder=commerceOrder,
-            currency=currency,
-            optionals=optionals,
-            subject=subject,
-            s=s,
-        )
-
-
-@dataclass
-class CollectResponse:
-    """Objeto para CollectResponse"""
-
-    commerce_order: Optional[str] = None
-    flow_order: Optional[float] = None
-    paymen_result: Optional[PaymentStatus] = None
-    status: Optional[int] = None
-    token: Optional[str] = None
-    type: Optional[float] = None
-    url: Optional[str] = None
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CollectResponse":
-        type = d.get("type")
-        commerce_order = d.get("commerceOrder")
-        flow_order = d.get("flowOrder")
-        url = d.get("url")
-        token = d.get("token")
-        status = d.get("status")
-        paymen_result = None
-        if d.get("paymenResult") is not None:
-            paymen_result = PaymentStatus.from_dict(cast(Dict[str, Any], d.get("paymenResult")))
-
-        return CollectResponse(
-            type=type,
-            commerce_order=commerce_order,
-            flow_order=flow_order,
-            url=url,
-            token=token,
-            status=status,
-            paymen_result=paymen_result,
-        )
-
-
-@dataclass
-class CollectRequest:
-    """Objeto para generar un correo electronico de pago"""
-
-    amount: float = 0
-    apiKey: str = "API_KEY"
-    byEmail: Optional[int] = None
-    commerceOrder: str = ""
-    currency: Optional[str] = None
-    customerId: str = ""
-    forward_days_after: Optional[int] = None
-    forward_times: Optional[int] = None
-    ignore_auto_charging: Optional[int] = None
-    merchantId: Optional[str] = None
-    optionals: Optional[str] = None
-    paymentMethod: Optional[int] = 9
-    subject: Optional[str] = None
-    timeout: Optional[int] = None
-    urlConfirmation: str = ""
-    urlReturn: str = ""
-    s: str = ""
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CollectRequest":
-        amount = d.get("amount")
-        apiKey = d.get("apiKey")
-        byEmail = d.get("byEmail")
-        commerceOrder = d.get("commerceOrder")
-        currency = d.get("currency")
-        forward_days_after = d.get("forward_days_after")
-        forward_times = d.get("forward_times")
-        ignore_auto_charging = d.get("ignore_auto_charging")
-        merchantId = d.get("merchantId")
-        optionals = d.get("optionals")
-        subject = d.get("subject")
-        timeout = d.get("timeout")
-        urlConfirmation = d.get("urlConfirmation")
-        urlReturn = d.get("urlReturn")
-        s = d.get("s")
-
-        return CollectRequest(
-            amount=amount,
-            apiKey=apiKey,
-            byEmail=byEmail,
-            commerceOrder=commerceOrder,
-            currency=currency,
-            ignore_auto_charging=ignore_auto_charging,
-            forward_days_after=forward_days_after,
-            forward_times=forward_times,
-            merchantId=merchantId,
-            optionals=optionals,
-            subject=subject,
-            timeout=timeout,
-            urlConfirmation=urlConfirmation,
-            urlReturn=urlReturn,
-            s=s,
-        )
-
-
-@dataclass
-class CollectObject:
-    """Objeto de cobro para un lote de cobros"""
-
-    customer_id: str
-    commerce_order: str
-    subject: str
-    amount: float
-    currency: Optional[str] = None
-    payment_method: Optional[float] = None
-    optional: Optional[str] = None
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CollectObject":
-        customer_id = d.get("customerId")
-        commerce_order = d.get("commerceOrder")
-        subject = d.get("subject")
-        amount = d.get("amount")
-        currency = d.get("currency")
-        payment_method = d.get("paymentMethod")
-        optional = d.get("optional")
-
-        return CollectObject(
-            customer_id=customer_id,
-            commerce_order=commerce_order,
-            subject=subject,
-            amount=amount,
-            currency=currency,
-            payment_method=payment_method,
-            optional=optional,
-        )
-
-
-@dataclass
-class BatchCollectRequest:
-    apiKey: str = "API_KEY"
-    batchRows: str = ""
-    byEmail: int = 0
-    forward_days_after: Optional[int] = None
-    forward_times: Optional[int] = None
-    timeout: Optional[int] = None
-    urlCallBack: str = ""
-    urlConfirmation: str = ""
-    urlReturn: str = ""
-    s: str = ""
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BatchCollectRequest":
-        apiKey = d.get("apiKey")
-        batchRows = d.get("batchRows")
-        byEmail = d.get("byEmail")
-        forward_days_after = d.get("forward_days_after")
-        forward_times = d.get("forward_times")
-        timeout = d.get("timeout")
-        urlCallBack = d.get("urlCallBack")
-        urlConfirmation = d.get("urlConfirmation")
-        urlReturn = d.get("urlReturn")
-        s = d.get("s")
-
-        return BatchCollectRequest(
-            apiKey=apiKey,
-            batchRows=batchRows,
-            byEmail=byEmail,
-            forward_days_after=forward_days_after,
-            forward_times=forward_times,
-            timeout=timeout,
-            urlCallBack=urlCallBack,
-            urlConfirmation=urlConfirmation,
-            urlReturn=urlReturn,
-            s=s,
-        )
-
-
-@dataclass
-class BatchCollectRejectedRow:
-    customerId: Optional[str] = None
-    commerceOrder: Optional[str] = None
-    rowNumber: Optional[int] = None
-    parameter: Optional[str] = None
-    errorCode: Optional[int] = None
-    errorMsg: Optional[str] = None
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BatchCollectRejectedRow":
-        customerId = d.get("customerId")
-        commerceOrder = d.get("commerceOrder")
-        rowNumber = d.get("rowNumber")
-        parameter = d.get("parameter")
-        errorCode = d.get("errorCode")
-        errorMsg = d.get("errorMsg")
-
-        return BatchCollectRejectedRow(
-            customerId=customerId,
-            commerceOrder=commerceOrder,
-            rowNumber=rowNumber,
-            parameter=parameter,
-            errorCode=errorCode,
-            errorMsg=errorMsg,
-        )
-
-
-@dataclass
-class BatchCollectResponse:
-    token: Optional[str] = None
-    receivedRows: Optional[int] = None
-    acceptedRows: Optional[int] = None
-    rejectedRows: Optional[List[BatchCollectRejectedRow]] = None
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BatchCollectResponse":
-        token = d.get("token")
-        receivedRows = d.get("receivedRows")
-        acceptedRows = d.get("acceptedRows")
-        rejectedRows = []
-        for rejected_row in d.get("rejectedRows") or []:
-            rejected_row_item = BatchCollectRejectedRow.from_dict(rejected_row)
-
-            rejectedRows.append(rejected_row_item)
-
-        return BatchCollectResponse(
-            token=token,
-            receivedRows=receivedRows,
-            acceptedRows=acceptedRows,
-            rejectedRows=rejectedRows,
         )

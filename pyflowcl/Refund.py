@@ -1,12 +1,11 @@
-import logging
 from dataclasses import asdict
-from typing import Any, Dict, cast
+from typing import Any, cast
 
 from .Clients import ApiClient
 from .models import GenericError, RefundRequest, RefundStatus
 
 
-def create(apiclient: ApiClient, refund_data: Dict[str, Any]) -> RefundStatus:
+def create(apiclient: ApiClient, refund_data: dict[str, Any]) -> RefundStatus:
     """
     Este servicio permite crear una orden de reembolso. Una vez que el
     receptor del reembolso acepte o rechaze el reembolso, Flow
@@ -21,22 +20,18 @@ def create(apiclient: ApiClient, refund_data: Dict[str, Any]) -> RefundStatus:
     if refund.apiKey is None:
         refund.apiKey = apiclient.api_key
     refund.s = apiclient.make_signature(asdict(refund))
-    logging.debug("Before Request:" + str(refund))
     response = apiclient.post(url, asdict(refund))
     if response.status_code == 200:
-        return RefundStatus.from_dict(cast(Dict[str, Any], response.json()))
+        return RefundStatus.from_dict(cast(dict[str, Any], response.json()))
     elif response.status_code == 400:
-        raise GenericError(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(dict[str, Any], response.json()))
     elif response.status_code == 401:
-        raise GenericError(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(dict[str, Any], response.json()))
     else:
         raise GenericError({"code": response.status_code, "message": response})
 
 
-def getStatus(
-    apiclient: ApiClient,
-    token: str,
-) -> RefundStatus:
+def getStatus(apiclient: ApiClient, token: str) -> RefundStatus:
     """
     Permite obtener el estado de un reembolso solicitado. Este servicio
     se debe invocar desde la página del comercio que se señaló en el
@@ -44,16 +39,15 @@ def getStatus(
     """
     url = f"{apiclient.api_url}/refund/getStatus"
 
-    params: Dict[str, Any] = {"apiKey": apiclient.api_key, "token": token}
+    params: dict[str, Any] = {"apiKey": apiclient.api_key, "token": token}
     signature = apiclient.make_signature(params)
     params["s"] = signature
-    logging.debug("Before Request:" + str(params))
     response = apiclient.get(url, params)
     if response.status_code == 200:
-        return RefundStatus.from_dict(cast(Dict[str, Any], response.json()))
+        return RefundStatus.from_dict(cast(dict[str, Any], response.json()))
     elif response.status_code == 400:
-        raise GenericError(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(dict[str, Any], response.json()))
     elif response.status_code == 401:
-        raise GenericError(cast(Dict[str, Any], response.json()))
+        raise GenericError(cast(dict[str, Any], response.json()))
     else:
         raise GenericError({"code": response.status_code, "message": response})

@@ -1,10 +1,8 @@
 [tool.poetry]
 name = "pyflowcl"
-version = "1.2.2"
+version = "2024.9.23"
 description = "Cliente para comunicacion con flowAPI-3 de flow.cl"
-authors = [
-    "Mario Hernandez <yo@mariofix.com>"
-]
+authors = ["Mario Hernandez <mariofix@proton.me>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/mariofix/pyflowcl"
@@ -25,68 +23,63 @@ keywords = [
     "mastercard",
     "transbank",
 ]
-classifiers=[
-    "Development Status :: 4 - Beta",
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-packages = [
-    {include = "pyflowcl"}
-]
+packages = [{ include = "pyflowcl" }]
 
 [tool.poetry.dependencies]
-python = "^3.8.5"
-certifi = "*"
-requests = "*"
-openapi3 = "^1.8.1"
-python-fsutil = "*"
+python = "^3.9"
+certifi = "^2024.8.30"
+requests = { version = "^2.32.3", extras = ["security"] }
+typer = { version = "^0.12.5", extras = ["all"] }
+pydantic = "^2.9.2"
+
+# para deprecar
 python-slugify = "*"
+python-fsutil = "*"
+openapi3 = "^1.8.1"
 pyyaml = "^6.0"
-typer = {extras = ["all"], version = "^0.9.0"}
+
 
 [tool.poetry.scripts]
 flow-cli = "pyflowcl.cli:app"
 
 [tool.poetry.group.dev]
-optional = true
+optional = false
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.4.0"
-coverage = "^7.2.7"
-black = "^23.7.0"
-mkdocs = {version = "^1.4.3", extras = ["i18n"]}
-mkdocs-material = "^9.1.19"
-mkdocstrings = {version = ">=0.22,<0.25", extras = ["python"]}
-mkdocs-git-authors-plugin = "^0.7.2"
-pre-commit = "^3.3.3"
-mkdocs-markdownextradata-plugin = "^0.2.5"
+pytest = "^8.3.3"
+coverage = "^7.6.1"
+black = "^24.8.0"
+pre-commit = "^3.8.0"
+datamodel-code-generator = "^0.26.0"
+mkdocs-material = "^9.5.35"
+mkdocstrings = { version = "^0.26.1", extras = ["python"] }
 mdx-include = "^1.4.2"
-pillow = "^10.0.0"
-cairosvg = "^2.7.0"
+rich = "^13.8.1"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra"
-testpaths = [
-    "tests",
-]
-python_files =[
-    "test*.py"
-]
+testpaths = ["tests"]
+python_files = ["test*.py"]
 
 [tool.black]
 line-length = 119
-target-version = ['py38']
+target-version = ['py39']
 
 [tool.isort]
 profile = "black"
 multi_line_output = 3
-py_version = 38
+py_version = 39
 
 [build-system]
 requires = ["poetry-core"]

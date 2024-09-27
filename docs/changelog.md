@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Futuros Cambios]
 
+## [2024.9.23] - Cambios Importantes
+
+### Cambiado
+
+- Sistema de versiones a fecha para facil seguimiento [AÑO.MES.DIA] del commit.
+- Deprecacion Python 3.8
+- Inicio Deprecacion OpenApi3 introducido en **1.1.0**
+- Actualizacion documentacion
+
 ## [1.2.2] - 2023-08-10
 
 ### Cambiado
