@@ -114,7 +114,7 @@ class PaymentRequest:
     """
 
     amount: float = 0
-    apiKey: str | None = None
+    apiKey: Optional[str] = None
     commerceOrder: str = ""
     currency: Optional[str] = None
     email: str = "correo@ejemplo.cl"

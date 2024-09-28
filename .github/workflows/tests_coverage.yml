@@ -2,40 +2,40 @@ name: Tests&Coverage
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   tests:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
-        poetry-version: ["1.5.0"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        poetry-version: ["1.8.3"]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Set Up Poetry
-      uses: abatilo/actions-poetry@v2
-      with:
-        poetry-version: ${{ matrix.poetry-version }}
-    - name: Install pyFlowCL
-      run: poetry install --with dev
-    - name: Run Tests and coverage
-      run: poetry run coverage run -m pytest
-    - name: Coverage report (xml)
-      run: poetry run coverage xml
-    - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@v2
-    - name: Run codacy-coverage-reporter
-      uses: codacy/codacy-coverage-reporter-action@v1
-      with:
-        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        coverage-reports: "coverage.xml"
-        language: "python"
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set Up Poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: Install pyFlowCL
+        run: poetry install --with dev
+      - name: Run Tests and coverage
+        run: poetry run coverage run -m pytest
+      - name: Coverage report (xml)
+        run: poetry run coverage xml
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: "coverage.xml"
+          language: "python"
