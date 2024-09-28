@@ -9,12 +9,12 @@ import requests
 @dataclass
 class ApiClient:
     """
-    Una clase para interactuar con la API de Flow.cl.
+    Cliente para interactuar con la API de Flow.
 
     Attributes:
-        api_url (str): La URL base de la API. Por defecto es "https://www.flow.cl/api".
-        api_key (str): La clave de la API proporcionada por Flow.cl.
-        api_secret (str): El secreto de la API proporcionado por Flow.cl.
+        api_url (str): URL base de la API de Flow. Por defecto es "https://www.flow.cl/api".
+        api_key (str): Clave de la API de Flow.
+        api_secret (str): Secreto de la API de Flow.
     """
 
     api_url: str = "https://www.flow.cl/api"
@@ -26,10 +26,10 @@ class ApiClient:
         Genera una firma HMAC-SHA256 para los parámetros dados.
 
         Args:
-            params (dict[str, Any]): Un diccionario de parámetros para firmar.
+            params (dict[str, Any]): Diccionario de parámetros para firmar.
 
         Returns:
-            str: La firma generada como una cadena hexadecimal.
+            str: Firma hexadecimal generada.
         """
         string = ""
         for k, d in params.items():
@@ -41,26 +41,26 @@ class ApiClient:
 
     def get(self, url: str, query_string: dict[str, Any]) -> dict[str, Any]:
         """
-        Realiza una solicitud GET a la API.
+        Realiza una solicitud GET a la API de Flow.
 
         Args:
-            url (str): La URL específica para la solicitud GET.
-            query_string (dict[str, Any]): Los parámetros de consulta para la solicitud.
+            url (str): URL relativa para la solicitud.
+            query_string (dict[str, Any]): Parámetros de consulta para la solicitud.
 
         Returns:
-            dict[str, Any]: La respuesta de la API como un diccionario.
+            dict[str, Any]: Respuesta de la API como un diccionario.
         """
         return requests.get(url, params=query_string)
 
     def post(self, url: str, post_data: dict[str, Any]) -> dict[str, Any]:
         """
-        Realiza una solicitud POST a la API.
+        Realiza una solicitud POST a la API de Flow.
 
         Args:
-            url (str): La URL específica para la solicitud POST.
-            post_data (dict[str, Any]): Los datos a enviar en el cuerpo de la solicitud POST.
+            url (str): URL relativa para la solicitud.
+            post_data (dict[str, Any]): Datos a enviar en el cuerpo de la solicitud.
 
         Returns:
-            dict[str, Any]: La respuesta de la API como un diccionario.
+            dict[str, Any]: Respuesta de la API como un diccionario.
         """
         return requests.post(url, data=post_data)

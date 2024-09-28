@@ -2,25 +2,45 @@
 
 pyflowcl es una biblioteca de Python que proporciona una interfaz para interactuar con la API de Flow en Chile. Con pyflowcl, puedes realizar diversas operaciones, como crear pagos, obtener información de pagos, realizar reembolsos y más.
 
+![PyPI - Status](https://img.shields.io/pypi/status/pyflowcl)
+[![Tests&Coverage](https://github.com/mariofix/pyflowcl/actions/workflows/tests_coverage.yml/badge.svg?branch=main)](https://github.com/mariofix/pyflowcl/actions/workflows/tests_coverage.yml)
+[![Downloads](https://pepy.tech/badge/pyflowcl)](https://pepy.tech/project/pyflowcl)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7254d825df2d4292bf68563548d41f64)](https://app.codacy.com/gh/mariofix/pyflowcl/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/7254d825df2d4292bf68563548d41f64)](https://app.codacy.com/gh/mariofix/pyflowcl/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/mariofix/pyflowcl/main.svg)](https://results.pre-commit.ci/latest/github/mariofix/pyflowcl/main)
+![PyPI](https://img.shields.io/pypi/v/pyflowcl)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyflowcl)
+![PyPI - Implementation](https://img.shields.io/pypi/implementation/pyflowcl)
+![PyPI - License](https://img.shields.io/pypi/l/pyflowcl)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 ## Instalación
 
 Este proyecto está desarrollado para Python 3.9 y superior.
 Este proyecto es administrado por Poetry.
 
-=== "Usando Poetry"
-`shell
-    poetry add pyflowcl
-    `
-=== "Usando pip"
-`shell
+=== "Python"
+
+    ```shell title="pip"
     pip install pyflowcl
-    `
+    ```
+
+    ```shell title="poetry"
+    poetry add pyflowcl
+    ```
+
+=== "git"
+
+    ```shell title="git clone"
+    git clone https://github.com/mariofix/pyflowcl.git
+    ```
 
 ## Uso Básico
 
 Aquí hay un ejemplo básico de cómo usar pyflowcl para crear un pago:
 
 ```python
+
 from pyflowcl import Payment
 from pyflowcl.Clients import ApiClient
 

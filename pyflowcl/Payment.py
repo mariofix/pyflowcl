@@ -123,8 +123,6 @@ def create(apiclient: ApiClient, payment_data: dict[str, Any]) -> PaymentRespons
     Una vez que el pagador efectúe el pago, Flow notificará el resultado a la
     página del comercio que se envió en el parámetro urlConfirmation.
 
-    Example:
-        from pyflowcl import Payment
     """
     url = f"{apiclient.api_url}/payment/create"
     payment = PaymentRequest.from_dict(payment_data)

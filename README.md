@@ -16,11 +16,7 @@ pyflowcl es una biblioteca de Python que proporciona una interfaz para interactu
 
 ## Instalación
 
-Para instalar pyflowcl, asegúrate de tener Python y pip instalados. Luego, puedes instalar la biblioteca utilizando pip:
-
-```shell
-pip install pyflowcl
-```
+Para instalar `pyflowcl`, asegúrate de tener Python instalados. Luego, puedes instalar la biblioteca utilizando tu administrador favorito.
 
 ## Uso Básico
 

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Futuros Cambios]
 
-## [2024.9.23] - Cambios Importantes
+## [2024.9.28] - Cambios Importantes
 
 ### Cambiado
 

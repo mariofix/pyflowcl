@@ -27,6 +27,9 @@ theme:
         name: Switch to light mode
   features:
     - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.footer
     - content.tabs.link
     - content.tooltips
     - content.code.annotate
@@ -36,41 +39,58 @@ theme:
   icon:
     repo: fontawesome/brands/github
     logo: material/contactless-payment
+    alternate: material/translate-variant
   font:
-    text: Montserrat
+    text: Ubuntu
+
+extra:
+  alternate:
+    - name: Español
+      link: /
+      lang: es
+  scope: /
 
 plugins:
   - mkdocstrings
+  - social
+  - git-authors
 
 nav:
   - Inicio: index.md
   - Cómo Usar: uso.md
   - Referencia:
-      - ApiClient: apiclient.md
       - Payment: apiclient-payment.md
       - Refund: apiclient-refund.md
+      - ApiClient: apiclient.md
       - Modelos: models.md
-  - Django Payments: django-payments.md
-  - Merchants: merchants.md
+  - Integraciones:
+      - Django Payments: django-payments.md
+      - Merchants: merchants.md
   - Colabora: contributing.md
   - Registro de Cambios: changelog.md
 
 markdown_extensions:
+  abbr:
   toc:
     permalink: true
-  markdown.extensions.codehilite:
-    guess_lang: false
   mdx_include:
     base_path: docs
   admonition:
-  codehilite:
   extra:
+  attr_list:
+  def_list:
+  footnotes:
+  tables:
+  md_in_html:
   pymdownx.superfences:
-    custom_fences:
-      - name: mermaid
-        class: mermaid
-        format: !!python/name:pymdownx.superfences.fence_code_format ""
+  pymdownx.details:
+  pymdownx.snippets:
   pymdownx.tabbed:
     alternate_style: true
-  attr_list:
-  md_in_html:
+  pymdownx.emoji:
+    emoji_index: !!python/name:material.extensions.emoji.twemoji
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  pymdownx.highlight:
+    anchor_linenums: true
+    auto_title: true
+  pymdownx.inlinehilite:
