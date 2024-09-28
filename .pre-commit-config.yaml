@@ -1,41 +1,41 @@
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
-    -   id: trailing-whitespace
+      - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
-    -   id: end-of-file-fixer
-    -   id: check-toml
-    -   id: check-yaml
-        args: ['--unsafe']
-    -   id: check-added-large-files
-    -   id: check-case-conflict
-    -   id: mixed-line-ending
--   repo: https://github.com/pycqa/isort
+      - id: end-of-file-fixer
+      - id: check-toml
+      - id: check-yaml
+        args: ["--unsafe"]
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: mixed-line-ending
+  - repo: https://github.com/pycqa/isort
     rev: 5.13.2
     hooks:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
--   repo: https://github.com/psf/black
+  - repo: https://github.com/psf/black
     rev: 24.8.0
     hooks:
       - id: black
--   repo: https://github.com/asottile/pyupgrade
+  - repo: https://github.com/asottile/pyupgrade
     rev: v3.17.0
     hooks:
-    -   id: pyupgrade
+      - id: pyupgrade
         args: [--py39-plus]
--   repo: https://github.com/hhatto/autopep8
-    rev: v2.3.1
-    hooks:
-    -   id: autopep8
--   repo: https://github.com/PyCQA/flake8
-    rev: "7.1.1"
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          - flake8-comprehensions
-          - flake8-bugbear
-          - flake8-polyfill
-          - toml
-        exclude: docs\/.*
+# -   repo: https://github.com/hhatto/autopep8
+#     rev: v2.3.1
+#     hooks:
+#     -   id: autopep8
+# -   repo: https://github.com/PyCQA/flake8
+#     rev: "7.1.1"
+#     hooks:
+#       - id: flake8
+#         additional_dependencies:
+#           - flake8-comprehensions
+#           - flake8-bugbear
+#           - flake8-polyfill
+#           - toml
+#         exclude: docs\/.*
