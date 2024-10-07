@@ -59,7 +59,7 @@ optional = true
 pytest = "^8.3.3"
 coverage = "^7.6.1"
 black = "^24.8.0"
-pre-commit = "^3.8.0"
+pre-commit = ">=3.8,<5.0"
 mkdocs-material = { version = "^9.5.38", extras = [
     "recomended",
     "imaging",
