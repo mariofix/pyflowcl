@@ -39,7 +39,7 @@ packages = [{ include = "pyflowcl" }]
 python = "^3.9"
 certifi = "^2024.8.30"
 requests = { version = "^2.32.3", extras = ["security"] }
-typer = { version = "^0.12.5", extras = ["all"] }
+typer = { version = ">=0.12.5,<0.16.0", extras = ["all"] }
 pydantic = "^2.9.2"
 
 # para deprecar
