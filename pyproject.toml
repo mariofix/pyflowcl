@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyflowcl"
-version = "2024.9.28"
+version = "2025.1.0"
 description = "Cliente para comunicacion con flowAPI-3 de flow.cl"
 authors = ["Mario Hernandez <mariofix@proton.me>"]
 license = "MIT"
