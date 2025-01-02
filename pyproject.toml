@@ -65,7 +65,7 @@ mkdocs-material = { version = "^9.5.38", extras = [
     "imaging",
     "git",
 ] }
-mkdocstrings = { version = "^0.26.1", extras = ["python"] }
+mkdocstrings = { version = ">=0.26.1,<0.28.0", extras = ["python"] }
 mdx-include = "^1.4.2"
 rich = "^13.8.1"
 mkdocs-git-authors-plugin = "^0.9.0"
