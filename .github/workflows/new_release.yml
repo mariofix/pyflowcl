@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Set Up Poetry
-        uses: abatilo/actions-poetry@v3
+        uses: abatilo/actions-poetry@v4
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install pyflowcl
@@ -47,7 +47,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Set Up Poetry
-        uses: abatilo/actions-poetry@v3
+        uses: abatilo/actions-poetry@v4
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install pyflowcl
@@ -75,7 +75,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
       - name: Set Up Poetry
-        uses: abatilo/actions-poetry@v3
+        uses: abatilo/actions-poetry@v4
       - name: Install django-payments-flow
         run: poetry install --with dev
       - name: Build pyflowcl
