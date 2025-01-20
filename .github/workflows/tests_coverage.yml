@@ -44,7 +44,7 @@ jobs:
           PYTHONPATH: ${{ github.workspace }}
         run: |
           poetry run coverage erase
-          poetry run pytest -v
+          poetry run coverage run -m pytest
           poetry run coverage xml
 
       - name: Coveralls GitHub Action
