@@ -47,6 +47,7 @@ python-slugify = "*"
 python-fsutil = "*"
 openapi3 = "^1.8.1"
 pyyaml = "^6.0"
+pytest-cov = "^6.0.0"
 
 
 [tool.poetry.scripts]
@@ -72,7 +73,7 @@ mkdocs-git-authors-plugin = "^0.9.0"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-v --cov=pyflowcl --cov-report=xml --cov-report=term"
+addopts = "-vra"
 testpaths = ["tests"]
 python_files = ["test*.py"]
 
