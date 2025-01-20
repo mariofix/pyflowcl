@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           poetry config virtualenvs.create true
-          poetry install --all-extras --no-interaction
+          poetry install --with dev --all-extras --no-interaction
 
       - name: Run tests with coverage
         env:
