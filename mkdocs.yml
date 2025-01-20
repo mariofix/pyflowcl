@@ -3,9 +3,8 @@ site_url: https://mariofix.github.io/pyflowcl
 repo_url: https://github.com/mariofix/pyflowcl
 repo_name: mariofix/pyflowcl
 site_description: Documentacion para pyFlowCl
-site_author: mariofix <yo@mariofix.com>
+site_author: mariofix <mariofix@proton.me>
 copyright: "MIT License"
-edit_uri: ""
 
 theme:
   name: material
@@ -53,7 +52,6 @@ extra:
 plugins:
   - mkdocstrings
   - social
-  - git-authors
 
 nav:
   - Inicio: index.md
@@ -73,8 +71,6 @@ markdown_extensions:
   abbr:
   toc:
     permalink: true
-  mdx_include:
-    base_path: docs
   admonition:
   extra:
   attr_list:

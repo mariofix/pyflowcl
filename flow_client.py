@@ -1,16 +1,13 @@
+import os
 from typing import Any
 
 from pyflowcl import Payment
 from pyflowcl.Clients import ApiClient
 
-API_URL = "https://sandbox.flow.cl/api"
-API_KEY = "api_key"
-API_SECRET = "api_secret"
-
 api = ApiClient(
-    api_url=API_URL,
-    api_key=API_KEY,
-    api_secret=API_SECRET,
+    api_url=os.getenv("API_URL"),
+    api_key=os.getenv("API_KEY"),
+    api_secret=os.getenv("API_SECRET"),
 )
 
 pago = {

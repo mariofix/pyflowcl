@@ -1,15 +1,13 @@
-[tool.poetry]
+[project]
 name = "pyflowcl"
-version = "2025.1.0"
-description = "Cliente para comunicacion con flowAPI-3 de flow.cl"
-authors = ["Mario Hernandez <mariofix@proton.me>"]
-license = "MIT"
+version = "2025.2.0"
+description = "Cliente para comunicacion con API de flow.cl"
+authors = [{ name = "Mario Hernandez", email = "mariofix@proton.me" }]
+license = { text = "MIT" }
 readme = "README.md"
-repository = "https://github.com/mariofix/pyflowcl"
-documentation = "https://mariofix.github.io/pyflowcl/"
-homepage = "https://www.flow.cl/docs/api.html"
+requires-python = ">=3.9, <4.0"
+dependencies = ["requests[security] (>=2.32.3,<3.0.0)"]
 keywords = [
-    "plataforma de pagos",
     "pagos",
     "pagar",
     "cobrar",
@@ -17,11 +15,7 @@ keywords = [
     "tarjetas",
     "credito",
     "debito",
-    "redcompra",
-    "webpay",
-    "visa",
-    "mastercard",
-    "transbank",
+    "flow",
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -33,43 +27,27 @@ classifiers = [
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-packages = [{ include = "pyflowcl" }]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-certifi = "^2024.8.30"
-requests = { version = "^2.32.3", extras = ["security"] }
-typer = { version = ">=0.12.5,<0.16.0", extras = ["all"] }
-pydantic = "^2.9.2"
+[project.urls]
+Repository = "https://github.com/mariofix/pyflowcl"
+Homepage = "https://www.flow.cl/docs/api.html"
+Documentation = "https://mariofix.github.io/pyflowcl"
 
-# para deprecar
-python-slugify = "*"
-python-fsutil = "*"
-openapi3 = "^1.8.1"
-pyyaml = "^6.0"
-pytest-cov = "^6.0.0"
+[project.optional-dependencies]
+dev = [
+    "pre-commit (>=4.1.0,<5.0.0)",
+    "black (>=24.10.0,<25.0.0)",
+    "coverage (>=7.6.10,<8.0.0)",
+    "pytest (>=8.3.4,<9.0.0)",
+    "mkdocs-material[git,imaging,recomended] (>=9.5.50,<10.0.0)",
+    "mkdocstrings[python] (>=0.27.0,<0.28.0)",
+    "mkdocs-git-authors-plugin (>=0.9.2,<0.10.0)",
+    "pytest-cov (>=6.0.0,<7.0.0)",
+]
 
-
-[tool.poetry.scripts]
-flow-cli = "pyflowcl.cli:app"
-
-[tool.poetry.group.dev]
-optional = false
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.3"
-coverage = "^7.6.1"
-black = "^24.8.0"
-pre-commit = ">=3.8,<5.0"
-mkdocs-material = { version = "^9.5.38", extras = [
-    "recomended",
-    "imaging",
-    "git",
-] }
-mkdocstrings = { version = ">=0.26.1,<0.28.0", extras = ["python"] }
-mdx-include = "^1.4.2"
-rich = "^13.8.1"
-mkdocs-git-authors-plugin = "^0.9.0"
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -89,7 +67,7 @@ py_version = 39
 
 [tool.coverage.run]
 source = ["pyflowcl"]
-omit = ["*/tests/*", "pyflowcl/openapi3.py", "pyflowcl/cli.py"]
+omit = ["*/tests/*"]
 branch = true
 
 [tool.coverage.report]
@@ -104,6 +82,5 @@ exclude_lines = [
 show_missing = true
 fail_under = 0
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.poetry]
+packages = [{ include = "pyflowcl" }]

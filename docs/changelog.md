@@ -2,16 +2,24 @@
 
 Cliente API para operaciones con el servicio de pagos Flow.cl [FlowAPI-3.0.1](https://www.flow.cl/docs/api.html)
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
 ## [Futuros Cambios]
+
+## [2025.2]
+
+### Agregado
+
+- Soporte PEP621
+
+### Eliminado
+
+- Soporte OpenAPI3
+- Cli
 
 ## [2024.9.28] - Cambios Importantes
 
 ### Cambiado
 
-- Sistema de versiones a fecha para facil seguimiento [AÑO.MES.DIA] del commit.
+- Sistema de versiones a fecha para facil seguimiento [AÑO.MES] del commit.
 - Deprecacion Python 3.8
 - Inicio Deprecacion OpenApi3 introducido en **1.1.0**
 - Actualizacion documentacion
