@@ -2,9 +2,12 @@ name: Tests&Coverage
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   pull_request:
-    branches: ["main"]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   tests:
@@ -12,30 +15,67 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
-        poetry-version: ["1.8.3"]
+        poetry-version: ["2.0.1"]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for better coverage reporting
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          # cache: "poetry" # Enable poetry caching
+
       - name: Set Up Poetry
         uses: abatilo/actions-poetry@v4
         with:
           poetry-version: ${{ matrix.poetry-version }}
-      - name: Install pyFlowCL
-        run: poetry install --with dev
-      - name: Run Tests and coverage
-        run: poetry run coverage run -m pytest
-      - name: Coverage report (xml)
-        run: poetry run coverage xml
+
+      - name: Install dependencies
+        run: |
+          poetry config virtualenvs.create true
+          poetry install --all-extras --no-interaction
+
+      - name: Run tests with coverage
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          poetry run coverage erase
+          poetry run pytest \
+            --cov-report=xml \
+            --cov-report=term \
+            --cov-branch \
+            -v
+          poetry run coverage xml
+
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: "coverage.xml"
           language: "python"
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.python-version }}
+          path: coverage.xml
+          retention-days: 14
+
+  codacy-analysis-cli:
+    name: Codacy Analysis CLI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@master
