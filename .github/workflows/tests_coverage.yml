@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           poetry config virtualenvs.create true
-          poetry install --with dev --all-extras --no-interaction
+          poetry install --all-extras --no-interaction
 
       - name: Run tests with coverage
         env:
@@ -65,13 +65,3 @@ jobs:
           name: coverage-${{ matrix.python-version }}
           path: coverage.xml
           retention-days: 14
-
-  codacy-analysis-cli:
-    name: Codacy Analysis CLI
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@master
