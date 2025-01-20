@@ -44,11 +44,7 @@ jobs:
           PYTHONPATH: ${{ github.workspace }}
         run: |
           poetry run coverage erase
-          poetry run pytest \
-            --cov-report=xml \
-            --cov-report=term \
-            --cov-branch \
-            -v
+          poetry run pytest -v
           poetry run coverage xml
 
       - name: Coveralls GitHub Action
