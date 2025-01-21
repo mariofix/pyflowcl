@@ -1,7 +1,7 @@
 import hashlib
 import hmac
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 import requests
 
@@ -18,8 +18,8 @@ class ApiClient:
     """
 
     api_url: str = "https://www.flow.cl/api"
-    api_key: str = ""
-    api_secret: str = ""
+    api_key: Optional[str] = None
+    api_secret: Optional[str] = None
 
     def make_signature(self, params: dict[str, Any]) -> str:
         """
@@ -33,7 +33,7 @@ class ApiClient:
         """
         string = ""
         for k, d in params.items():
-            if d is not None:
+            if d:
                 string = string + f"{k}{d}"
         hash_string = hmac.new(self.api_secret.encode(), string.encode(), hashlib.sha256).hexdigest()
 
@@ -50,7 +50,7 @@ class ApiClient:
         Returns:
             dict[str, Any]: Respuesta de la API como un diccionario.
         """
-        return requests.get(url, params=query_string)
+        return requests.get(url, params=query_string, timeout=5)
 
     def post(self, url: str, post_data: dict[str, Any]) -> dict[str, Any]:
         """
@@ -63,4 +63,4 @@ class ApiClient:
         Returns:
             dict[str, Any]: Respuesta de la API como un diccionario.
         """
-        return requests.post(url, data=post_data)
+        return requests.post(url, data=post_data, timeout=5)

@@ -56,8 +56,7 @@ def test_create_refund_error(mock_post, api_client):
     with pytest.raises(GenericError) as exc_info:
         create(api_client, refund_data)
 
-    assert exc_info.value.code == "ERROR_CODE"
-    assert exc_info.value.message == "Error message"
+    assert exc_info.value.code == 400
 
 
 @patch("pyflowcl.Clients.ApiClient.get")
@@ -89,8 +88,7 @@ def test_get_refund_status_error(mock_get, api_client):
     with pytest.raises(GenericError) as exc_info:
         getStatus(api_client, "TEST_TOKEN")
 
-    assert exc_info.value.code == "UNAUTHORIZED"
-    assert exc_info.value.message == "Unauthorized access"
+    assert exc_info.value.code == 401
 
 
 @patch("pyflowcl.Clients.ApiClient.post")

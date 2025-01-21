@@ -41,8 +41,11 @@ class PaymentStatus:
     """
 
     flow_order: Optional[int] = None
+    flowOrder: Optional[int] = None
     commerce_order: Optional[str] = None
+    commerceOrder: Optional[str] = None
     request_date: Optional[str] = None
+    requestDate: Optional[str] = None
     status: Optional[int] = None
     subject: Optional[str] = None
     currency: Optional[str] = None
@@ -56,8 +59,11 @@ class PaymentStatus:
     @staticmethod
     def from_dict(d: dict[str, Any]) -> "PaymentStatus":
         flow_order = d.get("flowOrder")
+        flowOrder = d.get("flowOrder")
         commerce_order = d.get("commerceOrder")
+        commerceOrder = d.get("commerceOrder")
         request_date = d.get("requestDate")
+        requestDate = d.get("requestDate")
         status = d.get("status")
         subject = d.get("subject")
         currency = d.get("currency")
@@ -70,8 +76,11 @@ class PaymentStatus:
 
         return PaymentStatus(
             flow_order=flow_order,
+            flowOrder=flowOrder,
             commerce_order=commerce_order,
+            commerceOrder=commerceOrder,
             request_date=request_date,
+            requestDate=requestDate,
             status=status,
             subject=subject,
             currency=currency,

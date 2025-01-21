@@ -23,10 +23,6 @@ def create(apiclient: ApiClient, refund_data: dict[str, Any]) -> RefundStatus:
     response = apiclient.post(url, asdict(refund))
     if response.status_code == 200:
         return RefundStatus.from_dict(cast(dict[str, Any], response.json()))
-    elif response.status_code == 400:
-        raise GenericError(cast(dict[str, Any], response.json()))
-    elif response.status_code == 401:
-        raise GenericError(cast(dict[str, Any], response.json()))
     else:
         raise GenericError({"code": response.status_code, "message": response})
 
@@ -45,9 +41,5 @@ def getStatus(apiclient: ApiClient, token: str) -> RefundStatus:
     response = apiclient.get(url, params)
     if response.status_code == 200:
         return RefundStatus.from_dict(cast(dict[str, Any], response.json()))
-    elif response.status_code == 400:
-        raise GenericError(cast(dict[str, Any], response.json()))
-    elif response.status_code == 401:
-        raise GenericError(cast(dict[str, Any], response.json()))
     else:
         raise GenericError({"code": response.status_code, "message": response})

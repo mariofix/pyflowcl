@@ -121,5 +121,4 @@ def test_error_handling(mock_get, api_client):
     with pytest.raises(GenericError) as exc_info:
         getStatus(api_client, "test_token")
 
-    assert exc_info.value.code == "ERROR_CODE"
-    assert exc_info.value.message == "Error message"
+    assert exc_info.value.code == 400

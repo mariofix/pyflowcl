@@ -34,10 +34,6 @@ def getStatus(apiclient: ApiClient, token: str) -> PaymentStatus:
 
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(dict[str, Any], response.json()))
-    elif response.status_code == 400:
-        raise GenericError(cast(dict[str, Any], response.json()))
-    elif response.status_code == 401:
-        raise GenericError(cast(dict[str, Any], response.json()))
     else:
         raise GenericError({"code": response.status_code, "message": response})
 
@@ -57,10 +53,6 @@ def getStatusByCommerceId(apiclient: ApiClient, commerceId: str) -> PaymentStatu
 
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(dict[str, Any], response.json()))
-    elif response.status_code == 400:
-        raise GenericError(cast(dict[str, Any], response.json()))
-    elif response.status_code == 401:
-        raise GenericError(cast(dict[str, Any], response.json()))
     else:
         raise GenericError({"code": response.status_code, "message": response})
 
@@ -80,10 +72,6 @@ def getStatusByFlowOrder(apiclient: ApiClient, flowOrder: int) -> PaymentStatus:
 
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(dict[str, Any], response.json()))
-    elif response.status_code == 400:
-        raise GenericError(cast(dict[str, Any], response.json()))
-    elif response.status_code == 401:
-        raise GenericError(cast(dict[str, Any], response.json()))
     else:
         raise GenericError({"code": response.status_code, "message": response})
 
@@ -103,10 +91,6 @@ def getPayments(apiclient: ApiClient, payment_info: dict[str, Any]) -> PaymentLi
 
     if response.status_code == 200:
         return PaymentList.from_dict(cast(dict[str, Any], response.json()))
-    elif response.status_code == 400:
-        raise GenericError(cast(dict[str, Any], response.json()))
-    elif response.status_code == 401:
-        raise GenericError(cast(dict[str, Any], response.json()))
     else:
         raise GenericError({"code": response.status_code, "message": response})
 
@@ -132,10 +116,6 @@ def create(apiclient: ApiClient, payment_data: dict[str, Any]) -> PaymentRespons
     response = apiclient.post(url, asdict(payment))
     if response.status_code == 200:
         return PaymentResponse.from_dict(cast(dict[str, Any], response.json()))
-    elif response.status_code == 400:
-        raise GenericError(cast(dict[str, Any], response.json()))
-    elif response.status_code == 401:
-        raise GenericError(cast(dict[str, Any], response.json()))
     else:
         raise GenericError({"code": response.status_code, "message": response})
 
@@ -158,9 +138,5 @@ def createEmail(apiclient: ApiClient, payment_data: dict[str, Any]) -> PaymentRe
 
     if response.status_code == 200:
         return PaymentResponse.from_dict(cast(dict[str, Any], response.json()))
-    elif response.status_code == 400:
-        raise GenericError(cast(dict[str, Any], response.json()))
-    elif response.status_code == 401:
-        raise GenericError(cast(dict[str, Any], response.json()))
     else:
         raise GenericError({"code": response.status_code, "message": response})
