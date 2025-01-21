@@ -1,21 +1,11 @@
 # Integración de Django-Payments con Flow
 
-Django-Payments es un sistema universal de manejo de pagos para Django. Este documento detalla los pasos para integrar Flow con Django-Payments utilizando la librería `pyflowcl`.
+Django-Payments es un sistema universal de manejo de pagos para Django. Este documento detalla los pasos para integrar Flow con Django-Payments utilizando la librería `django-payments-chile`.
 
 ## Instalación
 
-Existen dos métodos principales para instalar `django-payments-flow`:
-
-### Usando Poetry
-
 ```shell
-poetry add django-payments-flow
-```
-
-### Usando pip
-
-```shell
-pip install django-payments-flow
+pip install django-payments-chile
 ```
 
 ## Configuración Básica
@@ -24,7 +14,7 @@ Configura el proveedor de Flow en tu archivo `settings.py`:
 
 ```python
 PAYMENT_VARIANTS = {
-    "flow": ("django_payments_flow.FlowProvider", {
+    "flow": ("django_payments_chile.FlowProvider", {
         "key": "ApiKey",
         "secret": "ApiSecret",
         "sandbox": True,  # Usar True para pruebas, False para producción
@@ -60,4 +50,4 @@ payment = Payment.objects.create(
 
 ## Configuración Avanzada
 
-Para opciones de configuración más avanzadas, consulta la [documentación oficial de django-payments-flow](https://mariofix.github.io/django-payments-flow/uso/#variables-de-configuracion).
+Para opciones de configuración más avanzadas, consulta la [documentación oficial de django-payments-chile](https://mariofix.github.io/django-payments-chile).

@@ -4,16 +4,6 @@ Merchants es un sistema universal de manejo de pagos para Starlette/FastAPI. Est
 
 ## Instalación
 
-Existen dos métodos principales para instalar `merchants`:
-
-### Usando Poetry
-
-```shell
-poetry add merchants
-```
-
-### Usando pip
-
 ```shell
 pip install merchants
 ```
