@@ -17,23 +17,16 @@ pyflowcl es una biblioteca de Python que proporciona una interfaz para interactu
 ## Instalación
 
 Este proyecto está desarrollado para Python 3.9 y superior.
-Este proyecto es administrado por Poetry.
 
-=== "Python"
+```shell title="pip"
+pip install pyflowcl
+```
 
-    ```shell title="pip"
-    pip install pyflowcl
-    ```
+Tambien puedes clonar el repositorio
 
-    ```shell title="poetry"
-    poetry add pyflowcl
-    ```
-
-=== "git"
-
-    ```shell title="git clone"
-    git clone https://github.com/mariofix/pyflowcl.git
-    ```
+```shell title="git clone"
+git clone https://github.com/mariofix/pyflowcl.git
+```
 
 ## Uso Básico
 
