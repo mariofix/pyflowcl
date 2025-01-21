@@ -1,0 +1,32 @@
+name: New Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  docs:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9"]
+        poetry-version: ["2.0.1"]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    needs: crosscheck
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set Up Poetry
+        uses: abatilo/actions-poetry@v4
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: Install pyflowcl
+        run: poetry install --all-extras
+      - name: Deploy Docs
+        run: poetry run mkdocs gh-deploy --force
