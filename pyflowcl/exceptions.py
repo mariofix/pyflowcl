@@ -4,3 +4,7 @@ class ConfigException(Exception):
 
 class ParamsException(Exception):
     pass
+
+
+class GenericError(Exception):
+    pass
