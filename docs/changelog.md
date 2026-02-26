@@ -6,7 +6,7 @@ Cliente API para operaciones con el servicio de pagos Flow.cl [FlowAPI-3.0.1](ht
 
 - Bug en exceptions, GenericError faltaba
 - Drop Python 3.9
-  
+
 ## [2025.2]
 
 ### Agregado
