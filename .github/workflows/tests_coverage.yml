@@ -1,4 +1,6 @@
 name: Tests&Coverage
+permissions:
+  contents: read
 
 on:
   push:
