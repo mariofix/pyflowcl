@@ -28,52 +28,56 @@ def getStatus(apiclient: ApiClient, token: str) -> PaymentStatus:
     url = f"{apiclient.api_url}/payment/getStatus"
 
     params: dict[str, Any] = {"apiKey": apiclient.api_key, "token": token}
-    signature = apiclient.make_signature(params)
-    params["s"] = signature
+    params["s"] = apiclient.make_signature(params)
     response = apiclient.get(url, params)
 
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(dict[str, Any], response.json()))
-    else:
-        raise GenericError({"code": response.status_code, "message": response})
+    raise GenericError({"code": response.status_code, "message": response.text})
 
 
 def getStatusByCommerceId(apiclient: ApiClient, commerceId: str) -> PaymentStatus:
     """
-    Obtiene el estado de un pago previamente creado, el parametro token
-    hace referencia a notification id, el cual se recibe luego de procesado
-    un pago
+    Obtiene el estado de un pago previamente creado usando el ID de orden del comercio.
+
+    Args:
+        apiclient: ApiClient
+        commerceId: str
+
+    Returns:
+        PaymentStatus
     """
     url = f"{apiclient.api_url}/payment/getStatusByCommerceId"
 
     params: dict[str, Any] = {"apiKey": apiclient.api_key, "commerceId": commerceId}
-    signature = apiclient.make_signature(params)
-    params["s"] = signature
+    params["s"] = apiclient.make_signature(params)
     response = apiclient.get(url, params)
 
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(dict[str, Any], response.json()))
-    else:
-        raise GenericError({"code": response.status_code, "message": response})
+    raise GenericError({"code": response.status_code, "message": response.text})
 
 
 def getStatusByFlowOrder(apiclient: ApiClient, flowOrder: int) -> PaymentStatus:
     """
-    Obtiene el estado de un pago previamente creado, el parametro token
-    hace referencia a notification id, el cual se recibe luego de procesado
-    un pago
+    Obtiene el estado de un pago previamente creado usando el número de orden de Flow.
+
+    Args:
+        apiclient: ApiClient
+        flowOrder: int
+
+    Returns:
+        PaymentStatus
     """
     url = f"{apiclient.api_url}/payment/getStatusByFlowOrder"
 
     params: dict[str, Any] = {"apiKey": apiclient.api_key, "flowOrder": flowOrder}
-    signature = apiclient.make_signature(params)
-    params["s"] = signature
+    params["s"] = apiclient.make_signature(params)
     response = apiclient.get(url, params)
 
     if response.status_code == 200:
         return PaymentStatus.from_dict(cast(dict[str, Any], response.json()))
-    else:
-        raise GenericError({"code": response.status_code, "message": response})
+    raise GenericError({"code": response.status_code, "message": response.text})
 
 
 def getPayments(apiclient: ApiClient, payment_info: dict[str, Any]) -> PaymentList:
@@ -81,18 +85,23 @@ def getPayments(apiclient: ApiClient, payment_info: dict[str, Any]) -> PaymentLi
     Este método permite obtener la lista paginada de pagos recibidos en
     un día.Los objetos pagos de la lista tienen la misma estructura de
     los retornados en los servicios payment/getStatus
+
+    Args:
+        apiclient: ApiClient
+        payment_info: dict[str, Any]
+
+    Returns:
+        PaymentList
     """
     url = f"{apiclient.api_url}/payment/getPayments"
 
     payment_info["apiKey"] = apiclient.api_key
-    signature = apiclient.make_signature(payment_info)
-    payment_info["s"] = signature
+    payment_info["s"] = apiclient.make_signature(payment_info)
     response = apiclient.get(url, payment_info)
 
     if response.status_code == 200:
         return PaymentList.from_dict(cast(dict[str, Any], response.json()))
-    else:
-        raise GenericError({"code": response.status_code, "message": response})
+    raise GenericError({"code": response.status_code, "message": response.text})
 
 
 def create(apiclient: ApiClient, payment_data: dict[str, Any]) -> PaymentResponse:
@@ -107,17 +116,23 @@ def create(apiclient: ApiClient, payment_data: dict[str, Any]) -> PaymentRespons
     Una vez que el pagador efectúe el pago, Flow notificará el resultado a la
     página del comercio que se envió en el parámetro urlConfirmation.
 
+    Args:
+        apiclient: ApiClient
+        payment_data: dict[str, Any]
+
+    Returns:
+        PaymentResponse
     """
     url = f"{apiclient.api_url}/payment/create"
     payment = PaymentRequest.from_dict(payment_data)
     if not payment.apiKey:
         payment.apiKey = apiclient.api_key
-    payment.s = apiclient.make_signature(asdict(payment))
-    response = apiclient.post(url, asdict(payment))
+    payment_dict = asdict(payment)
+    payment_dict["s"] = apiclient.make_signature(payment_dict)
+    response = apiclient.post(url, payment_dict)
     if response.status_code == 200:
         return PaymentResponse.from_dict(cast(dict[str, Any], response.json()))
-    else:
-        raise GenericError({"code": response.status_code, "message": response})
+    raise GenericError({"code": response.status_code, "message": response.text})
 
 
 def createEmail(apiclient: ApiClient, payment_data: dict[str, Any]) -> PaymentResponse:
@@ -127,16 +142,22 @@ def createEmail(apiclient: ApiClient, payment_data: dict[str, Any]) -> PaymentRe
     correspondiente. Una vez que el pagador efectúe el pago, Flow
     notificará el resultado a la página del comercio que se envió en el
     parámetro urlConfirmation.
+
+    Args:
+        apiclient: ApiClient
+        payment_data: dict[str, Any]
+
+    Returns:
+        PaymentResponse
     """
     url = f"{apiclient.api_url}/payment/createEmail"
     payment = PaymentRequestEmail.from_dict(payment_data)
-    if payment.apiKey is None:
+    if not payment.apiKey:
         payment.apiKey = apiclient.api_key
-
-    payment.s = apiclient.make_signature(asdict(payment))
-    response = apiclient.post(url, asdict(payment))
+    payment_dict = asdict(payment)
+    payment_dict["s"] = apiclient.make_signature(payment_dict)
+    response = apiclient.post(url, payment_dict)
 
     if response.status_code == 200:
         return PaymentResponse.from_dict(cast(dict[str, Any], response.json()))
-    else:
-        raise GenericError({"code": response.status_code, "message": response})
+    raise GenericError({"code": response.status_code, "message": response.text})

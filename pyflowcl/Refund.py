@@ -14,17 +14,24 @@ def create(apiclient: ApiClient, refund_data: dict[str, Any]) -> RefundStatus:
 
     En esta página, el comercio debe invocar el servicio refund/getStatus
     para obtener el estado del reembolso.
+
+    Args:
+        apiclient: ApiClient
+        refund_data: dict[str, Any]
+
+    Returns:
+        RefundStatus
     """
     url = f"{apiclient.api_url}/refund/create"
     refund = RefundRequest.from_dict(refund_data)
-    if refund.apiKey is None:
+    if not refund.apiKey:
         refund.apiKey = apiclient.api_key
-    refund.s = apiclient.make_signature(asdict(refund))
-    response = apiclient.post(url, asdict(refund))
+    refund_dict = asdict(refund)
+    refund_dict["s"] = apiclient.make_signature(refund_dict)
+    response = apiclient.post(url, refund_dict)
     if response.status_code == 200:
         return RefundStatus.from_dict(cast(dict[str, Any], response.json()))
-    else:
-        raise GenericError({"code": response.status_code, "message": response})
+    raise GenericError({"code": response.status_code, "message": response.text})
 
 
 def getStatus(apiclient: ApiClient, token: str) -> RefundStatus:
@@ -32,14 +39,19 @@ def getStatus(apiclient: ApiClient, token: str) -> RefundStatus:
     Permite obtener el estado de un reembolso solicitado. Este servicio
     se debe invocar desde la página del comercio que se señaló en el
     parámetro urlCallback del servicio refund/create.
+
+    Args:
+        apiclient: ApiClient
+        token: str
+
+    Returns:
+        RefundStatus
     """
     url = f"{apiclient.api_url}/refund/getStatus"
 
     params: dict[str, Any] = {"apiKey": apiclient.api_key, "token": token}
-    signature = apiclient.make_signature(params)
-    params["s"] = signature
+    params["s"] = apiclient.make_signature(params)
     response = apiclient.get(url, params)
     if response.status_code == 200:
         return RefundStatus.from_dict(cast(dict[str, Any], response.json()))
-    else:
-        raise GenericError({"code": response.status_code, "message": response})
+    raise GenericError({"code": response.status_code, "message": response.text})

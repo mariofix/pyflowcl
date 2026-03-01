@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any
 
 
-class GenericError(BaseException):
+class GenericError(Exception):
     def __init__(self, data):
         self.code = data.get("code")
         self.message = data.get("message")
@@ -21,75 +21,59 @@ class PaymentStatus:
     detalles de la transacción y datos del pagador.
 
     Attributes:
-        flow_order (Optional[int]): Número de orden asignado por Flow.
-        commerce_order (Optional[str]): Número de orden asignado por el comercio.
-        request_date (Optional[str]): Fecha y hora de la solicitud del pago.
-        status (Optional[int]): Estado actual del pago. Los valores posibles son:
+        flow_order (int | None): Número de orden asignado por Flow.
+        commerce_order (str | None): Número de orden asignado por el comercio.
+        request_date (str | None): Fecha y hora de la solicitud del pago.
+        status (int | None): Estado actual del pago. Los valores posibles son:
             1 (Pagado), 2 (Rechazado), 3 (Pendiente), 4 (Anulado).
-        subject (Optional[str]): Asunto o descripción del pago.
-        currency (Optional[str]): Código de la moneda utilizada en el pago (ej. CLP, USD).
-        amount (Optional[float]): Monto del pago.
-        payer (Optional[str]): Correo electrónico o identificación del pagador.
-        optional (Optional[str]): Campo para información adicional definida por el comercio.
-        pending_info (Optional[dict[Any, Any]]): Información adicional para pagos pendientes.
-        payment_data (Optional[dict[Any, Any]]): Datos adicionales relacionados con el método de pago.
-        merchant_id (Optional[str]): Identificador único del comercio en Flow.
+        subject (str | None): Asunto o descripción del pago.
+        currency (str | None): Código de la moneda utilizada en el pago (ej. CLP, USD).
+        amount (float | None): Monto del pago.
+        payer (str | None): Correo electrónico o identificación del pagador.
+        optional (str | None): Campo para información adicional definida por el comercio.
+        pending_info (dict[Any, Any] | None): Información adicional para pagos pendientes.
+        payment_data (dict[Any, Any] | None): Datos adicionales relacionados con el método de pago.
+        merchant_id (str | None): Identificador único del comercio en Flow.
 
     Note:
         Todos los campos son opcionales ya que pueden no estar presentes en todas las
         respuestas de la API de Flow, dependiendo del estado y tipo de pago.
     """
 
-    flow_order: Optional[int] = None
-    flowOrder: Optional[int] = None
-    commerce_order: Optional[str] = None
-    commerceOrder: Optional[str] = None
-    request_date: Optional[str] = None
-    requestDate: Optional[str] = None
-    status: Optional[int] = None
-    subject: Optional[str] = None
-    currency: Optional[str] = None
-    amount: Optional[float] = None
-    payer: Optional[str] = None
-    optional: Optional[str] = None
-    pending_info: Optional[dict[Any, Any]] = None
-    payment_data: Optional[dict[Any, Any]] = None
-    merchant_id: Optional[str] = None
+    flow_order: int | None = None
+    flowOrder: int | None = None
+    commerce_order: str | None = None
+    commerceOrder: str | None = None
+    request_date: str | None = None
+    requestDate: str | None = None
+    status: int | None = None
+    subject: str | None = None
+    currency: str | None = None
+    amount: float | None = None
+    payer: str | None = None
+    optional: str | None = None
+    pending_info: dict[Any, Any] | None = None
+    payment_data: dict[Any, Any] | None = None
+    merchant_id: str | None = None
 
     @staticmethod
     def from_dict(d: dict[str, Any]) -> "PaymentStatus":
-        flow_order = d.get("flowOrder")
-        flowOrder = d.get("flowOrder")
-        commerce_order = d.get("commerceOrder")
-        commerceOrder = d.get("commerceOrder")
-        request_date = d.get("requestDate")
-        requestDate = d.get("requestDate")
-        status = d.get("status")
-        subject = d.get("subject")
-        currency = d.get("currency")
-        amount = d.get("amount")
-        payer = d.get("payer")
-        optional = d.get("optional")
-        pending_info = d.get("pending_info")
-        payment_data = d.get("paymentData")
-        merchant_id = d.get("merchantId")
-
         return PaymentStatus(
-            flow_order=flow_order,
-            flowOrder=flowOrder,
-            commerce_order=commerce_order,
-            commerceOrder=commerceOrder,
-            request_date=request_date,
-            requestDate=requestDate,
-            status=status,
-            subject=subject,
-            currency=currency,
-            amount=amount,
-            payer=payer,
-            optional=optional,
-            pending_info=pending_info,
-            payment_data=payment_data,
-            merchant_id=merchant_id,
+            flow_order=d.get("flowOrder"),
+            flowOrder=d.get("flowOrder"),
+            commerce_order=d.get("commerceOrder"),
+            commerceOrder=d.get("commerceOrder"),
+            request_date=d.get("requestDate"),
+            requestDate=d.get("requestDate"),
+            status=d.get("status"),
+            subject=d.get("subject"),
+            currency=d.get("currency"),
+            amount=d.get("amount"),
+            payer=d.get("payer"),
+            optional=d.get("optional"),
+            pending_info=d.get("pending_info"),
+            payment_data=d.get("paymentData"),
+            merchant_id=d.get("merchantId"),
         )
 
 
@@ -104,16 +88,16 @@ class PaymentRequest:
     Attributes:
         amount (float): Monto del pago. Valor por defecto es 0.
         commerceOrder (str): Número de orden único asignado por el comercio.
-        currency (Optional[str]): Moneda del pago. Si no se especifica, se utilizará
+        currency (str | None): Moneda del pago. Si no se especifica, se utilizará
             el valor de payment_currency.
         email (str): Correo electrónico del pagador. Valor por defecto es "correo@ejemplo.cl".
-        merchantId (Optional[str]): Identificador único del comercio en Flow.
-        optional (Optional[str]): Campo opcional para información adicional definida por el comercio.
+        merchantId (str | None): Identificador único del comercio en Flow.
+        optional (str | None): Campo opcional para información adicional definida por el comercio.
         payment_currency (str): Moneda en la que se realizará el pago. Valor por defecto es "CLP".
-        payment_method (Optional[int]): Método de pago a utilizar. Los valores posibles dependen
+        payment_method (int | None): Método de pago a utilizar. Los valores posibles dependen
             de la configuración del comercio en Flow.
         subject (str): Asunto o descripción del pago.
-        timeout (Optional[int]): Tiempo máximo (en segundos) para completar el pago.
+        timeout (int | None): Tiempo máximo (en segundos) para completar el pago.
         urlConfirmation (str): URL a la que Flow enviará la confirmación del pago.
         urlReturn (str): URL a la que se redirigirá al usuario después del pago.
 
@@ -123,52 +107,37 @@ class PaymentRequest:
     """
 
     amount: float = 0
-    apiKey: Optional[str] = None
+    apiKey: str | None = None
     commerceOrder: str = ""
-    currency: Optional[str] = None
+    currency: str | None = None
     email: str = "correo@ejemplo.cl"
-    merchantId: Optional[str] = None
-    optional: Optional[str] = None
+    merchantId: str | None = None
+    optional: str | None = None
     payment_currency: str = "CLP"
-    payment_method: Optional[int] = None
+    payment_method: int | None = None
     subject: str = ""
-    timeout: Optional[int] = None
+    timeout: int | None = None
     urlConfirmation: str = ""
     urlReturn: str = ""
     s: str = ""
 
     @staticmethod
     def from_dict(d: dict[str, Any]) -> "PaymentRequest":
-        amount = d.get("amount")
-        apiKey = d.get("apiKey")
-        commerceOrder = d.get("commerceOrder")
-        currency = d.get("currency")
-        email = d.get("email")
-        merchantId = d.get("merchantId")
-        optional = d.get("optional")
-        payment_currency = d.get("payment_currency")
-        payment_method = d.get("payment_method")
-        subject = d.get("subject")
-        timeout = d.get("timeout")
-        urlConfirmation = d.get("urlConfirmation")
-        urlReturn = d.get("urlReturn")
-        s = d.get("s")
-
         return PaymentRequest(
-            amount=amount,
-            apiKey=apiKey,
-            commerceOrder=commerceOrder,
-            currency=currency,
-            email=email,
-            merchantId=merchantId,
-            optional=optional,
-            payment_currency=payment_currency,
-            payment_method=payment_method,
-            subject=subject,
-            timeout=timeout,
-            urlConfirmation=urlConfirmation,
-            urlReturn=urlReturn,
-            s=s,
+            amount=d.get("amount", 0),
+            apiKey=d.get("apiKey"),
+            commerceOrder=d.get("commerceOrder", ""),
+            currency=d.get("currency"),
+            email=d.get("email", "correo@ejemplo.cl"),
+            merchantId=d.get("merchantId"),
+            optional=d.get("optional"),
+            payment_currency=d.get("payment_currency", "CLP"),
+            payment_method=d.get("payment_method"),
+            subject=d.get("subject", ""),
+            timeout=d.get("timeout"),
+            urlConfirmation=d.get("urlConfirmation", ""),
+            urlReturn=d.get("urlReturn", ""),
+            s=d.get("s", ""),
         )
 
 
@@ -184,17 +153,17 @@ class PaymentRequestEmail:
     Attributes:
         amount (float): Monto del pago. Valor por defecto es 0.
         commerceOrder (str): Número de orden único asignado por el comercio.
-        currency (Optional[str]): Moneda del pago. Si no se especifica, se utilizará
+        currency (str | None): Moneda del pago. Si no se especifica, se utilizará
             el valor de payment_currency.
         email (str): Correo electrónico del pagador. Valor por defecto es "correo@ejemplo.cl".
-        forward_days_after (Optional[int]): Número de días después de los cuales se enviará
+        forward_days_after (int | None): Número de días después de los cuales se enviará
             un recordatorio si el pago no se ha completado.
-        forward_times (Optional[int]): Número de veces que se enviará el recordatorio.
-        merchantId (Optional[str]): Identificador único del comercio en Flow.
-        optional (Optional[str]): Campo opcional para información adicional definida por el comercio.
-        payment_currency (Optional[str]): Moneda en la que se realizará el pago.
-        subject (Optional[str]): Asunto o descripción del pago.
-        timeout (Optional[int]): Tiempo máximo (en segundos) para completar el pago.
+        forward_times (int | None): Número de veces que se enviará el recordatorio.
+        merchantId (str | None): Identificador único del comercio en Flow.
+        optional (str | None): Campo opcional para información adicional definida por el comercio.
+        payment_currency (str | None): Moneda en la que se realizará el pago.
+        subject (str | None): Asunto o descripción del pago.
+        timeout (int | None): Tiempo máximo (en segundos) para completar el pago.
         urlConfirmation (str): URL a la que Flow enviará la confirmación del pago.
         urlReturn (str): URL a la que se redirigirá al usuario después del pago.
 
@@ -207,55 +176,39 @@ class PaymentRequestEmail:
     """
 
     amount: float = 0
-    apiKey: str = "API_KEY"
+    apiKey: str | None = None
     commerceOrder: str = ""
-    currency: Optional[str] = None
+    currency: str | None = None
     email: str = "correo@ejemplo.cl"
-    forward_days_after: Optional[int] = None
-    forward_times: Optional[int] = None
-    merchantId: Optional[str] = None
-    optional: Optional[str] = None
-    payment_currency: Optional[str] = None
-    subject: Optional[str] = None
-    timeout: Optional[int] = None
+    forward_days_after: int | None = None
+    forward_times: int | None = None
+    merchantId: str | None = None
+    optional: str | None = None
+    payment_currency: str | None = None
+    subject: str | None = None
+    timeout: int | None = None
     urlConfirmation: str = ""
     urlReturn: str = ""
     s: str = ""
 
     @staticmethod
     def from_dict(d: dict[str, Any]) -> "PaymentRequestEmail":
-        amount = d.get("amount")
-        apiKey = d.get("apiKey")
-        commerceOrder = d.get("commerceOrder")
-        currency = d.get("currency")
-        email = d.get("email")
-        forward_days_after = d.get("forward_days_after")
-        forward_times = d.get("forward_times")
-        merchantId = d.get("merchantId")
-        optional = d.get("optional")
-        payment_currency = d.get("payment_currency")
-        subject = d.get("subject")
-        timeout = d.get("timeout")
-        urlConfirmation = d.get("urlConfirmation")
-        urlReturn = d.get("urlReturn")
-        s = d.get("s")
-
         return PaymentRequestEmail(
-            amount=amount,
-            apiKey=apiKey,
-            commerceOrder=commerceOrder,
-            currency=currency,
-            email=email,
-            forward_days_after=forward_days_after,
-            forward_times=forward_times,
-            merchantId=merchantId,
-            optional=optional,
-            payment_currency=payment_currency,
-            subject=subject,
-            timeout=timeout,
-            urlConfirmation=urlConfirmation,
-            urlReturn=urlReturn,
-            s=s,
+            amount=d.get("amount", 0),
+            apiKey=d.get("apiKey"),
+            commerceOrder=d.get("commerceOrder", ""),
+            currency=d.get("currency"),
+            email=d.get("email", "correo@ejemplo.cl"),
+            forward_days_after=d.get("forward_days_after"),
+            forward_times=d.get("forward_times"),
+            merchantId=d.get("merchantId"),
+            optional=d.get("optional"),
+            payment_currency=d.get("payment_currency"),
+            subject=d.get("subject"),
+            timeout=d.get("timeout"),
+            urlConfirmation=d.get("urlConfirmation", ""),
+            urlReturn=d.get("urlReturn", ""),
+            s=d.get("s", ""),
         )
 
 
@@ -268,11 +221,11 @@ class PaymentResponse:
     una transacción de pago, incluyendo la URL de pago y el token de la transacción.
 
     Attributes:
-        url (Optional[str]): URL a la que se debe redirigir al usuario para completar el pago.
+        url (str | None): URL a la que se debe redirigir al usuario para completar el pago.
             Puede ser None si la respuesta no incluye una URL.
-        token (Optional[str]): Token único que identifica la transacción en el sistema de Flow.
+        token (str | None): Token único que identifica la transacción en el sistema de Flow.
             Puede ser None si la respuesta no incluye un token.
-        flowOrder (Optional[int]): Número de orden asignado por Flow a esta transacción.
+        flowOrder (int | None): Número de orden asignado por Flow a esta transacción.
             Puede ser None si la respuesta no incluye un número de orden.
 
     Note:
@@ -280,20 +233,16 @@ class PaymentResponse:
         respuestas de la API de Flow, dependiendo del tipo de solicitud y su estado.
     """
 
-    url: Optional[str] = None
-    token: Optional[str] = None
-    flowOrder: Optional[int] = None
+    url: str | None = None
+    token: str | None = None
+    flowOrder: int | None = None
 
     @staticmethod
     def from_dict(d: dict[str, Any]) -> "PaymentResponse":
-        url = d.get("url")
-        token = d.get("token")
-        flowOrder = d.get("flowOrder")
-
         return PaymentResponse(
-            url=url,
-            token=token,
-            flowOrder=flowOrder,
+            url=d.get("url"),
+            token=d.get("token"),
+            flowOrder=d.get("flowOrder"),
         )
 
 
@@ -307,11 +256,11 @@ class PaymentList:
     de los pagos en la página actual.
 
     Attributes:
-        total (Optional[int]): El número total de pagos en todas las páginas.
+        total (int | None): El número total de pagos en todas las páginas.
             Puede ser None si la información no está disponible.
-        hasMore (Optional[bool]): Indica si hay más páginas de pagos disponibles.
+        hasMore (bool | None): Indica si hay más páginas de pagos disponibles.
             True si hay más páginas, False si es la última página, None si no se proporciona.
-        data (Optional[list[dict[Any, Any]]]): Una lista de diccionarios, donde cada diccionario
+        data (list[dict[Any, Any]] | None): Una lista de diccionarios, donde cada diccionario
             contiene los detalles de un pago individual. Puede ser None si no hay datos disponibles.
 
     Note:
@@ -324,29 +273,25 @@ class PaymentList:
           permitiendo una fácil navegación a través de múltiples pagos.
     """
 
-    total: Optional[int] = None
-    hasMore: Optional[bool] = None
-    data: Optional[list[dict[Any, Any]]] = None
+    total: int | None = None
+    hasMore: bool | None = None
+    data: list[dict[Any, Any]] | None = None
 
     @staticmethod
     def from_dict(d: dict[str, Any]) -> "PaymentList":
-        total = d.get("total")
-        hasMore = d.get("hasMore")
-        data = d.get("data")
-
         return PaymentList(
-            total=total,
-            hasMore=hasMore,
-            data=data,
+            total=d.get("total"),
+            hasMore=d.get("hasMore"),
+            data=d.get("data"),
         )
 
 
 @dataclass
 class RefundRequest:
     amount: float = 0
-    apiKey: str = "API_KEY"
-    commerceTrxId: Optional[str] = None
-    flowTrxId: Optional[float] = None
+    apiKey: str | None = None
+    commerceTrxId: str | None = None
+    flowTrxId: float | None = None
     receiverEmail: str = "correo@ejemplo.cl"
     refundCommerceOrder: str = ""
     urlCallBack: str = ""
@@ -354,24 +299,15 @@ class RefundRequest:
 
     @staticmethod
     def from_dict(d: dict[str, Any]) -> "RefundRequest":
-        amount = d.get("amount")
-        apiKey = d.get("apiKey")
-        commerceTrxId = d.get("commerceTrxId")
-        flowTrxId = d.get("flowTrxId")
-        receiverEmail = d.get("receiverEmail")
-        refundCommerceOrder = d.get("refundCommerceOrder")
-        urlCallBack = d.get("urlCallBack")
-        s = d.get("s")
-
         return RefundRequest(
-            amount=amount,
-            apiKey=apiKey,
-            commerceTrxId=commerceTrxId,
-            flowTrxId=flowTrxId,
-            receiverEmail=receiverEmail,
-            refundCommerceOrder=refundCommerceOrder,
-            urlCallBack=urlCallBack,
-            s=s,
+            amount=d.get("amount", 0),
+            apiKey=d.get("apiKey"),
+            commerceTrxId=d.get("commerceTrxId"),
+            flowTrxId=d.get("flowTrxId"),
+            receiverEmail=d.get("receiverEmail", "correo@ejemplo.cl"),
+            refundCommerceOrder=d.get("refundCommerceOrder", ""),
+            urlCallBack=d.get("urlCallBack", ""),
+            s=d.get("s", ""),
         )
 
 
@@ -385,16 +321,10 @@ class RefundStatus:
 
     @staticmethod
     def from_dict(d: dict[str, Any]) -> "RefundStatus":
-        flowRefundOrder = d.get("flowRefundOrder")
-        date = d.get("date")
-        status = d.get("status")
-        amount = d.get("amount")
-        fee = d.get("fee")
-
         return RefundStatus(
-            flowRefundOrder=flowRefundOrder,
-            date=date,
-            status=status,
-            amount=amount,
-            fee=fee,
+            flowRefundOrder=d.get("flowRefundOrder", 0),
+            date=d.get("date", ""),
+            status=d.get("status", ""),
+            amount=d.get("amount", 0),
+            fee=d.get("fee", 0),
         )
