@@ -12,6 +12,11 @@ updates:
       prefix: "poetry prod"
       prefix-development: "poetry dev"
       include: "scope"
+    groups:
+      python-deps:
+        patterns:
+          - "*"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -22,3 +27,7 @@ updates:
       prefix: "actions prod"
       prefix-development: "actions dev"
       include: "scope"
+    groups:
+      actions-deps:
+        patterns:
+          - "*"
