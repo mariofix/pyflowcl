@@ -77,7 +77,7 @@ jobs:
         uses: actions/setup-python@v6
       - name: Set Up Poetry
         uses: abatilo/actions-poetry@v4
-      - name: Install django-payments-flow
+      - name: Install pyflowcl
         run: poetry install --all-extras
       - name: Build pyflowcl
         run: poetry build

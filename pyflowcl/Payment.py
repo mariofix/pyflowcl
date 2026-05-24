@@ -3,13 +3,13 @@ from typing import Any, cast
 
 from .Clients import ApiClient
 from .models import (
-    GenericError,
     PaymentList,
     PaymentRequest,
     PaymentRequestEmail,
     PaymentResponse,
     PaymentStatus,
 )
+from pyflowcl.exceptions import GenericError
 
 
 def getStatus(apiclient: ApiClient, token: str) -> PaymentStatus:

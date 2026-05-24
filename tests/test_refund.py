@@ -2,8 +2,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from pyflowcl.models import GenericError, RefundStatus
+from pyflowcl.models import RefundStatus
 from pyflowcl.Refund import create, getStatus
+from pyflowcl.exceptions import GenericError
 
 
 @patch("pyflowcl.Clients.ApiClient.post")

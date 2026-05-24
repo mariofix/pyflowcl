@@ -2,7 +2,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from pyflowcl.models import GenericError, PaymentList, PaymentResponse, PaymentStatus
+from pyflowcl.models import PaymentList, PaymentResponse, PaymentStatus
+from pyflowcl.exceptions import GenericError
 from pyflowcl.Payment import (
     create,
     createEmail,
