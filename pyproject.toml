@@ -36,7 +36,7 @@ Documentation = "https://mariofix.github.io/pyflowcl"
 [project.optional-dependencies]
 dev = [
   "pre-commit (>=4.1.0,<5.0.0)",
-  "black (>=24.10.0,<25.0.0)",
+  "black (>=26.5.1,<27.0.0)",
   "coverage (>=7.6.10,<8.0.0)",
   "pytest (>=8.3.4,<9.0.0)",
   "mkdocs-material[git,imaging,recomended] (>=9.5.50,<10.0.0)",
