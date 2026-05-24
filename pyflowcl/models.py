@@ -1,6 +1,7 @@
+import warnings
 from dataclasses import dataclass
 from typing import Any
-import warnings
+
 
 class GenericError(Exception):
     def __init__(self, data):

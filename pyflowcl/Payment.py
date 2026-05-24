@@ -1,6 +1,8 @@
 from dataclasses import asdict
 from typing import Any, cast
 
+from pyflowcl.exceptions import GenericError
+
 from .Clients import ApiClient
 from .models import (
     PaymentList,
@@ -9,7 +11,6 @@ from .models import (
     PaymentResponse,
     PaymentStatus,
 )
-from pyflowcl.exceptions import GenericError
 
 
 def getStatus(apiclient: ApiClient, token: str) -> PaymentStatus:

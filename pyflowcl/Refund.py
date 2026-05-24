@@ -1,9 +1,10 @@
 from dataclasses import asdict
 from typing import Any, cast
 
+from pyflowcl.exceptions import GenericError
+
 from .Clients import ApiClient
 from .models import RefundRequest, RefundStatus
-from pyflowcl.exceptions import GenericError
 
 
 def create(apiclient: ApiClient, refund_data: dict[str, Any]) -> RefundStatus:
