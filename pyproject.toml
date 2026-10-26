@@ -5,7 +5,7 @@ description = "Cliente para comunicacion con API de flow.cl"
 authors = [{ name = "Mario Hernandez", email = "mariofix@proton.me" }]
 license = { text = "MIT" }
 readme = "README.md"
-requires-python = ">=3.10, <4.0"
+requires-python = ">=3.11, <4.0"
 dependencies = ["requests[security] (>=2.34.2,<3.0.0)"]
 keywords = [
   "pagos",
@@ -19,7 +19,6 @@ keywords = [
 ]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
@@ -39,9 +38,6 @@ dev = [
   "black (>=26.10.1,<27.0.0)",
   "coverage (>=7.16.2,<8.0.0)",
   "pytest (>=9.1.1,<10.0.0)",
-  "mkdocs-material[git,imaging,recomended] (>=9.7.7,<10.0.0)",
-  "mkdocstrings[python] (>=1.0.6,<1.1.0)",
-  "mkdocs-git-authors-plugin (>=0.10.0,<0.11.0)",
   "pytest-cov (>=7.1.0,<8.0.0)",
 
 ]
